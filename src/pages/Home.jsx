@@ -1,5 +1,3 @@
-// import main from "../assets/eth.svg";
-
 function Home() {
 	return (
 		<>
@@ -17,15 +15,7 @@ function Home() {
 							<li>Withdraw USDC</li>
 						</ul>
 					</div>
-
-					{/* <Link to="/login" className="btn">
-            Sign In
-          </Link>
-          <Link to="/register" className="btn">
-            Sign Up
-          </Link> */}
 				</div>
-				{/* <img src={main} alt="job hunt" className="img main-img" /> */}
 			</div>
 		</>
 	);

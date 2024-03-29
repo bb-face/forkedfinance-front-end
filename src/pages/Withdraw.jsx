@@ -1,12 +1,10 @@
 import React, { useState, useEffect } from "react";
-// import styled from "styled-components";
 import { Input, Popover } from "antd";
 import { WalletTwoTone } from "@ant-design/icons";
 
 import axios from "axios";
 import { ethers } from "ethers";
 import BankABI from "../assets/BankABI.json";
-// const bankAddress = "0xb58AB2cdC285B31bb9CD2440DEe6faaa5E98336b";
 const bankAddress = "0x3149496ED8C90FC2418b3dD389ca606b87d23D45";
 
 const url = "https://server.forkedfinance.xyz";
@@ -14,7 +12,7 @@ const url = "https://server.forkedfinance.xyz";
 const Withdraw = () => {
 	const [withdrawalAmount, setwithdrawalAmount] = useState(null);
 	const [currentAccount, setCurrentAccount] = useState(null);
-	let [balance, setBalance] = useState(null);
+	const [balance, setBalance] = useState(null);
 
 	function changeAmount(e) {
 		setwithdrawalAmount(e.target.value);
@@ -40,7 +38,7 @@ const Withdraw = () => {
 	};
 
 	const getWalletAddress = async () => {
-		if (window.ethereum && window.ethereum.isMetaMask) {
+		if (window.ethereum?.isMetaMask) {
 			const provider = new ethers.providers.Web3Provider(window.ethereum);
 			const currentAddress = await provider
 				.getSigner()
@@ -80,7 +78,7 @@ const Withdraw = () => {
 
 	useEffect(() => {
 		updateBalance();
-	}, []);
+	}, [updateBalance]);
 
 	return (
 		<div className="page">
@@ -108,20 +106,20 @@ const Withdraw = () => {
 
 				{!currentAccount && (
 					<div className="buttons">
-						<div
+						<button
 							type="button"
 							className="swapButton"
 							onClick={getWalletAddress}
 						>
 							Connect Wallet
-						</div>
+						</button>
 					</div>
 				)}
 				{currentAccount && (
 					<div className="buttons">
-						<div type="button" className="swapButton" onClick={withdraw}>
+						<button type="button" className="swapButton" onClick={withdraw}>
 							Withdraw
-						</div>
+						</button>
 					</div>
 				)}
 			</div>

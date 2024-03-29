@@ -1,12 +1,11 @@
 import React, { useState, useEffect } from "react";
-// import styled from "styled-components";
 import axios from "axios";
-import useLocalState from "../utils/localState";
-import { useGlobalContext } from "../context/context";
-
-import { Input, Popover, Radio, Modal, message } from "antd";
+import { Input, Popover } from "antd";
 import { WalletTwoTone } from "@ant-design/icons";
 import { ethers } from "ethers";
+
+import { useGlobalContext } from "../context/context";
+import useLocalState from "../utils/localState";
 
 const url = "https://server.forkedfinance.xyz";
 
@@ -14,19 +13,10 @@ const Transfer = () => {
 	const { user } = useGlobalContext();
 	const [transferTo, settransferTo] = useState(null);
 	const [transferAmount, setTransferAmount] = useState(null);
-	const [currentAccount, setCurrentAccount] = useState(null);
-	const [userTo, setUserTo] = useState(null);
 	const [balance, setBalance] = useState(null);
 
-	const {
-		alert,
-		showAlert,
-		loading,
-		setLoading,
-		success,
-		setSuccess,
-		hideAlert,
-	} = useLocalState();
+	const { alert, showAlert, setLoading, setSuccess, hideAlert } =
+		useLocalState();
 
 	const updateBalance = async () => {
 		try {
@@ -183,7 +173,7 @@ const Transfer = () => {
 	useEffect(() => {
 		updateBalance();
 		clearTimeout();
-	}, []);
+	}, [updateBalance]);
 
 	return (
 		<div className="page">
@@ -229,16 +219,16 @@ const Transfer = () => {
             placement="bottom"
             arrow=""
           > */}
-					<div
+					<button
 						type="button"
 						className="validateButton"
 						onClick={validateBalanceTo}
 						//   disabled={!transferTo || !transferAmount}
 					>
 						Not Sure?
-					</div>
+					</button>
 					{/* </Popover> */}
-					<div
+					<button
 						type="button"
 						className="swapButton"
 						onClick={transferBalance}
@@ -246,7 +236,7 @@ const Transfer = () => {
 						//   disabled={!transferTo || !transferAmount}
 					>
 						GO!
-					</div>
+					</button>
 				</div>
 			</div>
 		</div>

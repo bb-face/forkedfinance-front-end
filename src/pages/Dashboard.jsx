@@ -1,4 +1,3 @@
-// import styled from "styled-components";
 import { useEffect, useState } from "react";
 
 import { ethers } from "ethers";
@@ -128,40 +127,40 @@ function Dashboard() {
 	}
 
 	function handleModalButton(modalHeading) {
-		if (modalHeading == depositStablecoinModalHeading) {
+		if (modalHeading === depositStablecoinModalHeading) {
 			depositUSDC();
 		}
-		if (modalHeading == withdrawStablecoinModalHeading) {
+		if (modalHeading === withdrawStablecoinModalHeading) {
 			withdrawUSDC();
 		}
-		if (modalHeading == stakeFFModalHeading) {
+		if (modalHeading === stakeFFModalHeading) {
 			stakeFF();
 		}
-		if (modalHeading == unstakeFFModalHeading) {
+		if (modalHeading === unstakeFFModalHeading) {
 			unstakeFF();
 		}
-		if (modalHeading == stakeFidFFModalHeading) {
+		if (modalHeading === stakeFidFFModalHeading) {
 			stakeFidFF();
 		}
-		if (modalHeading == unstakeFidFFModalHeading) {
+		if (modalHeading === unstakeFidFFModalHeading) {
 			unstakeFidFF();
 		}
-		if (modalHeading == usdcVestFidFFModalHeading) {
+		if (modalHeading === usdcVestFidFFModalHeading) {
 			usdcVest();
 		}
-		if (modalHeading == usdcUnvestFidFFModalHeading) {
+		if (modalHeading === usdcUnvestFidFFModalHeading) {
 			usdcUnvest();
 		}
-		if (modalHeading == vestFidFFModalHeading) {
+		if (modalHeading === vestFidFFModalHeading) {
 			ffVest();
 		}
-		if (modalHeading == unvestFidFFModalHeading) {
+		if (modalHeading === unvestFidFFModalHeading) {
 			ffUnvest();
 		}
 	}
 
 	const depositUSDC = async () => {
-		if (window.ethereum && window.ethereum.isMetaMask) {
+		if (window.ethereum?.isMetaMask) {
 			const provider = new ethers.providers.Web3Provider(window.ethereum);
 			const network = await provider.getNetwork();
 			const currentAddress = await provider
@@ -174,7 +173,7 @@ function Dashboard() {
 				});
 			const signer = provider.getSigner();
 
-			if (network.chainId == 5) {
+			if (network.chainId === 5) {
 				const contractRewardRouter = new ethers.Contract(
 					rewardRouter,
 					rewardRouterABI,
@@ -198,27 +197,27 @@ function Dashboard() {
 				} else {
 					if (!amount) {
 						return;
-					} else {
-						const parsedAmount = ethers.utils.parseUnits(amount, 6);
-
-						await contractRewardRouter
-							.depositUsdc(parsedAmount)
-							.then((tx) => {
-								console.log(tx.hash);
-								//do whatever you want with tx
-							})
-							.catch((e) => {
-								if (e.code === 4001) {
-									console.log("Rejected");
-								}
-							});
 					}
+
+					const parsedAmount = ethers.utils.parseUnits(amount, 6);
+
+					await contractRewardRouter
+						.depositUsdc(parsedAmount)
+						.then((tx) => {
+							console.log(tx.hash);
+							//do whatever you want with tx
+						})
+						.catch((e) => {
+							if (e.code === 4001) {
+								console.log("Rejected");
+							}
+						});
 				}
 			}
 		}
 	};
 	const withdrawUSDC = async () => {
-		if (window.ethereum && window.ethereum.isMetaMask) {
+		if (window.ethereum?.isMetaMask) {
 			const provider = new ethers.providers.Web3Provider(window.ethereum);
 			const network = await provider.getNetwork();
 			const currentAddress = await provider
@@ -231,7 +230,7 @@ function Dashboard() {
 				});
 			const signer = provider.getSigner();
 
-			if (network.chainId == 5) {
+			if (network.chainId === 5) {
 				const contractRewardRouter = new ethers.Contract(
 					rewardRouter,
 					rewardRouterABI,
@@ -253,7 +252,7 @@ function Dashboard() {
 		}
 	};
 	const stakeFF = async () => {
-		if (window.ethereum && window.ethereum.isMetaMask) {
+		if (window.ethereum?.isMetaMask) {
 			const provider = new ethers.providers.Web3Provider(window.ethereum);
 			const network = await provider.getNetwork();
 			const currentAddress = await provider
@@ -266,7 +265,7 @@ function Dashboard() {
 				});
 			const signer = provider.getSigner();
 
-			if (network.chainId == 5) {
+			if (network.chainId === 5) {
 				const contractRewardRouter = new ethers.Contract(
 					rewardRouter,
 					rewardRouterABI,
@@ -305,7 +304,7 @@ function Dashboard() {
 		}
 	};
 	const unstakeFF = async () => {
-		if (window.ethereum && window.ethereum.isMetaMask) {
+		if (window.ethereum?.isMetaMask) {
 			const provider = new ethers.providers.Web3Provider(window.ethereum);
 			const network = await provider.getNetwork();
 			const currentAddress = await provider
@@ -318,7 +317,7 @@ function Dashboard() {
 				});
 			const signer = provider.getSigner();
 
-			if (network.chainId == 5) {
+			if (network.chainId === 5) {
 				const contractRewardRouter = new ethers.Contract(
 					rewardRouter,
 					rewardRouterABI,
@@ -341,7 +340,7 @@ function Dashboard() {
 		}
 	};
 	const stakeFidFF = async () => {
-		if (window.ethereum && window.ethereum.isMetaMask) {
+		if (window.ethereum?.isMetaMask) {
 			const provider = new ethers.providers.Web3Provider(window.ethereum);
 			const network = await provider.getNetwork();
 			const currentAddress = await provider
@@ -354,7 +353,7 @@ function Dashboard() {
 				});
 			const signer = provider.getSigner();
 
-			if (network.chainId == 5) {
+			if (network.chainId === 5) {
 				const contractRewardRouter = new ethers.Contract(
 					rewardRouter,
 					rewardRouterABI,
@@ -396,7 +395,7 @@ function Dashboard() {
 		}
 	};
 	const unstakeFidFF = async () => {
-		if (window.ethereum && window.ethereum.isMetaMask) {
+		if (window.ethereum?.isMetaMask) {
 			const provider = new ethers.providers.Web3Provider(window.ethereum);
 			const network = await provider.getNetwork();
 			const currentAddress = await provider
@@ -409,7 +408,7 @@ function Dashboard() {
 				});
 			const signer = provider.getSigner();
 
-			if (network.chainId == 5) {
+			if (network.chainId === 5) {
 				const contractRewardRouter = new ethers.Contract(
 					rewardRouter,
 					rewardRouterABI,
@@ -432,7 +431,7 @@ function Dashboard() {
 		}
 	};
 	const compound = async () => {
-		if (window.ethereum && window.ethereum.isMetaMask) {
+		if (window.ethereum?.isMetaMask) {
 			const provider = new ethers.providers.Web3Provider(window.ethereum);
 			const network = await provider.getNetwork();
 			const currentAddress = await provider
@@ -445,7 +444,7 @@ function Dashboard() {
 				});
 			const signer = provider.getSigner();
 
-			if (network.chainId == 5) {
+			if (network.chainId === 5) {
 				const contractRewardRouter = new ethers.Contract(
 					rewardRouter,
 					rewardRouterABI,
@@ -466,7 +465,7 @@ function Dashboard() {
 		}
 	};
 	const claimRewards = async () => {
-		if (window.ethereum && window.ethereum.isMetaMask) {
+		if (window.ethereum?.isMetaMask) {
 			const provider = new ethers.providers.Web3Provider(window.ethereum);
 			const network = await provider.getNetwork();
 			const currentAddress = await provider
@@ -479,7 +478,7 @@ function Dashboard() {
 				});
 			const signer = provider.getSigner();
 
-			if (network.chainId == 5) {
+			if (network.chainId === 5) {
 				const contractRewardRouter = new ethers.Contract(
 					rewardRouter,
 					rewardRouterABI,
@@ -501,7 +500,7 @@ function Dashboard() {
 	};
 
 	const usdcVest = async () => {
-		if (window.ethereum && window.ethereum.isMetaMask) {
+		if (window.ethereum?.isMetaMask) {
 			const provider = new ethers.providers.Web3Provider(window.ethereum);
 			const network = await provider.getNetwork();
 			const currentAddress = await provider
@@ -514,7 +513,7 @@ function Dashboard() {
 				});
 			const signer = provider.getSigner();
 
-			if (network.chainId == 5) {
+			if (network.chainId === 5) {
 				const vesterContract = new ethers.Contract(
 					usdcVester,
 					usdcVesterABI,
@@ -539,7 +538,7 @@ function Dashboard() {
 		}
 	};
 	const usdcUnvest = async () => {
-		if (window.ethereum && window.ethereum.isMetaMask) {
+		if (window.ethereum?.isMetaMask) {
 			const provider = new ethers.providers.Web3Provider(window.ethereum);
 			const network = await provider.getNetwork();
 			const currentAddress = await provider
@@ -552,7 +551,7 @@ function Dashboard() {
 				});
 			const signer = provider.getSigner();
 
-			if (network.chainId == 5) {
+			if (network.chainId === 5) {
 				const vesterContract = new ethers.Contract(
 					usdcVester,
 					usdcVesterABI,
@@ -575,7 +574,7 @@ function Dashboard() {
 		}
 	};
 	const ffVest = async () => {
-		if (window.ethereum && window.ethereum.isMetaMask) {
+		if (window.ethereum?.isMetaMask) {
 			const provider = new ethers.providers.Web3Provider(window.ethereum);
 			const network = await provider.getNetwork();
 			const currentAddress = await provider
@@ -588,7 +587,7 @@ function Dashboard() {
 				});
 			const signer = provider.getSigner();
 
-			if (network.chainId == 5) {
+			if (network.chainId === 5) {
 				const vesterContract = new ethers.Contract(ffVester, vesterABI, signer);
 
 				const parsedAmount = ethers.utils.parseUnits(amount, 18);
@@ -608,7 +607,7 @@ function Dashboard() {
 	};
 
 	const ffUnvest = async () => {
-		if (window.ethereum && window.ethereum.isMetaMask) {
+		if (window.ethereum?.isMetaMask) {
 			const provider = new ethers.providers.Web3Provider(window.ethereum);
 			const network = await provider.getNetwork();
 			const currentAddress = await provider
@@ -621,7 +620,7 @@ function Dashboard() {
 				});
 			const signer = provider.getSigner();
 
-			if (network.chainId == 5) {
+			if (network.chainId === 5) {
 				const vesterContract = new ethers.Contract(ffVester, vesterABI, signer);
 
 				await vesterContract
@@ -639,7 +638,7 @@ function Dashboard() {
 	};
 
 	const getAccountContractsData = async () => {
-		if (window.ethereum && window.ethereum.isMetaMask) {
+		if (window.ethereum?.isMetaMask) {
 			const provider = new ethers.providers.Web3Provider(window.ethereum);
 			const network = await provider.getNetwork();
 			await provider.send("eth_requestAccounts");
@@ -654,7 +653,7 @@ function Dashboard() {
 
 			setCurrentAccount(currentAddress);
 			setShortCurrentAccount(
-				currentAddress.slice(0, 7) + "..." + currentAddress.slice(36),
+				`${currentAddress.slice(0, 7)}...${currentAddress.slice(36)}`,
 			);
 			const signer = provider.getSigner();
 
@@ -676,7 +675,7 @@ function Dashboard() {
 				);
 			}
 
-			if (network.chainId == 5) {
+			if (network.chainId === 5) {
 				// Trackers
 
 				const usdcContract = new ethers.Contract(USDCAddress, usdcABI, signer);
@@ -912,7 +911,7 @@ function Dashboard() {
 				Math.round(parseFloat(ethers.utils.formatEther(chainOutput)) * 10) / 10
 			);
 		}
-		if (network.chainId == 5) {
+		if (network.chainId === 5) {
 			const stableCoinTrackerContract = await providerContract(
 				feeUsdc,
 				stableCoinTrackerABI,
@@ -1033,7 +1032,7 @@ function Dashboard() {
 		updateBalance();
 		getAccountContractsData();
 		getContractsData();
-	}, []);
+	}, [updateBalance, getAccountContractsData, getContractsData]);
 
 	return (
 		<div className="page">
@@ -1042,14 +1041,18 @@ function Dashboard() {
 			)}
 			{modal && (
 				<>
-					<div onClick={closeModal} className="overlay"></div>
+					<button type="button" onClick={closeModal} className="overlay" />
 					<div className="modal">
 						<div className="modal-content">
 							<div className="modal-heading">{modalHeading}</div>
 							<div className="modal-divider">
-								<hr class="solid"></hr>
+								<hr class="solid" />
 							</div>
-							<button className="close-modal" onClick={closeModal}>
+							<button
+								type="button"
+								className="close-modal"
+								onClick={closeModal}
+							>
 								✕
 							</button>
 							<div className="modal-input">
@@ -1062,10 +1065,10 @@ function Dashboard() {
 								<div className="label">{modalLabel}</div>
 							</div>
 							<div className="modal-divider">
-								<hr class="solid"></hr>
+								<hr class="solid" />
 							</div>
 							<div className="modal-buttons">
-								<div
+								<button
 									type="button"
 									className="modalButton"
 									onClick={() => {
@@ -1073,7 +1076,7 @@ function Dashboard() {
 									}}
 								>
 									{modalButton}
-								</div>
+								</button>
 							</div>
 						</div>
 					</div>
@@ -1100,7 +1103,7 @@ function Dashboard() {
 							<div>USDC </div>
 						</div>
 						<div className="divider">
-							<hr class="solid"></hr>
+							<hr class="solid" />
 						</div>
 						<div className="cardRow">
 							<div>
@@ -1153,11 +1156,11 @@ function Dashboard() {
 
 						<div className="stakeCardFooter">
 							<div className="divider">
-								<hr class="solid"></hr>
+								<hr class="solid" />
 							</div>
 							<div className="cardRow">
 								<div className="cardRowButtons">
-									<div
+									<button
 										type="button"
 										className="cardButton"
 										onClick={() => {
@@ -1169,8 +1172,8 @@ function Dashboard() {
 										}}
 									>
 										Stake
-									</div>
-									<div
+									</button>
+									<button
 										type="button"
 										className="cardButton"
 										onClick={() => {
@@ -1182,8 +1185,8 @@ function Dashboard() {
 										}}
 									>
 										Unstake
-									</div>
-									<div
+									</button>
+									<button
 										type="button"
 										className="cardButton"
 										onClick={() => {
@@ -1195,8 +1198,8 @@ function Dashboard() {
 										}}
 									>
 										Vest
-									</div>
-									<div
+									</button>
+									<button
 										type="button"
 										className="cardButton"
 										onClick={() => {
@@ -1208,7 +1211,7 @@ function Dashboard() {
 										}}
 									>
 										<strike>Vest</strike>
-									</div>
+									</button>
 								</div>
 							</div>
 						</div>
@@ -1218,7 +1221,7 @@ function Dashboard() {
 							<div>Total Rewards</div>
 						</div>
 						<div className="divider">
-							<hr class="solid"></hr>
+							<hr class="solid" />
 						</div>
 						<div className="cardRow">
 							<div>
@@ -1268,30 +1271,26 @@ function Dashboard() {
 								<div>{bnStakedAmounts}</div>
 							</div>
 						</div>
-						{/* <div className="cardRow">
-              <div>
-                <div>Total</div>
-              </div>
-              <div>
-                <div>100</div>
-              </div>
-            </div> */}
 						<div className="stakeCardFooter">
 							<div className="divider">
-								<hr class="solid"></hr>
+								<hr class="solid" />
 							</div>
 							<div className="cardRow">
 								<div className="cardRowButtons">
-									<div type="button" className="cardButton" onClick={compound}>
+									<button
+										type="button"
+										className="cardButton"
+										onClick={compound}
+									>
 										Compound
-									</div>
-									<div
+									</button>
+									<button
 										type="button"
 										className="cardButton"
 										onClick={claimRewards}
 									>
 										Claim
-									</div>
+									</button>
 								</div>
 							</div>
 						</div>
@@ -1301,7 +1300,7 @@ function Dashboard() {
 							<div>FF</div>
 						</div>
 						<div className="divider">
-							<hr class="solid"></hr>
+							<hr class="solid" />
 						</div>
 						<div className="cardRow">
 							<div>
@@ -1359,7 +1358,7 @@ function Dashboard() {
 								<div>{ffReserved}</div>
 							</div>
 						</div>
-						<br></br>
+						<br />
 						<div className="cardRow">
 							<div>
 								<div>Total Staked</div>
@@ -1377,182 +1376,183 @@ function Dashboard() {
 							</div>
 						</div>
 						<div className="stakeCardFooter">
-							<div className="divider">
-								<hr class="solid"></hr>
-							</div>
-							<div className="cardRow">
-								<div className="cardRowButtons">
-									<a className="cardButton">Buy</a>
-									<div
-										type="button"
-										className="cardButton"
-										onClick={() => {
-											toggleModal(
-												stakeFFModalHeading,
-												FFModalLabel,
-												stakeModalButton,
-											);
-										}}
-									>
-										Stake
-									</div>
-									<div
-										type="button"
-										className="cardButton"
-										onClick={() => {
-											toggleModal(
-												unstakeFFModalHeading,
-												FFModalLabel,
-												unstakeModalButton,
-											);
-										}}
-									>
-										Unstake
-									</div>
-								</div>
+							<div className="divider" />
+							<hr class="solid" />
+						</div>
+						<div className="cardRow">
+							<div className="cardRowButtons">
+								<a href="test" className="cardButton">
+									Buy
+								</a>
+								<button
+									type="button"
+									className="cardButton"
+									onClick={() => {
+										toggleModal(
+											stakeFFModalHeading,
+											FFModalLabel,
+											stakeModalButton,
+										);
+									}}
+								>
+									Stake
+								</button>
+								<button
+									type="button"
+									className="cardButton"
+									onClick={() => {
+										toggleModal(
+											unstakeFFModalHeading,
+											FFModalLabel,
+											unstakeModalButton,
+										);
+									}}
+								>
+									Unstake
+								</button>
 							</div>
 						</div>
 					</div>
-					<div className="stakeCardFF">
-						<div className="stakeCardHeader">
-							<div>Fiduciary FF</div>
+				</div>
+				<div className="stakeCardFF">
+					<div className="stakeCardHeader">
+						<div>Fiduciary FF</div>
+					</div>
+					<div className="divider">
+						<hr class="solid" />
+					</div>
+					<div className="cardRow">
+						<div>
+							<div>Price</div>
 						</div>
-						<div className="divider">
-							<hr class="solid"></hr>
+						<div>
+							<div>Soon... I promise</div>
 						</div>
-						<div className="cardRow">
-							<div>
-								<div>Price</div>
-							</div>
-							<div>
-								<div>Soon... I promise</div>
-							</div>
+					</div>
+					<div className="cardRow">
+						<div>
+							<div>Wallet</div>
 						</div>
-						<div className="cardRow">
-							<div>
-								<div>Wallet</div>
-							</div>
-							<div>
-								<div>{fidFFAccountBalance}</div>
-							</div>
+						<div>
+							<div>{fidFFAccountBalance}</div>
 						</div>
-						<div className="cardRow">
-							<div>
-								<div>Staked</div>
-							</div>
-							<div>
-								<div>{fidFFStakedAmounts}</div>
-							</div>
+					</div>
+					<div className="cardRow">
+						<div>
+							<div>Staked</div>
 						</div>
-						<div className="cardRow">
-							<div>
-								<div>APR</div>
-							</div>
-							<div>
-								<div>{feeFFAPR}%</div>
-							</div>
+						<div>
+							<div>{fidFFStakedAmounts}</div>
 						</div>
-						<div className="cardRow">
-							<div>
-								<div>Rewards</div>
-							</div>
-							<div>
-								<div>${ffClaimableRewards}</div>
-							</div>
+					</div>
+					<div className="cardRow">
+						<div>
+							<div>APR</div>
 						</div>
-						<div className="cardRow">
-							<div>
-								<div>Vesting Status</div>
-							</div>
-							<div>
-								<div>{vestedStatus}%</div>
-							</div>
+						<div>
+							<div>{feeFFAPR}%</div>
 						</div>
-						<div className="cardRow">
-							<div>
-								<div>FF Claimable</div>
-							</div>
-							<div>
-								<div>{vestedFF}</div>
-							</div>
+					</div>
+					<div className="cardRow">
+						<div>
+							<div>Rewards</div>
 						</div>
-						<br></br>
+						<div>
+							<div>${ffClaimableRewards}</div>
+						</div>
+					</div>
+					<div className="cardRow">
+						<div>
+							<div>Vesting Status</div>
+						</div>
+						<div>
+							<div>{vestedStatus}%</div>
+						</div>
+					</div>
+					<div className="cardRow">
+						<div>
+							<div>FF Claimable</div>
+						</div>
+						<div>
+							<div>{vestedFF}</div>
+						</div>
+					</div>
+					<br />
 
-						<div className="cardRow">
-							<div>
-								<div>Total Staked</div>
-							</div>
-							<div>
-								<div>{fidFFTotalDepositSuply}</div>
-							</div>
+					<div className="cardRow">
+						<div>
+							<div>Total Staked</div>
+						</div>
+						<div>
+							<div>{fidFFTotalDepositSuply}</div>
+						</div>
+					</div>
+					<div className="cardRow">
+						<div>
+							<div>Total Supply</div>
+						</div>
+						<div>
+							<div>{fidFFSupply}</div>
+						</div>
+					</div>
+					<div className="stakeCardFooter">
+						<div className="divider">
+							<hr class="solid" />
 						</div>
 						<div className="cardRow">
-							<div>
-								<div>Total Supply</div>
-							</div>
-							<div>
-								<div>{fidFFSupply}</div>
-							</div>
-						</div>
-						<div className="stakeCardFooter">
-							<div className="divider">
-								<hr class="solid"></hr>
-							</div>
-							<div className="cardRow">
-								<div className="cardRowButtons">
-									<div
-										type="button"
-										className="cardButton"
-										onClick={() => {
-											toggleModal(
-												stakeFidFFModalHeading,
-												FidFFModalLabel,
-												stakeModalButton,
-											);
-										}}
-									>
-										Stake
-									</div>
-									<div
-										type="button"
-										className="cardButton"
-										onClick={() => {
-											toggleModal(
-												unstakeFidFFModalHeading,
-												FidFFModalLabel,
-												unstakeModalButton,
-											);
-										}}
-									>
-										Unstake
-									</div>
-									<div
-										type="button"
-										className="cardButton"
-										onClick={() => {
-											toggleModal(
-												vestFidFFModalHeading,
-												FidFFModalLabel,
-												vestModalButton,
-											);
-										}}
-									>
-										Vest
-									</div>
-									<div
-										type="button"
-										className="cardButton"
-										onClick={() => {
-											toggleModal(
-												unvestFidFFModalHeading,
-												FidFFModalLabel,
-												unvestModalButton,
-											);
-										}}
-									>
-										<strike>Vest</strike>
-									</div>
-								</div>
+							<div className="cardRowButtons">
+								<button
+									type="button"
+									className="cardButton"
+									onClick={() => {
+										toggleModal(
+											stakeFidFFModalHeading,
+											FidFFModalLabel,
+											stakeModalButton,
+										);
+									}}
+								>
+									Stake
+								</button>
+								<button
+									type="button"
+									className="cardButton"
+									onClick={() => {
+										toggleModal(
+											unstakeFidFFModalHeading,
+											FidFFModalLabel,
+											unstakeModalButton,
+										);
+									}}
+								>
+									Unstake
+								</button>
+								<button
+									type="button"
+									className="cardButton"
+									onClick={() => {
+										toggleModal(
+											vestFidFFModalHeading,
+											FidFFModalLabel,
+											vestModalButton,
+										);
+									}}
+								>
+									Vest
+								</button>
+								<button
+									type="button"
+									className="cardButton"
+									onClick={() => {
+										toggleModal(
+											unvestFidFFModalHeading,
+											FidFFModalLabel,
+											unvestModalButton,
+										);
+									}}
+								>
+									<strike>Vest</strike>
+								</button>
 							</div>
 						</div>
 					</div>
