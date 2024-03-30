@@ -1,99 +1,41 @@
 import React, { useState, useEffect } from "react";
-import logo from "../assets/FF-logo.png";
 import { Link } from "react-router-dom";
-import { useGlobalContext } from "../context/context";
 
-import { ethers } from "ethers";
+import getWalletAddress from "../utils/getWalletAddress";
 
-// import BankABI from "../assets/BankABI.json";
-// import USDCABI from "../assets/USDCABI.json";
+import logo from "../assets/FF-logo.png";
+import Button from "../atoms/Button";
 
 export const Navbar = () => {
 	const [currentAccount, setCurrentAccount] = useState(null);
-	const { user } = useGlobalContext();
-
-	const getWalletAddress = async () => {
-		if (window.ethereum && window.ethereum.isMetaMask) {
-			const provider = new ethers.providers.Web3Provider(window.ethereum);
-			await provider.send("eth_requestAccounts");
-			const currentAddress = await provider
-				.getSigner()
-				.getAddress()
-				.catch((error) => {
-					if (error.code === 4001) {
-						console.log("Rejected");
-					}
-					return;
-				});
-			setCurrentAccount(currentAddress);
-		}
-	};
 
 	useEffect(() => {
-		getWalletAddress();
+		setCurrentAccount(getWalletAddress());
 	}, []);
 
 	return (
-		<>
-			<div className="nav-center">
-				<Link to="/" className="home-link">
+		<header className="sticky top-0 z-50 bg-gradient-to-b from-transparent to-white/30 backdrop-blur-lg py-5 px-4 md:px-10">
+			<nav className="flex justify-between items-center">
+				<Link to="/" className="w">
 					<img src={logo} alt="ForkedFinance app" className="logo" />
 				</Link>
-				{/* <Link to="/transfer" className="link">
-          <div className="headerItem">Transfer</div>
-        </Link> */}
-
-				{/* Wallet: <span>{currentAccount}</span> */}
-
-				{!currentAccount && (
-					<div className="nav-links">
-						<div className="nav-links-buttons">
-							<Link to="/dashboard" className="link">
-								<div className="headerItem">Dashbord</div>
-							</Link>
-							<Link to="/transfer" className="link">
-								<div className="headerItem">Transfer</div>
-							</Link>
-						</div>
-						<div>
-							<button
-								className="btn btn-small"
-								onClick={() => {
-									getWalletAddress();
-								}}
-							>
-								{" "}
-								Connect{" "}
-							</button>
-						</div>
-					</div>
-				)}
-
-				{currentAccount && (
-					<div className="nav-links">
-						<div className="nav-links-buttons">
-							<Link to="/dashboard" className="link">
-								<div className="headerItem">Dashbord</div>
-							</Link>
-							<Link to="/transfer" className="link">
-								<div className="headerItem">Transfer</div>
-							</Link>
-						</div>
-						<div className="connect">
-							<button
-								className="btn btn-small-connect"
-								onClick={() => {
-									getWalletAddress();
-								}}
-							>
-								{" "}
-								Connected{" "}
-							</button>
-						</div>
-					</div>
-				)}
-			</div>
-		</>
+				<Link to="/dashboard" className="link">
+					<Button>Dashboard</Button>
+				</Link>
+				<Link to="/transfer" className="link">
+					<Button>Transfer</Button>
+				</Link>
+				<button
+					type="button"
+					className="btn btn-small"
+					onClick={() => {
+						getWalletAddress();
+					}}
+				>
+					{currentAccount ? "Connected" : "Connect"}
+				</button>
+			</nav>
+		</header>
 	);
 };
 
