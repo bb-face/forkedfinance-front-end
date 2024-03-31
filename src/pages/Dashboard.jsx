@@ -1046,7 +1046,7 @@ function Dashboard() {
 						<div className="modal-content">
 							<div className="modal-heading">{modalHeading}</div>
 							<div className="modal-divider">
-								<hr class="solid" />
+								<hr />
 							</div>
 							<button
 								type="button"
@@ -1065,7 +1065,7 @@ function Dashboard() {
 								<div className="label">{modalLabel}</div>
 							</div>
 							<div className="modal-divider">
-								<hr class="solid" />
+								<hr />
 							</div>
 							<div className="modal-buttons">
 								<button
@@ -1103,7 +1103,7 @@ function Dashboard() {
 							<div>USDC </div>
 						</div>
 						<div className="divider">
-							<hr class="solid" />
+							<hr />
 						</div>
 						<div className="cardRow">
 							<div>
@@ -1156,7 +1156,7 @@ function Dashboard() {
 
 						<div className="stakeCardFooter">
 							<div className="divider">
-								<hr class="solid" />
+								<hr />
 							</div>
 							<div className="cardRow">
 								<div className="cardRowButtons">
@@ -1221,7 +1221,7 @@ function Dashboard() {
 							<div>Total Rewards</div>
 						</div>
 						<div className="divider">
-							<hr class="solid" />
+							<hr />
 						</div>
 						<div className="cardRow">
 							<div>
@@ -1273,23 +1273,141 @@ function Dashboard() {
 						</div>
 						<div className="stakeCardFooter">
 							<div className="divider">
-								<hr class="solid" />
+								<hr />
+								<div className="cardRow">
+									<div className="cardRowButtons">
+										<button
+											type="button"
+											className="cardButton"
+											onClick={compound}
+										>
+											Compound
+										</button>
+										<button
+											type="button"
+											className="cardButton"
+											onClick={claimRewards}
+										>
+											Claim
+										</button>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div className="stakeCardFF">
+							<div className="stakeCardHeader">
+								<div>FF</div>
+							</div>
+							<div className="divider">
+								<hr />
+							</div>
+							<div className="cardRow">
+								<div>
+									<div>Price</div>
+								</div>
+								<div>
+									<div> Soon!</div>
+								</div>
+							</div>
+							<div className="cardRow">
+								<div>
+									<div>Wallet</div>
+								</div>
+								<div>
+									<div>{ffBalance}</div>
+								</div>
+							</div>
+							<div className="cardRow">
+								<div>
+									<div>Staked</div>
+								</div>
+								<div>
+									<div>{ffStakedAmounts}</div>
+								</div>
+							</div>
+							<div className="cardRow">
+								<div>
+									<div>APR</div>
+								</div>
+								<div>
+									<div>{feeFFAPR}%</div>
+								</div>
+							</div>
+							<div className="cardRow">
+								<div>
+									<div>Rewards</div>
+								</div>
+								<div>
+									<div>${ffClaimableRewards}</div>
+								</div>
+							</div>
+							<div className="cardRow">
+								<div>
+									<div>Boost Percentage</div>
+								</div>
+								<div>
+									<div>{boostPercentageAPR}%</div>
+								</div>
+							</div>
+							<div className="cardRow">
+								<div>
+									<div>Reserved for Vesting</div>
+								</div>
+								<div>
+									<div>{ffReserved}</div>
+								</div>
+							</div>
+							<br />
+							<div className="cardRow">
+								<div>
+									<div>Total Staked</div>
+								</div>
+								<div>
+									<div>{ffTotalStakedAmounts}</div>
+								</div>
+							</div>
+							<div className="cardRow">
+								<div>
+									<div>Total Supply</div>
+								</div>
+								<div>
+									<div>{ffSupply}</div>
+								</div>
+							</div>
+							<div className="stakeCardFooter">
+								<div className="divider" />
+								<hr />
 							</div>
 							<div className="cardRow">
 								<div className="cardRowButtons">
+									<a href="test" className="cardButton">
+										Buy
+									</a>
 									<button
 										type="button"
 										className="cardButton"
-										onClick={compound}
+										onClick={() => {
+											toggleModal(
+												stakeFFModalHeading,
+												FFModalLabel,
+												stakeModalButton,
+											);
+										}}
 									>
-										Compound
+										Stake
 									</button>
 									<button
 										type="button"
 										className="cardButton"
-										onClick={claimRewards}
+										onClick={() => {
+											toggleModal(
+												unstakeFFModalHeading,
+												FFModalLabel,
+												unstakeModalButton,
+											);
+										}}
 									>
-										Claim
+										Unstake
 									</button>
 								</div>
 							</div>
@@ -1297,17 +1415,17 @@ function Dashboard() {
 					</div>
 					<div className="stakeCardFF">
 						<div className="stakeCardHeader">
-							<div>FF</div>
+							<div>Fiduciary FF</div>
 						</div>
 						<div className="divider">
-							<hr class="solid" />
+							<hr />
 						</div>
 						<div className="cardRow">
 							<div>
 								<div>Price</div>
 							</div>
 							<div>
-								<div> Soon!</div>
+								<div>Soon... I promise</div>
 							</div>
 						</div>
 						<div className="cardRow">
@@ -1315,7 +1433,7 @@ function Dashboard() {
 								<div>Wallet</div>
 							</div>
 							<div>
-								<div>{ffBalance}</div>
+								<div>{fidFFAccountBalance}</div>
 							</div>
 						</div>
 						<div className="cardRow">
@@ -1323,7 +1441,7 @@ function Dashboard() {
 								<div>Staked</div>
 							</div>
 							<div>
-								<div>{ffStakedAmounts}</div>
+								<div>{fidFFStakedAmounts}</div>
 							</div>
 						</div>
 						<div className="cardRow">
@@ -1344,27 +1462,28 @@ function Dashboard() {
 						</div>
 						<div className="cardRow">
 							<div>
-								<div>Boost Percentage</div>
+								<div>Vesting Status</div>
 							</div>
 							<div>
-								<div>{boostPercentageAPR}%</div>
+								<div>{vestedStatus}%</div>
 							</div>
 						</div>
 						<div className="cardRow">
 							<div>
-								<div>Reserved for Vesting</div>
+								<div>FF Claimable</div>
 							</div>
 							<div>
-								<div>{ffReserved}</div>
+								<div>{vestedFF}</div>
 							</div>
 						</div>
 						<br />
+
 						<div className="cardRow">
 							<div>
 								<div>Total Staked</div>
 							</div>
 							<div>
-								<div>{ffTotalStakedAmounts}</div>
+								<div>{fidFFTotalDepositSuply}</div>
 							</div>
 						</div>
 						<div className="cardRow">
@@ -1372,187 +1491,68 @@ function Dashboard() {
 								<div>Total Supply</div>
 							</div>
 							<div>
-								<div>{ffSupply}</div>
+								<div>{fidFFSupply}</div>
 							</div>
 						</div>
 						<div className="stakeCardFooter">
-							<div className="divider" />
-							<hr class="solid" />
-						</div>
-						<div className="cardRow">
-							<div className="cardRowButtons">
-								<a href="test" className="cardButton">
-									Buy
-								</a>
-								<button
-									type="button"
-									className="cardButton"
-									onClick={() => {
-										toggleModal(
-											stakeFFModalHeading,
-											FFModalLabel,
-											stakeModalButton,
-										);
-									}}
-								>
-									Stake
-								</button>
-								<button
-									type="button"
-									className="cardButton"
-									onClick={() => {
-										toggleModal(
-											unstakeFFModalHeading,
-											FFModalLabel,
-											unstakeModalButton,
-										);
-									}}
-								>
-									Unstake
-								</button>
+							<div className="divider">
+								<hr />
 							</div>
-						</div>
-					</div>
-				</div>
-				<div className="stakeCardFF">
-					<div className="stakeCardHeader">
-						<div>Fiduciary FF</div>
-					</div>
-					<div className="divider">
-						<hr class="solid" />
-					</div>
-					<div className="cardRow">
-						<div>
-							<div>Price</div>
-						</div>
-						<div>
-							<div>Soon... I promise</div>
-						</div>
-					</div>
-					<div className="cardRow">
-						<div>
-							<div>Wallet</div>
-						</div>
-						<div>
-							<div>{fidFFAccountBalance}</div>
-						</div>
-					</div>
-					<div className="cardRow">
-						<div>
-							<div>Staked</div>
-						</div>
-						<div>
-							<div>{fidFFStakedAmounts}</div>
-						</div>
-					</div>
-					<div className="cardRow">
-						<div>
-							<div>APR</div>
-						</div>
-						<div>
-							<div>{feeFFAPR}%</div>
-						</div>
-					</div>
-					<div className="cardRow">
-						<div>
-							<div>Rewards</div>
-						</div>
-						<div>
-							<div>${ffClaimableRewards}</div>
-						</div>
-					</div>
-					<div className="cardRow">
-						<div>
-							<div>Vesting Status</div>
-						</div>
-						<div>
-							<div>{vestedStatus}%</div>
-						</div>
-					</div>
-					<div className="cardRow">
-						<div>
-							<div>FF Claimable</div>
-						</div>
-						<div>
-							<div>{vestedFF}</div>
-						</div>
-					</div>
-					<br />
-
-					<div className="cardRow">
-						<div>
-							<div>Total Staked</div>
-						</div>
-						<div>
-							<div>{fidFFTotalDepositSuply}</div>
-						</div>
-					</div>
-					<div className="cardRow">
-						<div>
-							<div>Total Supply</div>
-						</div>
-						<div>
-							<div>{fidFFSupply}</div>
-						</div>
-					</div>
-					<div className="stakeCardFooter">
-						<div className="divider">
-							<hr class="solid" />
-						</div>
-						<div className="cardRow">
-							<div className="cardRowButtons">
-								<button
-									type="button"
-									className="cardButton"
-									onClick={() => {
-										toggleModal(
-											stakeFidFFModalHeading,
-											FidFFModalLabel,
-											stakeModalButton,
-										);
-									}}
-								>
-									Stake
-								</button>
-								<button
-									type="button"
-									className="cardButton"
-									onClick={() => {
-										toggleModal(
-											unstakeFidFFModalHeading,
-											FidFFModalLabel,
-											unstakeModalButton,
-										);
-									}}
-								>
-									Unstake
-								</button>
-								<button
-									type="button"
-									className="cardButton"
-									onClick={() => {
-										toggleModal(
-											vestFidFFModalHeading,
-											FidFFModalLabel,
-											vestModalButton,
-										);
-									}}
-								>
-									Vest
-								</button>
-								<button
-									type="button"
-									className="cardButton"
-									onClick={() => {
-										toggleModal(
-											unvestFidFFModalHeading,
-											FidFFModalLabel,
-											unvestModalButton,
-										);
-									}}
-								>
-									<strike>Vest</strike>
-								</button>
+							<div className="cardRow">
+								<div className="cardRowButtons">
+									<button
+										type="button"
+										className="cardButton"
+										onClick={() => {
+											toggleModal(
+												stakeFidFFModalHeading,
+												FidFFModalLabel,
+												stakeModalButton,
+											);
+										}}
+									>
+										Stake
+									</button>
+									<button
+										type="button"
+										className="cardButton"
+										onClick={() => {
+											toggleModal(
+												unstakeFidFFModalHeading,
+												FidFFModalLabel,
+												unstakeModalButton,
+											);
+										}}
+									>
+										Unstake
+									</button>
+									<button
+										type="button"
+										className="cardButton"
+										onClick={() => {
+											toggleModal(
+												vestFidFFModalHeading,
+												FidFFModalLabel,
+												vestModalButton,
+											);
+										}}
+									>
+										Vest
+									</button>
+									<button
+										type="button"
+										className="cardButton"
+										onClick={() => {
+											toggleModal(
+												unvestFidFFModalHeading,
+												FidFFModalLabel,
+												unvestModalButton,
+											);
+										}}
+									>
+										<strike>Vest</strike>
+									</button>
+								</div>
 							</div>
 						</div>
 					</div>

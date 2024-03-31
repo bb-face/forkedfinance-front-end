@@ -4,7 +4,7 @@ import { ethers } from "ethers";
 
 const AppContext = React.createContext();
 
-const AppProvider = ({ children }) => {
+function AppProvider({ children }) {
 	const [isLoading, setIsLoading] = useState(true);
 	const [user, setUser] = useState(null);
 
@@ -61,7 +61,7 @@ const AppProvider = ({ children }) => {
 			{children}
 		</AppContext.Provider>
 	);
-};
+}
 // make sure use
 export const useGlobalContext = () => {
 	return useContext(AppContext);

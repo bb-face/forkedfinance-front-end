@@ -223,17 +223,12 @@ const Transfer = () => {
 
 			<button
 				type="submit"
-				className="swapButton"
 				onClick={transferBalance}
-				class="w-full bg-purple-600 text-white p-3 rounded hover:bg-purple-700 transition-colors"
+				className="w-full bg-purple-600 text-white p-3 rounded hover:bg-purple-700 transition-colors"
 			>
 				Send
 			</button>
-			<button
-				type="button"
-				className="validateButton"
-				onClick={validateBalanceTo}
-			>
+			<button type="button" onClick={validateBalanceTo}>
 				Not Sure?
 			</button>
 		</div>
