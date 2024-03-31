@@ -5,7 +5,7 @@ import { RiTakeawayFill } from "react-icons/ri";
 
 function Home() {
 	return (
-		<div className="flex flex-col h-screen justify-center items-center bg-black text-center px-4">
+		<div className="flex flex-col h-screen justify-center items-center  text-center px-4">
 			<h1 className="text-5xl font-bold text-primary leading-tight mb-4">
 				The first web3 Meme Banking Protocol
 			</h1>

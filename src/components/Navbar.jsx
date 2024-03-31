@@ -1,28 +1,19 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
-import { ethers } from "ethers";
+import { useRecoilValue } from "recoil";
+
+import { walletState } from "../state/wallet";
+import { useWallet } from "../customHooks/useWallet";
 
 import logo from "../assets/FF-logo.png";
 import Button from "../atoms/Button";
 import WalletAddress from "../atoms/WalletAddress";
 
 export const Navbar = () => {
-	const [connected, setConnected] = useState(false);
-	const [walletAddress, setWalletAddress] = useState("");
-	const [error, setError] = useState(null);
+	const wallet = useRecoilValue(walletState);
 
-	async function connectWallet() {
-		if (!connected) {
-			const provider = new ethers.BrowserProvider(window.ethereum);
-			const signer = await provider.getSigner();
-			const _walletAddress = await signer.getAddress();
-			setConnected(true);
-			setWalletAddress(_walletAddress);
-		} else {
-			setConnected(false);
-			setWalletAddress("");
-		}
-	}
+	const [error, setError] = useState(null);
+	const { connectWallet, disconnectWallet } = useWallet();
 
 	return (
 		<header className="bg-primary text-white w-full py-4 px-8 fixed top-0 z-50">
@@ -33,21 +24,35 @@ export const Navbar = () => {
 				<Link to="/" className="w">
 					<img src={logo} alt="ForkedFinance app" className="logo" />
 				</Link>
-				<Link to="/dashboard" className="link">
+				<Link to="/dashboard">
 					<Button>Dashboard</Button>
 				</Link>
-				<Link to="/transfer" className="link">
+				<Link to="/deposit">
+					<Button>Deposit</Button>
+				</Link>
+				<Link to="/transfer">
 					<Button>Transfer</Button>
 				</Link>
-				<button
-					type="button"
-					className="btn btn-small"
-					onClick={() => {
-						connectWallet();
-					}}
-				>
-					{connected ? <WalletAddress address={walletAddress} /> : "Connect"}
-				</button>
+				<div>
+					{wallet.isConnected ? (
+						<button
+							type="button"
+							className="btn btn-small"
+							onClick={disconnectWallet}
+						>
+							Disconnect Wallet
+						</button>
+					) : (
+						<button
+							type="button"
+							className="btn btn-small"
+							onClick={connectWallet}
+						>
+							Connect Wallet
+						</button>
+					)}
+					{wallet.isConnected && <WalletAddress address={wallet.address} />}
+				</div>
 			</nav>
 		</header>
 	);
