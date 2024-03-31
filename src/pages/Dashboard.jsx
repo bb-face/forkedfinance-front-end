@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 
 import { ethers } from "ethers";
 import { Link } from "react-router-dom";
-import { Input } from "antd";
 
 import usdcABI from "../assets/USDCABI.json";
 import fidFFABI from "../assets/FidFFABI.json";
@@ -22,58 +21,8 @@ import ffABI from "../assets/FfABI.json";
 
 import { useGlobalContext } from "../context/context";
 
-const url = "https://server.forkedfinance.xyz";
-
-const ff = "0x00295670C7f8C501f58FA66f1a161a66A05ddC78";
-const fidFF = "0xDf133869576aBf53FfF6AFD663dcB77661F084bE";
-const bnFF = "0x024042e5F784bdD509f6Bd3f128Ec9A657aBD381";
-const USDCAddress = "0x55d030B2A681605b7a1E32d8D924EE124e9D01b7";
-const rewardRouter = "0x89E9B4AC2eD32a404c63FCCC507e7DD74E03bd4B";
-
-const feeUsdc = "0xD04f6170Db4B957502FC574049624f72DB64C4Ba";
-const stakedUsdc = "0x5451D3013Be5cf6504780c929c95149D2BF1B358";
-const usdcFeeDistributor = "0xf5fBe7654e9E380Be2f538C3cA2F1D6708E71B17";
-const usdcFidFFDistributor = "0xC3F202041e09AEb55307FD24AB086E78301991d3";
-
-const stakedFF = "0x66cd4d64a099dCF1D503C8d0BA01C805DB718afa";
-const bonusFF = "0xf1e9791b260488fFcC95ae98BB7113abC7BFcEe8";
-const feeFF = "0x81706c695834a6a087D2100B2e52eEeFB158bA7f";
-const stakedFFDistributor = "0x4219a25C2e464771D9557Ce03bc3641d964F1723";
-const bonusFFDistributor = "0x7688FeC08CD49Ecfb5BA41580C1CDeac6E3e4729";
-const feeFFDistributor = "0x21A75a664747BC289180F12c2F80f1Aa3ce105ca";
-
-const ffVester = "0xE26A190Db3c8686C3ed870b14a270e73105247fD";
-const usdcVester = "0xf26AB7062E90D0D39fA8964782016714D05a9E18";
-
-const usdcModalLabel = "USDC";
-const FFModalLabel = "FF";
-const FidFFModalLabel = "fidFF";
-const stakeModalButton = "Earn Fee and FidFF";
-const unstakeModalButton = "Stop Earning";
-const vestModalButton = "Vest FF";
-const unvestModalButton = "Stop vesting FF";
-
-const depositModalButton = "Deposit";
-const withdrawModalButton = "Withdraw";
-const depositStablecoinModalHeading = "Deposit Stablecoin - 0.5% Fee";
-const withdrawStablecoinModalHeading = "Withdraw Stablecoin - 0.5% Fee";
-const stakeFFModalHeading = "Stake FF";
-const unstakeFFModalHeading = "Unstake FF";
-const stakeFidFFModalHeading = "Stake FidFF";
-const unstakeFidFFModalHeading = "Unstake FidFF";
-const vestFidFFModalHeading = "Reserve FF";
-const unvestFidFFModalHeading = "Release FF";
-const usdcVestFidFFModalHeading = "Reserve USDC";
-const usdcUnvestFidFFModalHeading = "Release USDC";
-
-const usdcDecimals = 10 ** 6;
-const decimals = 10 ** 18;
-const secondsPerYear = 31536000;
-
 function Dashboard() {
 	const { user } = useGlobalContext();
-	const [currentAccount, setCurrentAccount] = useState(null);
-	const [shortCurrentAccount, setShortCurrentAccount] = useState(null);
 
 	const [amount, setAmount] = useState(null);
 	const [usdcAccountBalance, setUsdcAccountBalance] = useState(null);
@@ -84,8 +33,6 @@ function Dashboard() {
 		useState(null);
 
 	const [modal, setModal] = useState(false);
-	const [modalHeading, setModalHeading] = useState(false);
-	const [modalLabel, setModalLabel] = useState(false);
 	const [modalButton, setModalButton] = useState(false);
 
 	const [balance, setBalance] = useState(null);
@@ -122,10 +69,6 @@ function Dashboard() {
 
 	const [ffTotalStakedAmounts, setFFTotalStakedAmounts] = useState(null);
 
-	function changeAmount(e) {
-		setAmount(e.target.value);
-	}
-
 	function handleModalButton(modalHeading) {
 		if (modalHeading === depositStablecoinModalHeading) {
 			depositUSDC();
@@ -161,16 +104,6 @@ function Dashboard() {
 
 	const depositUSDC = async () => {
 		if (window.ethereum?.isMetaMask) {
-			const provider = new ethers.providers.Web3Provider(window.ethereum);
-			const network = await provider.getNetwork();
-			const currentAddress = await provider
-				.getSigner()
-				.getAddress()
-				.catch((e) => {
-					if (e.code === 4001) {
-						console.log("Rejected");
-					}
-				});
 			const signer = provider.getSigner();
 
 			if (network.chainId === 5) {
@@ -218,16 +151,6 @@ function Dashboard() {
 	};
 	const withdrawUSDC = async () => {
 		if (window.ethereum?.isMetaMask) {
-			const provider = new ethers.providers.Web3Provider(window.ethereum);
-			const network = await provider.getNetwork();
-			const currentAddress = await provider
-				.getSigner()
-				.getAddress()
-				.catch((e) => {
-					if (e.code === 4001) {
-						console.log("Rejected");
-					}
-				});
 			const signer = provider.getSigner();
 
 			if (network.chainId === 5) {
@@ -253,16 +176,6 @@ function Dashboard() {
 	};
 	const stakeFF = async () => {
 		if (window.ethereum?.isMetaMask) {
-			const provider = new ethers.providers.Web3Provider(window.ethereum);
-			const network = await provider.getNetwork();
-			const currentAddress = await provider
-				.getSigner()
-				.getAddress()
-				.catch((e) => {
-					if (e.code === 4001) {
-						console.log("Rejected");
-					}
-				});
 			const signer = provider.getSigner();
 
 			if (network.chainId === 5) {
@@ -305,16 +218,6 @@ function Dashboard() {
 	};
 	const unstakeFF = async () => {
 		if (window.ethereum?.isMetaMask) {
-			const provider = new ethers.providers.Web3Provider(window.ethereum);
-			const network = await provider.getNetwork();
-			const currentAddress = await provider
-				.getSigner()
-				.getAddress()
-				.catch((e) => {
-					if (e.code === 4001) {
-						console.log("Rejected");
-					}
-				});
 			const signer = provider.getSigner();
 
 			if (network.chainId === 5) {
@@ -341,16 +244,6 @@ function Dashboard() {
 	};
 	const stakeFidFF = async () => {
 		if (window.ethereum?.isMetaMask) {
-			const provider = new ethers.providers.Web3Provider(window.ethereum);
-			const network = await provider.getNetwork();
-			const currentAddress = await provider
-				.getSigner()
-				.getAddress()
-				.catch((e) => {
-					if (e.code === 4001) {
-						console.log("Rejected");
-					}
-				});
 			const signer = provider.getSigner();
 
 			if (network.chainId === 5) {
@@ -396,16 +289,6 @@ function Dashboard() {
 	};
 	const unstakeFidFF = async () => {
 		if (window.ethereum?.isMetaMask) {
-			const provider = new ethers.providers.Web3Provider(window.ethereum);
-			const network = await provider.getNetwork();
-			const currentAddress = await provider
-				.getSigner()
-				.getAddress()
-				.catch((e) => {
-					if (e.code === 4001) {
-						console.log("Rejected");
-					}
-				});
 			const signer = provider.getSigner();
 
 			if (network.chainId === 5) {
@@ -432,16 +315,6 @@ function Dashboard() {
 	};
 	const compound = async () => {
 		if (window.ethereum?.isMetaMask) {
-			const provider = new ethers.providers.Web3Provider(window.ethereum);
-			const network = await provider.getNetwork();
-			const currentAddress = await provider
-				.getSigner()
-				.getAddress()
-				.catch((e) => {
-					if (e.code === 4001) {
-						console.log("Rejected");
-					}
-				});
 			const signer = provider.getSigner();
 
 			if (network.chainId === 5) {
@@ -466,16 +339,6 @@ function Dashboard() {
 	};
 	const claimRewards = async () => {
 		if (window.ethereum?.isMetaMask) {
-			const provider = new ethers.providers.Web3Provider(window.ethereum);
-			const network = await provider.getNetwork();
-			const currentAddress = await provider
-				.getSigner()
-				.getAddress()
-				.catch((e) => {
-					if (e.code === 4001) {
-						console.log("Rejected");
-					}
-				});
 			const signer = provider.getSigner();
 
 			if (network.chainId === 5) {
@@ -639,22 +502,8 @@ function Dashboard() {
 
 	const getAccountContractsData = async () => {
 		if (window.ethereum?.isMetaMask) {
-			const provider = new ethers.providers.Web3Provider(window.ethereum);
-			const network = await provider.getNetwork();
-			await provider.send("eth_requestAccounts");
-			const currentAddress = await provider
-				.getSigner()
-				.getAddress()
-				.catch((e) => {
-					if (e.code === 4001) {
-						console.log("Rejected");
-					}
-				});
+			const currentAddress = "Todo";
 
-			setCurrentAccount(currentAddress);
-			setShortCurrentAccount(
-				`${currentAddress.slice(0, 7)}...${currentAddress.slice(36)}`,
-			);
 			const signer = provider.getSigner();
 
 			async function signerContract(address, ABI) {
@@ -1011,10 +860,6 @@ function Dashboard() {
 		setModal(!modal);
 	};
 
-	const closeModal = () => {
-		setModal(!modal);
-	};
-
 	if (modal) {
 		document.body.classList.add("active-modal");
 	} else {
@@ -1039,61 +884,10 @@ function Dashboard() {
 			{alert.show && (
 				<div className={`alert alert-${alert.type}`}>{alert.text}</div>
 			)}
-			{modal && (
-				<>
-					<button type="button" onClick={closeModal} className="overlay" />
-					<div className="modal">
-						<div className="modal-content">
-							<div className="modal-heading">{modalHeading}</div>
-							<div className="modal-divider">
-								<hr />
-							</div>
-							<button
-								type="button"
-								className="close-modal"
-								onClick={closeModal}
-							>
-								✕
-							</button>
-							<div className="modal-input">
-								<Input
-									type="number"
-									placeholder="0.0"
-									bordered={false}
-									onChange={changeAmount}
-								/>
-								<div className="label">{modalLabel}</div>
-							</div>
-							<div className="modal-divider">
-								<hr />
-							</div>
-							<div className="modal-buttons">
-								<button
-									type="button"
-									className="modalButton"
-									onClick={() => {
-										handleModalButton(modalHeading);
-									}}
-								>
-									{modalButton}
-								</button>
-							</div>
-						</div>
-					</div>
-				</>
-			)}
-			<div className="header">
-				<Link to="/transfer" className="inTextLink">
-					Pay Someone without Gas or Transaction Fees
-				</Link>
+			{modal && <DashboardModal />}
 
-				<div>
-					Avaliable Balance: <span>{balance}</span>
-				</div>
-
-				<div className="wallet">
-					Connected Wallet: <span>{shortCurrentAccount}</span>
-				</div>
+			<div>
+				Avaliable Balance: <span>{balance}</span>
 			</div>
 
 			<div className="stakeContent">
