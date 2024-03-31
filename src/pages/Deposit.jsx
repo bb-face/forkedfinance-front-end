@@ -1,19 +1,22 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import axios from "axios";
 import { ethers } from "ethers";
-import { Input, Popover } from "antd";
-import { WalletTwoTone } from "@ant-design/icons";
+import { useRecoilValue } from "recoil";
+
+import { walletState } from "../state/wallet";
+import Button from "../atoms/Button";
 
 import BankABI from "../assets/BankABI.json";
 import USDCABI from "../assets/USDCABI.json";
-
-import useLocalState from "../utils/localState";
-
-const USDCAddress = "0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48";
-const bankAddress = "0x3149496ED8C90FC2418b3dD389ca606b87d23D45";
+import {
+	USDCAddress,
+	USDCApprovaAmount,
+	bankAddress,
+} from "../costant/prod-costant";
 
 const Deposit = () => {
-	const [currentAccount, setCurrentAccount] = useState(null);
+	const wallet = useRecoilValue(walletState);
+
 	const [balance, setBalance] = useState(null);
 	const [transferAmount, setTransferAmount] = useState(null);
 
@@ -32,33 +35,8 @@ const Deposit = () => {
 		}
 	};
 
-	const setting = () => {
-		return (
-			<>
-				<div>{balance} USDC</div>
-			</>
-		);
-	};
-
-	const getWalletAddress = async () => {
-		if (window.ethereum?.isMetaMask) {
-			const provider = new ethers.providers.Web3Provider(window.ethereum);
-			const currentAddress = await provider
-				.getSigner()
-				.getAddress()
-				.catch((e) => {
-					if (e.code === 4001) {
-						console.log("Rejected");
-					}
-				});
-
-			setCurrentAccount(currentAddress);
-		}
-	};
-
 	const approveUSDC = async () => {
-		const approveAmount =
-			"115792089237316195423570985008687907853269984665640564039457584007913129639935";
+		const approveAmount = USDCApprovaAmount;
 		const provider = new ethers.providers.Web3Provider(window.ethereum);
 		const signer = provider.getSigner();
 		const tokenContract = new ethers.Contract(USDCAddress, USDCABI, signer);
@@ -93,65 +71,48 @@ const Deposit = () => {
 			});
 	};
 
-	const chainChanged = () => {
-		window.location.reload();
-	};
-	window.ethereum.on("chainChanged", chainChanged);
-	window.ethereum.on("accountChanged", getWalletAddress);
-
-	useEffect(() => {
-		updateBalance();
-	}, [updateBalance]);
+	// TODO manage change of chain or address
+	// const chainChanged = () => {
+	// 	window.location.reload();
+	// };
+	// window.ethereum.on("chainChanged", chainChanged);
+	// window.ethereum.on("accountChanged", getWalletAddress);
 
 	return (
-		<div className="page">
-			<div className="tradeBox">
-				<div className="tradeBoxHeader">
-					<h4>USDC In - 0.5% Fee...</h4>
-					<Popover
-						content={setting}
-						title="Balance"
-						trigger="click"
-						placement="bottom"
-					>
-						<WalletTwoTone twoToneColor="#504acc" className="cog" />
-					</Popover>
-				</div>
-				<div className="inputs">
-					<Input
-						placeholder="Amount"
-						type="number"
-						value={transferAmount}
-						onChange={changeAmount}
-					/>
-				</div>
-
-				{!currentAccount && (
-					<div className="buttons">
-						<button
-							type="button"
-							className="swapButton"
-							onClick={getWalletAddress}
-						>
-							Connect Wallet
-						</button>
-					</div>
-				)}
-				{currentAccount && (
-					<div className="buttons">
-						<button
-							type="button"
-							className="validateButton"
-							onClick={approveUSDC}
-						>
-							Approve
-						</button>
-						<button type="button" className="swapButton" onClick={deposit}>
-							Deposit
-						</button>
-					</div>
-				)}
+		<div className="max-w-md mx-auto my-10 p-6">
+			<div className="mb-4">
+				<h4 className="text-lg font-semibold">USDC In - 0.5% Fee...</h4>
 			</div>
+			<div className="mb-4">
+				<input
+					className="w-full p-2 rounded outline-none focus:ring-2 focus:ring-blue-500"
+					placeholder="Amount"
+					type="number"
+					value={transferAmount}
+					onChange={changeAmount}
+				/>
+			</div>
+
+			{wallet.isConnected ? (
+				<div className="flex justify-between space-x-4">
+					<Button
+						type="button"
+						className="flex-1 p-2 rounded font-semibold"
+						onClick={approveUSDC}
+					>
+						Approve
+					</Button>
+					<Button
+						type="button"
+						className="flex-1 p-2  font-semibold"
+						onClick={deposit}
+					>
+						Deposit
+					</Button>
+				</div>
+			) : (
+				<div>Connect your wallet first</div>
+			)}
 		</div>
 	);
 };
