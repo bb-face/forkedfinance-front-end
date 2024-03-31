@@ -9,27 +9,34 @@ import Transfer from "./pages/Transfer.jsx";
 import Deposit from "./pages/Deposit.jsx";
 import Withdraw from "./pages/Withdraw.jsx";
 import Dashboard from "./pages/Dashboard.jsx";
+import Home from "./pages/Home.jsx";
 
 const router = createBrowserRouter([
 	{
 		path: "/",
 		element: <App />,
-	},
-	{
-		path: "/transfer",
-		element: <Transfer />,
-	},
-	{
-		path: "/deposit",
-		element: <Deposit />,
-	},
-	{
-		path: "/withdraw",
-		element: <Withdraw />,
-	},
-	{
-		path: "/dashboard",
-		element: <Dashboard />,
+		children: [
+			{
+				index: true,
+				element: <Home />,
+			},
+			{
+				path: "transfer",
+				element: <Transfer />,
+			},
+			{
+				path: "deposit",
+				element: <Deposit />,
+			},
+			{
+				path: "withdraw",
+				element: <Withdraw />,
+			},
+			{
+				path: "dashboard",
+				element: <Dashboard />,
+			},
+		],
 	},
 ]);
 

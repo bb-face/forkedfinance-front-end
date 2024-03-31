@@ -176,69 +176,66 @@ const Transfer = () => {
 	}, [updateBalance]);
 
 	return (
-		<div className="page">
+		<div>
 			{alert.show && (
 				<div className={`alert alert-${alert.type}`}>{alert.text}</div>
 			)}
 
-			{/* {loading && hideAlert()} */}
-			<div className="tradeBox">
-				<div className="tradeBoxHeader">
-					<h4>Pay Someone</h4>
+			<div className="text-white mb-6">
+				<p className="text-sm text-gray-400 mb-2">You're paying</p>
+				<div className="flex items-baseline space-x-2">
 					<Popover
 						content={balance}
 						title="Balance"
 						trigger="click"
 						placement="bottom"
+						className="text-4xl font-bold"
 					>
 						<WalletTwoTone twoToneColor="#504acc" className="cog" />
 					</Popover>
-				</div>
-
-				<div className="inputs">
-					<Input
-						placeholder="Wallet"
-						value={transferTo}
-						type="string"
-						onChange={changetransferTo}
-						//   disabled={!prices}
-					/>
-					<Input
-						placeholder="Amount"
-						type="number"
-						value={transferAmount}
-						onChange={changeAmount}
-					/>
-				</div>
-
-				<div className="buttons">
-					{/* <Popover
-            content={userTo}
-            title="Details matching..."
-            // trigger=
-            placement="bottom"
-            arrow=""
-          > */}
-					<button
-						type="button"
-						className="validateButton"
-						onClick={validateBalanceTo}
-						//   disabled={!transferTo || !transferAmount}
-					>
-						Not Sure?
-					</button>
-					{/* </Popover> */}
-					<button
-						type="button"
-						className="swapButton"
-						onClick={transferBalance}
-
-						//   disabled={!transferTo || !transferAmount}
-					>
-						GO!
-					</button>
+					<p className="text-lg text-gray-400">0 ETH ↓</p>
 				</div>
 			</div>
+
+			<div className="mb-6">
+				<label for="toAddress" className="block text-gray-400 mb-2">
+					To
+				</label>
+				<Input
+					id="toAddress"
+					type="text"
+					placeholder="Wallet address or ENS name"
+					className="w-full bg-gray-700 text-white p-3 rounded outline-none focus:ring-2 focus:ring-purple-600"
+					value={transferTo}
+					onChange={changetransferTo}
+				/>
+			</div>
+
+			<div className="mb-6">
+				<Input
+					placeholder="Amount"
+					type="number"
+					className="w-full bg-gray-700 text-white p-3 rounded outline-none focus:ring-2 focus:ring-purple-600"
+					value={transferAmount}
+					onChange={changeAmount}
+				/>
+			</div>
+
+			<button
+				type="submit"
+				className="swapButton"
+				onClick={transferBalance}
+				class="w-full bg-purple-600 text-white p-3 rounded hover:bg-purple-700 transition-colors"
+			>
+				Send
+			</button>
+			<button
+				type="button"
+				className="validateButton"
+				onClick={validateBalanceTo}
+			>
+				Not Sure?
+			</button>
 		</div>
 	);
 };
