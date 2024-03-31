@@ -1,20 +1,34 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
-
-import getWalletAddress from "../utils/getWalletAddress";
+import { ethers } from "ethers";
 
 import logo from "../assets/FF-logo.png";
 import Button from "../atoms/Button";
+import WalletAddress from "../atoms/WalletAddress";
 
 export const Navbar = () => {
-	const [currentAccount, setCurrentAccount] = useState(null);
+	const [connected, setConnected] = useState(false);
+	const [walletAddress, setWalletAddress] = useState("");
+	const [error, setError] = useState(null);
 
-	useEffect(() => {
-		setCurrentAccount(getWalletAddress());
-	}, []);
+	async function connectWallet() {
+		if (!connected) {
+			const provider = new ethers.BrowserProvider(window.ethereum);
+			const signer = await provider.getSigner();
+			const _walletAddress = await signer.getAddress();
+			setConnected(true);
+			setWalletAddress(_walletAddress);
+		} else {
+			setConnected(false);
+			setWalletAddress("");
+		}
+	}
 
 	return (
 		<header className="bg-primary text-white w-full py-4 px-8 fixed top-0 z-50">
+			{error && (
+				<WarningPopUp title="Warning" text="This is a warning message." />
+			)}
 			<nav className="flex justify-between items-center">
 				<Link to="/" className="w">
 					<img src={logo} alt="ForkedFinance app" className="logo" />
@@ -29,10 +43,10 @@ export const Navbar = () => {
 					type="button"
 					className="btn btn-small"
 					onClick={() => {
-						getWalletAddress();
+						connectWallet();
 					}}
 				>
-					{currentAccount ? "Connected" : "Connect"}
+					{connected ? <WalletAddress address={walletAddress} /> : "Connect"}
 				</button>
 			</nav>
 		</header>
