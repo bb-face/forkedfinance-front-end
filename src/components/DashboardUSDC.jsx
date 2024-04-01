@@ -12,6 +12,7 @@ function DashboardUSDC() {
 	const [stableCoinStakedAmount, setStableCoinStakedAmount] = useState(null);
 	const [usdcClaimableRewards, setUsdcClaimableRewards] = useState(null);
 	const [usdcReserved, setUsdcReserved] = useState(null);
+	const [APR, setAPR] = useState(null);
 	const [totalStableCoinStakedAmount, setTotalStableCoinStakedAmount] =
 		useState(null);
 

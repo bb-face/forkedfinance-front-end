@@ -30,6 +30,9 @@ export const Navbar = () => {
 				<Link to="/deposit">
 					<Button>Deposit</Button>
 				</Link>
+				<Link to="/Withdraw">
+					<Button>Withdraw</Button>
+				</Link>
 				<Link to="/transfer">
 					<Button>Transfer</Button>
 				</Link>

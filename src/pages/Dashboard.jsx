@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 
 import { ethers } from "ethers";
-import { Link } from "react-router-dom";
 
 import usdcABI from "../assets/USDCABI.json";
 import fidFFABI from "../assets/FidFFABI.json";
@@ -21,15 +20,13 @@ import ffABI from "../assets/FfABI.json";
 
 import { useGlobalContext } from "../context/context";
 import DashboardUSDC from "../components/DashboardUSDC";
-import DashboardFF from "../components/DashboardFF";
-import DashboardFiduciaryFF from "../components/DashboardFiduciaryFF";
+import DashboardTotalRewards from "../components/DashboardTotalRewards";
 
 function Dashboard() {
 	const { user } = useGlobalContext();
 
 	const [amount, setAmount] = useState(null);
 	const [fidFFAccountBalance, setFidFFAccountBalance] = useState(null);
-
 
 	const [modal, setModal] = useState(false);
 	const [modalButton, setModalButton] = useState(false);
@@ -46,7 +43,6 @@ function Dashboard() {
 
 	const [totalFidFFClaimableRewards, setTotalFidFFClaimableRewards] =
 		useState(null);
-	const [bonusClaimableRewards, setBonusClaimableRewards] = useState(null);
 
 	const [fidFFTotalDepositSuply, setFidFFTotalDepositSuply] = useState(null);
 
@@ -58,9 +54,7 @@ function Dashboard() {
 	const [vestedFF, setVestedFF] = useState(null);
 	const [vestedStatus, setVestedStatus] = useState(null);
 
-	const [ffBalance, setFFBalance] = useState(null);
 	const [ffStakedAmounts, setFFStakedAmounts] = useState(null);
-	const [bnStakedAmounts, setBnStakedAmounts] = useState(null);
 	const [fidFFStakedAmounts, setFidFFStakedAmounts] = useState(null);
 	const [boostPercentageAPR, setBoostPercentageAPR] = useState(0);
 
@@ -73,29 +67,11 @@ function Dashboard() {
 		if (modalHeading === withdrawStablecoinModalHeading) {
 			withdrawUSDC();
 		}
-		if (modalHeading === stakeFFModalHeading) {
-			stakeFF();
-		}
-		if (modalHeading === unstakeFFModalHeading) {
-			unstakeFF();
-		}
-		if (modalHeading === stakeFidFFModalHeading) {
-			stakeFidFF();
-		}
-		if (modalHeading === unstakeFidFFModalHeading) {
-			unstakeFidFF();
-		}
 		if (modalHeading === usdcVestFidFFModalHeading) {
 			usdcVest();
 		}
 		if (modalHeading === usdcUnvestFidFFModalHeading) {
 			usdcUnvest();
-		}
-		if (modalHeading === vestFidFFModalHeading) {
-			ffVest();
-		}
-		if (modalHeading === unvestFidFFModalHeading) {
-			ffUnvest();
 		}
 	}
 
@@ -171,193 +147,7 @@ function Dashboard() {
 			}
 		}
 	};
-	const stakeFF = async () => {
-		if (window.ethereum?.isMetaMask) {
-			const signer = provider.getSigner();
 
-			if (network.chainId === 5) {
-				const contractRewardRouter = new ethers.Contract(
-					rewardRouter,
-					rewardRouterABI,
-					signer,
-				);
-				const ffContract = new ethers.Contract(ff, ffABI, signer);
-				const allowance = await ffContract.allowance(currentAddress, stakedFF);
-
-				if (amount > allowance) {
-					const approveAmount =
-						"115792089237316195423570985008687907853269984665640564039457584007913129639935";
-					await ffContract
-						.approve(stakedFF, approveAmount)
-						.then((tx) => {})
-						.catch((e) => {
-							if (e.code === 4001) {
-								console.log("Rejected");
-							}
-						});
-				} else {
-					const parsedUnit = ethers.utils.parseUnits(amount, 18);
-
-					await contractRewardRouter
-						.stakeFF(parsedUnit)
-						.then((tx) => {
-							console.log(tx);
-							//do whatever you want with tx
-						})
-						.catch((e) => {
-							if (e.code === 4001) {
-								console.log("Rejected");
-							}
-						});
-				}
-			}
-		}
-	};
-	const unstakeFF = async () => {
-		if (window.ethereum?.isMetaMask) {
-			const signer = provider.getSigner();
-
-			if (network.chainId === 5) {
-				const contractRewardRouter = new ethers.Contract(
-					rewardRouter,
-					rewardRouterABI,
-					signer,
-				);
-
-				const parsedUnit = ethers.utils.parseUnits(amount, 18);
-
-				await contractRewardRouter
-					.unstakeFF(parsedUnit)
-					.then((tx) => {
-						//do whatever you want with tx
-					})
-					.catch((e) => {
-						if (e.code === 4001) {
-							console.log("Rejected");
-						}
-					});
-			}
-		}
-	};
-	const stakeFidFF = async () => {
-		if (window.ethereum?.isMetaMask) {
-			const signer = provider.getSigner();
-
-			if (network.chainId === 5) {
-				const contractRewardRouter = new ethers.Contract(
-					rewardRouter,
-					rewardRouterABI,
-					signer,
-				);
-				const fidFFContract = new ethers.Contract(fidFF, fidFFABI, signer);
-				const allowance = await fidFFContract.allowance(
-					currentAddress,
-					stakedFF,
-				);
-				const parsedAllowance = JSON.parse(allowance);
-
-				if (amount > parsedAllowance) {
-					const approveAmount =
-						"115792089237316195423570985008687907853269984665640564039457584007913129639935";
-					await fidFFContract
-						.approve(stakedFF, approveAmount)
-						.then((tx) => {})
-						.catch((e) => {
-							if (e.code === 4001) {
-								console.log("Rejected");
-							}
-						});
-				} else {
-					const parsedUnit = ethers.utils.parseUnits(amount, 18);
-
-					await contractRewardRouter
-						.stakeFidFF(parsedUnit)
-						.then((tx) => {
-							//do whatever you want with tx
-						})
-						.catch((e) => {
-							if (e.code === 4001) {
-								console.log("Rejected");
-							}
-						});
-				}
-			}
-		}
-	};
-	const unstakeFidFF = async () => {
-		if (window.ethereum?.isMetaMask) {
-			const signer = provider.getSigner();
-
-			if (network.chainId === 5) {
-				const contractRewardRouter = new ethers.Contract(
-					rewardRouter,
-					rewardRouterABI,
-					signer,
-				);
-
-				const parsedUnit = ethers.utils.parseUnits(amount, 18);
-
-				await contractRewardRouter
-					.unstakeFidFF(parsedUnit)
-					.then((tx) => {
-						//do whatever you want with tx
-					})
-					.catch((e) => {
-						if (e.code === 4001) {
-							console.log("Rejected");
-						}
-					});
-			}
-		}
-	};
-	const compound = async () => {
-		if (window.ethereum?.isMetaMask) {
-			const signer = provider.getSigner();
-
-			if (network.chainId === 5) {
-				const contractRewardRouter = new ethers.Contract(
-					rewardRouter,
-					rewardRouterABI,
-					signer,
-				);
-
-				await contractRewardRouter
-					.handleRewards(true, true, true, true, true, true, true)
-					.then((tx) => {
-						//do whatever you want with tx
-					})
-					.catch((e) => {
-						if (e.code === 4001) {
-							console.log("Rejected");
-						}
-					});
-			}
-		}
-	};
-	const claimRewards = async () => {
-		if (window.ethereum?.isMetaMask) {
-			const signer = provider.getSigner();
-
-			if (network.chainId === 5) {
-				const contractRewardRouter = new ethers.Contract(
-					rewardRouter,
-					rewardRouterABI,
-					signer,
-				);
-
-				await contractRewardRouter
-					.handleRewards(true, false, true, false, false, true, false)
-					.then((tx) => {
-						//do whatever you want with tx
-					})
-					.catch((e) => {
-						if (e.code === 4001) {
-							console.log("Rejected");
-						}
-					});
-			}
-		}
-	};
 
 	const usdcVest = async () => {
 		if (window.ethereum?.isMetaMask) {
@@ -510,14 +300,15 @@ function Dashboard() {
 			function formatUsdc(chainOutput) {
 				return (
 					Math.round(
-						parseFloat(ethers.utils.formatUnits(chainOutput, 6)) * 10,
+						Math.parseFloat(ethers.utils.formatUnits(chainOutput, 6)) * 10,
 					) / 10
 				);
 			}
 			function formatErc(chainOutput) {
 				return (
-					Math.round(parseFloat(ethers.utils.formatEther(chainOutput)) * 10) /
-					10
+					Math.round(
+						Math.parseFloat(ethers.utils.formatEther(chainOutput)) * 10,
+					) / 10
 				);
 			}
 
@@ -580,8 +371,12 @@ function Dashboard() {
 
 				setTotalFidFFClaimableRewards(
 					Math.round(
-						(parseFloat(ethers.utils.formatEther(usdcClaimableFidFFReward)) +
-							parseFloat(ethers.utils.formatEther(ffClaimableFidFFReward))) *
+						(Math.parseFloat(
+							ethers.utils.formatEther(usdcClaimableFidFFReward),
+						) +
+							Math.parseFloat(
+								ethers.utils.formatEther(ffClaimableFidFFReward),
+							)) *
 							10,
 					) / 10,
 				);
@@ -628,10 +423,10 @@ function Dashboard() {
 				);
 
 				const boostPercentage =
-					(100 * parseInt(ethers.utils.formatEther(bnStakedBalance))) /
-					parseInt(
+					(100 * Math.parseInt(ethers.utils.formatEther(bnStakedBalance))) /
+					Math.parseInt(
 						ethers.utils.formatEther(ffStakedAmount) +
-							parseInt(ethers.utils.formatEther(fidFFStakedBalance)),
+							Math.parseInt(ethers.utils.formatEther(fidFFStakedBalance)),
 					);
 
 				if (!boostPercentage) {
@@ -642,7 +437,6 @@ function Dashboard() {
 
 				// Tokens
 
-				const ffContract = new ethers.Contract(ff, ffABI, signer);
 				const ffAccountBalance = await ffContract.balanceOf(currentAddress);
 				if (!ffAccountBalance) {
 					setFFBalance("0");
@@ -748,13 +542,16 @@ function Dashboard() {
 
 		function formatUsdc(chainOutput) {
 			return (
-				Math.round(parseFloat(ethers.utils.formatUnits(chainOutput, 6)) * 10) /
-				10
+				Math.round(
+					Math.parseFloat(ethers.utils.formatUnits(chainOutput, 6)) * 10,
+				) / 10
 			);
 		}
 		function formatErc(chainOutput) {
 			return (
-				Math.round(parseFloat(ethers.utils.formatEther(chainOutput)) * 10) / 10
+				Math.round(
+					Math.parseFloat(ethers.utils.formatEther(chainOutput)) * 10,
+				) / 10
 			);
 		}
 		if (network.chainId === 5) {
@@ -781,7 +578,8 @@ function Dashboard() {
 
 			setSUsdcFidFFAPR(
 				Math.round(
-					((parseFloat(ethers.utils.formatEther(sUsdcTPI)) * secondsPerYear) /
+					((Math.parseFloat(ethers.utils.formatEther(sUsdcTPI)) *
+						secondsPerYear) /
 						formatUsdc(sUsdcSupply)) *
 						1000,
 				) / 10,
@@ -789,7 +587,8 @@ function Dashboard() {
 
 			setStakedFFFidFFAPR(
 				Math.round(
-					((parseFloat(ethers.utils.formatEther(sFFTPI)) * secondsPerYear) /
+					((Math.parseFloat(ethers.utils.formatEther(sFFTPI)) *
+						secondsPerYear) /
 						formatErc(sFFSupply)) *
 						1000,
 				) / 10,
@@ -881,8 +680,6 @@ function Dashboard() {
 			<div>
 				<DashboardUSDC />
 				<DashboardTotalRewards />
-				<DashboardFF />
-				<DashboardFiduciaryFF />
 			</div>
 		</div>
 	);
