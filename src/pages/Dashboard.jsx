@@ -1122,33 +1122,26 @@ function Dashboard() {
 							</div>
 						</div>
 						<div className="cardRow">
-							<div>
+							{/* <div>
 								<div>APR</div>
 							</div>
 							<div>
 								<div>{APR}%</div>
-							</div>
+							</div> */}
 						</div>
 						<div className="cardRow">
 							<div>
-								<div>Rewards</div>
+								<div>Points</div>
 							</div>
-							<div>
+							{/* <div>
 								<div>${usdcClaimableRewards}</div>
-							</div>
+							</div> */}
 						</div>
+						
 						<div className="cardRow">
-							<div>
-								<div>Reserved for Vesting</div>
-							</div>
-							<div>
-								<div>${usdcReserved}</div>
-							</div>
-						</div>
-						<div className="cardRow">
-							<div>
+							{/* <div>
 								<div>Total Staked</div>
-							</div>
+							</div> */}
 							<div>
 								<div>${totalStableCoinStakedAmount}</div>
 							</div>
@@ -1186,39 +1179,15 @@ function Dashboard() {
 									>
 										Unstake
 									</button>
-									<button
-										type="button"
-										className="cardButton"
-										onClick={() => {
-											toggleModal(
-												usdcVestFidFFModalHeading,
-												FidFFModalLabel,
-												vestModalButton,
-											);
-										}}
-									>
-										Vest
-									</button>
-									<button
-										type="button"
-										className="cardButton"
-										onClick={() => {
-											toggleModal(
-												usdcUnvestFidFFModalHeading,
-												FidFFModalLabel,
-												unvestModalButton,
-											);
-										}}
-									>
-										<strike>Vest</strike>
-									</button>
+									
+									
 								</div>
 							</div>
 						</div>
 					</div>
 					<div className="stakeCard">
 						<div className="stakeCardHeader">
-							<div>Total Rewards</div>
+							<div>Total Points</div>
 						</div>
 						<div className="divider">
 							<hr />
@@ -1228,61 +1197,27 @@ function Dashboard() {
 								<div>USDC</div>
 							</div>
 							<div>
-								<div>${totalFeeClaimableRewards}</div>
+								<div>{totalFeeClaimableRewards}</div>
 							</div>
 						</div>
 						<div className="cardRow">
 							<div>
-								<div>FF</div>
+								<div>Tuto</div>
 							</div>
 							<div>
 								<div>{vestedFF}</div>
 							</div>
 						</div>
-						<div className="cardRow">
-							<div>
-								<div>Fiduciary FF</div>
-							</div>
-							<div>
-								<div>{totalFidFFClaimableRewards}</div>
-							</div>
-						</div>
-						<div className="cardRow">
-							<div>
-								<div>Multiplier Points APR</div>
-							</div>
-							<div>
-								<div>100%</div>
-							</div>
-						</div>
-						<div className="cardRow">
-							<div>
-								<div>Multiplier Points</div>
-							</div>
-							<div>
-								<div>{bonusClaimableRewards}</div>
-							</div>
-						</div>
-						<div className="cardRow">
-							<div>
-								<div>Staked Multiplier Points</div>
-							</div>
-							<div>
-								<div>{bnStakedAmounts}</div>
-							</div>
-						</div>
+						
+						
+
 						<div className="stakeCardFooter">
 							<div className="divider">
 								<hr />
 								<div className="cardRow">
 									<div className="cardRowButtons">
-										<button
-											type="button"
-											className="cardButton"
-											onClick={compound}
-										>
-											Compound
-										</button>
+										
+							
 										<button
 											type="button"
 											className="cardButton"
@@ -1296,7 +1231,7 @@ function Dashboard() {
 						</div>
 						<div className="stakeCardFF">
 							<div className="stakeCardHeader">
-								<div>FF</div>
+								<div>Tuto</div>
 							</div>
 							<div className="divider">
 								<hr />
@@ -1325,39 +1260,25 @@ function Dashboard() {
 									<div>{ffStakedAmounts}</div>
 								</div>
 							</div>
-							<div className="cardRow">
+							{/* <div className="cardRow">
 								<div>
 									<div>APR</div>
 								</div>
 								<div>
 									<div>{feeFFAPR}%</div>
 								</div>
-							</div>
+							</div> */}
 							<div className="cardRow">
 								<div>
-									<div>Rewards</div>
+									<div>Points</div>
 								</div>
 								<div>
-									<div>${ffClaimableRewards}</div>
+									<div>{ffClaimableRewards}</div>
 								</div>
 							</div>
-							<div className="cardRow">
-								<div>
-									<div>Boost Percentage</div>
-								</div>
-								<div>
-									<div>{boostPercentageAPR}%</div>
-								</div>
-							</div>
-							<div className="cardRow">
-								<div>
-									<div>Reserved for Vesting</div>
-								</div>
-								<div>
-									<div>{ffReserved}</div>
-								</div>
-							</div>
-							<br />
+							
+							
+					
 							<div className="cardRow">
 								<div>
 									<div>Total Staked</div>
@@ -1413,149 +1334,9 @@ function Dashboard() {
 							</div>
 						</div>
 					</div>
-					<div className="stakeCardFF">
-						<div className="stakeCardHeader">
-							<div>Fiduciary FF</div>
-						</div>
-						<div className="divider">
-							<hr />
-						</div>
-						<div className="cardRow">
-							<div>
-								<div>Price</div>
-							</div>
-							<div>
-								<div>Soon... I promise</div>
-							</div>
-						</div>
-						<div className="cardRow">
-							<div>
-								<div>Wallet</div>
-							</div>
-							<div>
-								<div>{fidFFAccountBalance}</div>
-							</div>
-						</div>
-						<div className="cardRow">
-							<div>
-								<div>Staked</div>
-							</div>
-							<div>
-								<div>{fidFFStakedAmounts}</div>
-							</div>
-						</div>
-						<div className="cardRow">
-							<div>
-								<div>APR</div>
-							</div>
-							<div>
-								<div>{feeFFAPR}%</div>
-							</div>
-						</div>
-						<div className="cardRow">
-							<div>
-								<div>Rewards</div>
-							</div>
-							<div>
-								<div>${ffClaimableRewards}</div>
-							</div>
-						</div>
-						<div className="cardRow">
-							<div>
-								<div>Vesting Status</div>
-							</div>
-							<div>
-								<div>{vestedStatus}%</div>
-							</div>
-						</div>
-						<div className="cardRow">
-							<div>
-								<div>FF Claimable</div>
-							</div>
-							<div>
-								<div>{vestedFF}</div>
-							</div>
-						</div>
-						<br />
-
-						<div className="cardRow">
-							<div>
-								<div>Total Staked</div>
-							</div>
-							<div>
-								<div>{fidFFTotalDepositSuply}</div>
-							</div>
-						</div>
-						<div className="cardRow">
-							<div>
-								<div>Total Supply</div>
-							</div>
-							<div>
-								<div>{fidFFSupply}</div>
-							</div>
-						</div>
-						<div className="stakeCardFooter">
-							<div className="divider">
-								<hr />
-							</div>
-							<div className="cardRow">
-								<div className="cardRowButtons">
-									<button
-										type="button"
-										className="cardButton"
-										onClick={() => {
-											toggleModal(
-												stakeFidFFModalHeading,
-												FidFFModalLabel,
-												stakeModalButton,
-											);
-										}}
-									>
-										Stake
-									</button>
-									<button
-										type="button"
-										className="cardButton"
-										onClick={() => {
-											toggleModal(
-												unstakeFidFFModalHeading,
-												FidFFModalLabel,
-												unstakeModalButton,
-											);
-										}}
-									>
-										Unstake
-									</button>
-									<button
-										type="button"
-										className="cardButton"
-										onClick={() => {
-											toggleModal(
-												vestFidFFModalHeading,
-												FidFFModalLabel,
-												vestModalButton,
-											);
-										}}
-									>
-										Vest
-									</button>
-									<button
-										type="button"
-										className="cardButton"
-										onClick={() => {
-											toggleModal(
-												unvestFidFFModalHeading,
-												FidFFModalLabel,
-												unvestModalButton,
-											);
-										}}
-									>
-										<strike>Vest</strike>
-									</button>
-								</div>
-							</div>
-						</div>
-					</div>
+					
+						
+					
 				</div>
 			</div>
 		</div>

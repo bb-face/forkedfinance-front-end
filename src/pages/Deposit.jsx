@@ -81,7 +81,19 @@ const Deposit = () => {
 	return (
 		<div className="max-w-md mx-auto my-10 p-6">
 			<div className="mb-4">
-				<h4 className="text-lg font-semibold">USDC In - 0.5% Fee...</h4>
+				<h4 className="text-lg font-semibold">Deposit USDC - 0.1% Fee</h4>
+			</div>
+			<div className="mb-4">
+				<input
+					className="w-full p-2 rounded outline-none focus:ring-2 focus:ring-blue-500"
+					placeholder="Amount"
+					type="number"
+					value={transferAmount}
+					onChange={changeAmount}
+				/>
+			</div>
+			<div className="mb-4">
+				<h4 className="text-lg font-semibold">Withdraw USDC - 0.1% Fee + Gas</h4>
 			</div>
 			<div className="mb-4">
 				<input

@@ -5,7 +5,7 @@ import { useRecoilValue } from "recoil";
 import { walletState } from "../state/wallet";
 import { useWallet } from "../customHooks/useWallet";
 
-import logo from "../assets/FF-logo.png";
+import logo from "../assets/Tuto.png";
 import Button from "../atoms/Button";
 import WalletAddress from "../atoms/WalletAddress";
 
@@ -26,6 +26,9 @@ export const Navbar = () => {
 				</Link>
 				<Link to="/dashboard">
 					<Button>Dashboard</Button>
+				</Link>
+				<Link to="/dashboard">
+					<Button>Airdrop</Button>
 				</Link>
 				<Link to="/deposit">
 					<Button>Deposit</Button>

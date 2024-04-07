@@ -226,7 +226,7 @@ const Transfer = () => {
 				onClick={transferBalance}
 				className="w-full bg-purple-600 text-white p-3 rounded hover:bg-purple-700 transition-colors"
 			>
-				Send
+				Tuto
 			</button>
 			<button type="button" onClick={validateBalanceTo}>
 				Not Sure?
