@@ -5,9 +5,9 @@ import { Link } from "react-router-dom";
 import { Input } from "antd";
 
 import usdcABI from "../assets/USDCABI.json";
-import fidFFABI from "../assets/FidFFABI.json";
-import vesterABI from "../assets/VesterABI.json";
-import usdcVesterABI from "../assets/UsdcVesterABI.json";
+
+
+
 
 import rewardRouterABI from "../assets/RewardRouterABI.json";
 import stableCoinTrackerABI from "../assets/StableCoinContractABI.json";
@@ -16,7 +16,7 @@ import stableCoinTrackerNoFeeABI from "../assets/StableCoinNoFeeABI.json";
 import rewardTrackerABI from "../assets/RewardTrackerABI.json";
 
 import distributorABI from "../assets/DistributorABI.json";
-import bonusDistributorABI from "../assets/BonusDistributorABI.json";
+
 
 import ffABI from "../assets/FfABI.json";
 
@@ -25,33 +25,22 @@ import { useGlobalContext } from "../context/context";
 const url = "https://server.forkedfinance.xyz";
 
 const ff = "0x00295670C7f8C501f58FA66f1a161a66A05ddC78";
-const fidFF = "0xDf133869576aBf53FfF6AFD663dcB77661F084bE";
-const bnFF = "0x024042e5F784bdD509f6Bd3f128Ec9A657aBD381";
+
 const USDCAddress = "0x55d030B2A681605b7a1E32d8D924EE124e9D01b7";
 const rewardRouter = "0x89E9B4AC2eD32a404c63FCCC507e7DD74E03bd4B";
 
 const feeUsdc = "0xD04f6170Db4B957502FC574049624f72DB64C4Ba";
-const stakedUsdc = "0x5451D3013Be5cf6504780c929c95149D2BF1B358";
-const usdcFeeDistributor = "0xf5fBe7654e9E380Be2f538C3cA2F1D6708E71B17";
-const usdcFidFFDistributor = "0xC3F202041e09AEb55307FD24AB086E78301991d3";
-
-const stakedFF = "0x66cd4d64a099dCF1D503C8d0BA01C805DB718afa";
-const bonusFF = "0xf1e9791b260488fFcC95ae98BB7113abC7BFcEe8";
 const feeFF = "0x81706c695834a6a087D2100B2e52eEeFB158bA7f";
-const stakedFFDistributor = "0x4219a25C2e464771D9557Ce03bc3641d964F1723";
-const bonusFFDistributor = "0x7688FeC08CD49Ecfb5BA41580C1CDeac6E3e4729";
-const feeFFDistributor = "0x21A75a664747BC289180F12c2F80f1Aa3ce105ca";
 
-const ffVester = "0xE26A190Db3c8686C3ed870b14a270e73105247fD";
-const usdcVester = "0xf26AB7062E90D0D39fA8964782016714D05a9E18";
+
+
 
 const usdcModalLabel = "USDC";
 const FFModalLabel = "FF";
-const FidFFModalLabel = "fidFF";
-const stakeModalButton = "Earn Fee and FidFF";
+
+
 const unstakeModalButton = "Stop Earning";
-const vestModalButton = "Vest FF";
-const unvestModalButton = "Stop vesting FF";
+
 
 const depositModalButton = "Deposit";
 const withdrawModalButton = "Withdraw";
@@ -59,12 +48,8 @@ const depositStablecoinModalHeading = "Deposit Stablecoin - 0.5% Fee";
 const withdrawStablecoinModalHeading = "Withdraw Stablecoin - 0.5% Fee";
 const stakeFFModalHeading = "Stake FF";
 const unstakeFFModalHeading = "Unstake FF";
-const stakeFidFFModalHeading = "Stake FidFF";
-const unstakeFidFFModalHeading = "Unstake FidFF";
-const vestFidFFModalHeading = "Reserve FF";
-const unvestFidFFModalHeading = "Release FF";
-const usdcVestFidFFModalHeading = "Reserve USDC";
-const usdcUnvestFidFFModalHeading = "Release USDC";
+
+
 
 const usdcDecimals = 10 ** 6;
 const decimals = 10 ** 18;
@@ -77,7 +62,7 @@ function Dashboard() {
 
 	const [amount, setAmount] = useState(null);
 	const [usdcAccountBalance, setUsdcAccountBalance] = useState(null);
-	const [fidFFAccountBalance, setFidFFAccountBalance] = useState(null);
+	
 
 	const [stableCoinStakedAmount, setStableCoinStakedAmount] = useState(null);
 	const [totalStableCoinStakedAmount, setTotalStableCoinStakedAmount] =
@@ -91,35 +76,18 @@ function Dashboard() {
 	const [balance, setBalance] = useState(null);
 	const [APR, setAPR] = useState(null);
 	const [feeFFAPR, setFeeFFAPR] = useState(null);
-	const [sUsdcFidFFAPR, setSUsdcFidFFAPR] = useState(null);
-	const [stakedFFFidFFAPR, setStakedFFFidFFAPR] = useState(null);
-
+	
 	const [ffClaimableRewards, setFFClaimableRewards] = useState(null);
 	const [usdcClaimableRewards, setUsdcClaimableRewards] = useState(null);
 	const [totalFeeClaimableRewards, setTotalFeeClaimableRewards] =
 		useState(null);
 
-	const [totalFidFFClaimableRewards, setTotalFidFFClaimableRewards] =
-		useState(null);
-	const [bonusClaimableRewards, setBonusClaimableRewards] = useState(null);
-
-	const [fidFFTotalDepositSuply, setFidFFTotalDepositSuply] = useState(null);
-
 	const [ffPrice, setFFPrice] = useState(null);
 	const [ffSupply, setFFSuply] = useState(null);
-	const [fidFFSupply, setFidFFSupply] = useState(null);
-
-	const [usdcReserved, setUsdcReserved] = useState(null);
-	const [ffReserved, setFFReserved] = useState(null);
-	const [vestedFF, setVestedFF] = useState(null);
-	const [vestedStatus, setVestedStatus] = useState(null);
-
+		
 	const [ffBalance, setFFBalance] = useState(null);
 	const [ffStakedAmounts, setFFStakedAmounts] = useState(null);
-	const [bnStakedAmounts, setBnStakedAmounts] = useState(null);
-	const [fidFFStakedAmounts, setFidFFStakedAmounts] = useState(null);
-	const [boostPercentageAPR, setBoostPercentageAPR] = useState(0);
-
+	
 	const [ffTotalStakedAmounts, setFFTotalStakedAmounts] = useState(null);
 
 	function changeAmount(e) {
@@ -139,24 +107,9 @@ function Dashboard() {
 		if (modalHeading === unstakeFFModalHeading) {
 			unstakeFF();
 		}
-		if (modalHeading === stakeFidFFModalHeading) {
-			stakeFidFF();
-		}
-		if (modalHeading === unstakeFidFFModalHeading) {
-			unstakeFidFF();
-		}
-		if (modalHeading === usdcVestFidFFModalHeading) {
-			usdcVest();
-		}
-		if (modalHeading === usdcUnvestFidFFModalHeading) {
-			usdcUnvest();
-		}
-		if (modalHeading === vestFidFFModalHeading) {
-			ffVest();
-		}
-		if (modalHeading === unvestFidFFModalHeading) {
-			ffUnvest();
-		}
+		
+		
+		
 	}
 
 	const depositUSDC = async () => {
@@ -339,97 +292,8 @@ function Dashboard() {
 			}
 		}
 	};
-	const stakeFidFF = async () => {
-		if (window.ethereum?.isMetaMask) {
-			const provider = new ethers.providers.Web3Provider(window.ethereum);
-			const network = await provider.getNetwork();
-			const currentAddress = await provider
-				.getSigner()
-				.getAddress()
-				.catch((e) => {
-					if (e.code === 4001) {
-						console.log("Rejected");
-					}
-				});
-			const signer = provider.getSigner();
-
-			if (network.chainId === 5) {
-				const contractRewardRouter = new ethers.Contract(
-					rewardRouter,
-					rewardRouterABI,
-					signer,
-				);
-				const fidFFContract = new ethers.Contract(fidFF, fidFFABI, signer);
-				const allowance = await fidFFContract.allowance(
-					currentAddress,
-					stakedFF,
-				);
-				const parsedAllowance = JSON.parse(allowance);
-
-				if (amount > parsedAllowance) {
-					const approveAmount =
-						"115792089237316195423570985008687907853269984665640564039457584007913129639935";
-					await fidFFContract
-						.approve(stakedFF, approveAmount)
-						.then((tx) => {})
-						.catch((e) => {
-							if (e.code === 4001) {
-								console.log("Rejected");
-							}
-						});
-				} else {
-					const parsedUnit = ethers.utils.parseUnits(amount, 18);
-
-					await contractRewardRouter
-						.stakeFidFF(parsedUnit)
-						.then((tx) => {
-							//do whatever you want with tx
-						})
-						.catch((e) => {
-							if (e.code === 4001) {
-								console.log("Rejected");
-							}
-						});
-				}
-			}
-		}
-	};
-	const unstakeFidFF = async () => {
-		if (window.ethereum?.isMetaMask) {
-			const provider = new ethers.providers.Web3Provider(window.ethereum);
-			const network = await provider.getNetwork();
-			const currentAddress = await provider
-				.getSigner()
-				.getAddress()
-				.catch((e) => {
-					if (e.code === 4001) {
-						console.log("Rejected");
-					}
-				});
-			const signer = provider.getSigner();
-
-			if (network.chainId === 5) {
-				const contractRewardRouter = new ethers.Contract(
-					rewardRouter,
-					rewardRouterABI,
-					signer,
-				);
-
-				const parsedUnit = ethers.utils.parseUnits(amount, 18);
-
-				await contractRewardRouter
-					.unstakeFidFF(parsedUnit)
-					.then((tx) => {
-						//do whatever you want with tx
-					})
-					.catch((e) => {
-						if (e.code === 4001) {
-							console.log("Rejected");
-						}
-					});
-			}
-		}
-	};
+	
+	
 	const compound = async () => {
 		if (window.ethereum?.isMetaMask) {
 			const provider = new ethers.providers.Web3Provider(window.ethereum);
@@ -499,144 +363,7 @@ function Dashboard() {
 		}
 	};
 
-	const usdcVest = async () => {
-		if (window.ethereum?.isMetaMask) {
-			const provider = new ethers.providers.Web3Provider(window.ethereum);
-			const network = await provider.getNetwork();
-			const currentAddress = await provider
-				.getSigner()
-				.getAddress()
-				.catch((e) => {
-					if (e.code === 4001) {
-						console.log("Rejected");
-					}
-				});
-			const signer = provider.getSigner();
-
-			if (network.chainId === 5) {
-				const vesterContract = new ethers.Contract(
-					usdcVester,
-					usdcVesterABI,
-					signer,
-				);
-
-				const parsedAmount = ethers.utils.parseUnits(amount, 18);
-
-				await vesterContract
-					.deposit(parsedAmount)
-					.then((tx) => {
-						console.log(tx.hash);
-
-						//do whatever you want with tx
-					})
-					.catch((e) => {
-						if (e.code === 4001) {
-							console.log("Rejected");
-						}
-					});
-			}
-		}
-	};
-	const usdcUnvest = async () => {
-		if (window.ethereum?.isMetaMask) {
-			const provider = new ethers.providers.Web3Provider(window.ethereum);
-			const network = await provider.getNetwork();
-			const currentAddress = await provider
-				.getSigner()
-				.getAddress()
-				.catch((e) => {
-					if (e.code === 4001) {
-						console.log("Rejected");
-					}
-				});
-			const signer = provider.getSigner();
-
-			if (network.chainId === 5) {
-				const vesterContract = new ethers.Contract(
-					usdcVester,
-					usdcVesterABI,
-					signer,
-				);
-
-				// const parsedAmount = ethers.utils.parseUnits(amount, 18);
-
-				await vesterContract
-					.withdraw()
-					.then((tx) => {
-						//do whatever you want with tx
-					})
-					.catch((e) => {
-						if (e.code === 4001) {
-							console.log("Rejected");
-						}
-					});
-			}
-		}
-	};
-	const ffVest = async () => {
-		if (window.ethereum?.isMetaMask) {
-			const provider = new ethers.providers.Web3Provider(window.ethereum);
-			const network = await provider.getNetwork();
-			const currentAddress = await provider
-				.getSigner()
-				.getAddress()
-				.catch((e) => {
-					if (e.code === 4001) {
-						console.log("Rejected");
-					}
-				});
-			const signer = provider.getSigner();
-
-			if (network.chainId === 5) {
-				const vesterContract = new ethers.Contract(ffVester, vesterABI, signer);
-
-				const parsedAmount = ethers.utils.parseUnits(amount, 18);
-
-				await vesterContract
-					.deposit(parsedAmount)
-					.then((tx) => {
-						//do whatever you want with tx
-					})
-					.catch((e) => {
-						if (e.code === 4001) {
-							console.log("Rejected");
-						}
-					});
-			}
-		}
-	};
-
-	const ffUnvest = async () => {
-		if (window.ethereum?.isMetaMask) {
-			const provider = new ethers.providers.Web3Provider(window.ethereum);
-			const network = await provider.getNetwork();
-			const currentAddress = await provider
-				.getSigner()
-				.getAddress()
-				.catch((e) => {
-					if (e.code === 4001) {
-						console.log("Rejected");
-					}
-				});
-			const signer = provider.getSigner();
-
-			if (network.chainId === 5) {
-				const vesterContract = new ethers.Contract(ffVester, vesterABI, signer);
-
-				await vesterContract
-					.withdraw()
-					.then((tx) => {
-						//do whatever you want with tx
-					})
-					.catch((e) => {
-						if (e.code === 4001) {
-							console.log("Rejected");
-						}
-					});
-			}
-		}
-	};
-
+	
 	const getAccountContractsData = async () => {
 		if (window.ethereum?.isMetaMask) {
 			const provider = new ethers.providers.Web3Provider(window.ethereum);
@@ -679,18 +406,14 @@ function Dashboard() {
 				// Trackers
 
 				const usdcContract = new ethers.Contract(USDCAddress, usdcABI, signer);
-				const fidFFContract = new ethers.Contract(fidFF, fidFFABI, signer);
+				
 
 				const usdcFeeTrackerContract = new ethers.Contract(
 					feeUsdc,
 					stableCoinTrackerABI,
 					signer,
 				);
-				const usdcFidFFTrackerContract = new ethers.Contract(
-					stakedUsdc,
-					stableCoinTrackerNoFeeABI,
-					signer,
-				);
+				
 
 				const stakedFFContract = new ethers.Contract(
 					stakedFF,
@@ -702,11 +425,7 @@ function Dashboard() {
 					rewardTrackerABI,
 					signer,
 				);
-				const bonusTrackerContract = new ethers.Contract(
-					bonusFF,
-					rewardTrackerABI,
-					signer,
-				);
+				
 
 				const currentUsdcBalance = await usdcContract.balanceOf(currentAddress);
 				const parsedUsdcBalance = ethers.utils.formatUnits(
@@ -715,36 +434,18 @@ function Dashboard() {
 				);
 				setUsdcAccountBalance(Math.round(parsedUsdcBalance * 10) / 10);
 
-				const currentFidFFBalance =
-					await fidFFContract.balanceOf(currentAddress);
-				setFidFFAccountBalance(
-					Math.round(ethers.utils.formatEther(currentFidFFBalance) * 10) / 10,
-				);
+				
 
 				const currentUsdcStaked =
 					await usdcFeeTrackerContract.stakedAmounts(currentAddress);
 
-				// FidFF to claim
+				
 
-				const usdcClaimableFidFFReward =
-					await usdcFidFFTrackerContract.claimable(currentAddress);
-
-				const ffClaimableFidFFReward =
-					await stakedFFContract.claimable(currentAddress);
-
-				setTotalFidFFClaimableRewards(
-					Math.round(
-						(parseFloat(ethers.utils.formatEther(usdcClaimableFidFFReward)) +
-							parseFloat(ethers.utils.formatEther(ffClaimableFidFFReward))) *
-							10,
-					) / 10,
-				);
+				
 
 				//.................................................................
 
-				const claimableBonusReward =
-					await bonusTrackerContract.claimable(currentAddress);
-				setBonusClaimableRewards(formatErc(claimableBonusReward));
+				
 
 				const claimableUsdcFeeReward =
 					await usdcFeeTrackerContract.claimable(currentAddress);
@@ -764,36 +465,9 @@ function Dashboard() {
 					await feeFFTrackerContract.claimable(currentAddress);
 				setFFClaimableRewards(formatUsdc(claimableFFFeeReward));
 
-				const fidFFStakedBalance = await stakedFFContract.depositBalances(
-					currentAddress,
-					fidFF,
-				);
+				
 
-				setFidFFStakedAmounts(
-					Math.round(ethers.utils.formatEther(fidFFStakedBalance) * 10) / 10,
-				);
-
-				const bnStakedBalance = await feeFFTrackerContract.depositBalances(
-					currentAddress,
-					bnFF,
-				);
-				setBnStakedAmounts(
-					Math.round(ethers.utils.formatEther(bnStakedBalance) * 10) / 10,
-				);
-
-				const boostPercentage =
-					(100 * parseInt(ethers.utils.formatEther(bnStakedBalance))) /
-					parseInt(
-						ethers.utils.formatEther(ffStakedAmount) +
-							parseInt(ethers.utils.formatEther(fidFFStakedBalance)),
-					);
-
-				if (!boostPercentage) {
-					setBoostPercentageAPR("0");
-				} else {
-					setBoostPercentageAPR(Math.round(boostPercentage * 10) / 10);
-				}
-
+				
 				// Tokens
 
 				const ffContract = new ethers.Contract(ff, ffABI, signer);
@@ -820,19 +494,9 @@ function Dashboard() {
 					signer,
 				);
 
-				const fidFFdistributor = new ethers.Contract(
-					usdcFidFFDistributor,
-					distributorABI,
-					signer,
-				);
-				const fidFFRewards = await fidFFdistributor.pendingRewards();
+				
 
-				const bonusDistributor = new ethers.Contract(
-					bonusFFDistributor,
-					bonusDistributorABI,
-					signer,
-				);
-				const pendingBonusReward = await bonusDistributor.pendingRewards();
+				
 
 				setTotalFeeClaimableRewards(
 					Math.round(
@@ -842,51 +506,10 @@ function Dashboard() {
 					) / 10,
 				);
 
-				// Vesters
+				
+				
 
-				const usdcVesterContract = await signerContract(
-					usdcVester,
-					usdcVesterABI,
-				);
-				const ffVesterContract = await signerContract(ffVester, vesterABI);
-
-				const usdcVestedFF = await usdcVesterContract.claimable(currentAddress);
-				const ffVestedFF = await ffVesterContract.claimable(currentAddress);
-
-				const getUsdcVestedAmount =
-					await usdcVesterContract.getVestedAmount(currentAddress);
-				const getUsdcPairAmount = await usdcVesterContract.getPairAmount(
-					currentAddress,
-					getUsdcVestedAmount,
-				);
-
-				const getFFVestedAmount =
-					await ffVesterContract.getVestedAmount(currentAddress);
-
-				const getFFPairAmount = await ffVesterContract.getPairAmount(
-					currentAddress,
-					getFFVestedAmount,
-				);
-
-				setUsdcReserved(formatErc(getUsdcPairAmount));
-				setFFReserved(formatErc(getFFPairAmount));
-				setVestedFF(
-					Math.round((formatErc(usdcVestedFF) + formatErc(ffVestedFF)) * 10) /
-						10,
-				);
-
-				if (formatErc(usdcVestedFF) + formatErc(ffVestedFF) === 0) {
-					setVestedStatus("0");
-				} else {
-					setVestedStatus(
-						Math.round(
-							((100 * (formatErc(usdcVestedFF) + formatErc(ffVestedFF))) /
-								(formatErc(getUsdcVestedAmount) +
-									formatErc(getFFVestedAmount))) *
-								10,
-						) / 10,
-					);
-				}
+				
 			}
 		}
 	};
@@ -916,11 +539,7 @@ function Dashboard() {
 				feeUsdc,
 				stableCoinTrackerABI,
 			);
-			const stableCoinFidFFTrackerContract = await providerContract(
-				stakedUsdc,
-				stableCoinTrackerNoFeeABI,
-			);
-
+			
 			const stakedFFContract = await providerContract(
 				stakedFF,
 				rewardTrackerABI,
@@ -928,39 +547,11 @@ function Dashboard() {
 
 			const feeFFTracker = await providerContract(feeFF, stableCoinTrackerABI);
 
-			const sUsdcSupply = await stableCoinFidFFTrackerContract.totalSupply();
-			const sUsdcTPI = await stableCoinFidFFTrackerContract.tokensPerInterval();
+			
 			const sFFSupply = await stakedFFContract.totalSupply();
 			const sFFTPI = await stakedFFContract.tokensPerInterval();
 
-			setSUsdcFidFFAPR(
-				Math.round(
-					((parseFloat(ethers.utils.formatEther(sUsdcTPI)) * secondsPerYear) /
-						formatUsdc(sUsdcSupply)) *
-						1000,
-				) / 10,
-			);
-
-			setStakedFFFidFFAPR(
-				Math.round(
-					((parseFloat(ethers.utils.formatEther(sFFTPI)) * secondsPerYear) /
-						formatErc(sFFSupply)) *
-						1000,
-				) / 10,
-			);
-
-			const fidFFTotalStaked = await stakedFFContract.totalDepositSupply(fidFF);
-			setFidFFTotalDepositSuply(
-				Math.round(ethers.utils.formatEther(fidFFTotalStaked) * 10) / 10,
-			);
-
-			const fidFFContract = await providerContract(fidFF, fidFFABI);
-
-			const fidFFTotalSupply = await fidFFContract.totalSupply();
-			setFidFFSupply(Math.round(ethers.utils.formatEther(fidFFTotalSupply)));
-
-			const ffTotalStaked = await stakedFFContract.totalDepositSupply(ff);
-			setFFTotalStakedAmounts(formatErc(ffTotalStaked));
+			
 
 			const totalStableCoinStaked =
 				await stableCoinTrackerContract.totalDepositSupply(USDCAddress);
@@ -1204,9 +795,7 @@ function Dashboard() {
 							<div>
 								<div>Tuto</div>
 							</div>
-							<div>
-								<div>{vestedFF}</div>
-							</div>
+							
 						</div>
 						
 						

@@ -31,7 +31,7 @@ export const Navbar = () => {
 					<Button>Airdrop</Button>
 				</Link>
 				<Link to="/deposit">
-					<Button>Deposit</Button>
+					<Button>Merchants</Button>
 				</Link>
 				<Link to="/transfer">
 					<Button>Transfer</Button>
