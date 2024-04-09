@@ -7,10 +7,9 @@ import App from "./App.jsx";
 import "./index.css";
 import { AppProvider } from "./context/context.jsx";
 import Transfer from "./pages/Transfer.jsx";
-import Deposit from "./pages/Deposit.jsx";
-import Withdraw from "./pages/Withdraw.jsx";
 import Dashboard from "./pages/Dashboard.jsx";
 import Home from "./pages/Home.jsx";
+import Merchants from "./pages/Merchants.jsx";
 
 const router = createBrowserRouter([
 	{
@@ -26,16 +25,12 @@ const router = createBrowserRouter([
 				element: <Transfer />,
 			},
 			{
-				path: "deposit",
-				element: <Deposit />,
-			},
-			{
-				path: "withdraw",
-				element: <Withdraw />,
-			},
-			{
 				path: "dashboard",
 				element: <Dashboard />,
+			},
+			{
+				path: "merchants",
+				element: <Merchants />,
 			},
 		],
 	},

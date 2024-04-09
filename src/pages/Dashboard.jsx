@@ -11,13 +11,9 @@ import usdcABI from "../assets/USDCABI.json";
 
 import rewardRouterABI from "../assets/RewardRouterABI.json";
 import stableCoinTrackerABI from "../assets/StableCoinContractABI.json";
-import stableCoinTrackerNoFeeABI from "../assets/StableCoinNoFeeABI.json";
+
 
 import rewardTrackerABI from "../assets/RewardTrackerABI.json";
-
-import distributorABI from "../assets/DistributorABI.json";
-
-
 import ffABI from "../assets/FfABI.json";
 
 import { useGlobalContext } from "../context/context";
@@ -32,16 +28,11 @@ const rewardRouter = "0x89E9B4AC2eD32a404c63FCCC507e7DD74E03bd4B";
 const feeUsdc = "0xD04f6170Db4B957502FC574049624f72DB64C4Ba";
 const feeFF = "0x81706c695834a6a087D2100B2e52eEeFB158bA7f";
 
-
-
-
 const usdcModalLabel = "USDC";
 const FFModalLabel = "FF";
 
 
 const unstakeModalButton = "Stop Earning";
-
-
 const depositModalButton = "Deposit";
 const withdrawModalButton = "Withdraw";
 const depositStablecoinModalHeading = "Deposit Stablecoin - 0.5% Fee";
@@ -415,11 +406,6 @@ function Dashboard() {
 				);
 				
 
-				const stakedFFContract = new ethers.Contract(
-					stakedFF,
-					rewardTrackerABI,
-					signer,
-				);
 				const feeFFTrackerContract = new ethers.Contract(
 					feeFF,
 					rewardTrackerABI,
@@ -453,13 +439,7 @@ function Dashboard() {
 				setUsdcClaimableRewards(formatUsdc(claimableUsdcFeeReward));
 				setStableCoinStakedAmount(formatUsdc(currentUsdcStaked));
 
-				const ffStakedAmount = await stakedFFContract.depositBalances(
-					currentAddress,
-					ff,
-				);
-				setFFStakedAmounts(
-					Math.round(ethers.utils.formatEther(ffStakedAmount) * 10) / 10,
-				);
+	
 
 				const claimableFFFeeReward =
 					await feeFFTrackerContract.claimable(currentAddress);
@@ -481,19 +461,7 @@ function Dashboard() {
 				}
 
 				// Distributors
-				const stableFeeDistributor = new ethers.Contract(
-					usdcFeeDistributor,
-					distributorABI,
-					signer,
-				);
-				const stableRewards = await stableFeeDistributor.pendingRewards();
-
-				const ffFeeDistributor = new ethers.Contract(
-					feeFFDistributor,
-					distributorABI,
-					signer,
-				);
-
+				
 				
 
 				
@@ -540,19 +508,12 @@ function Dashboard() {
 				stableCoinTrackerABI,
 			);
 			
-			const stakedFFContract = await providerContract(
-				stakedFF,
-				rewardTrackerABI,
-			);
+			
 
 			const feeFFTracker = await providerContract(feeFF, stableCoinTrackerABI);
 
 			
-			const sFFSupply = await stakedFFContract.totalSupply();
-			const sFFTPI = await stakedFFContract.tokensPerInterval();
-
-			
-
+	
 			const totalStableCoinStaked =
 				await stableCoinTrackerContract.totalDepositSupply(USDCAddress);
 

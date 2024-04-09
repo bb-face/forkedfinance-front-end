@@ -30,11 +30,11 @@ export const Navbar = () => {
 				<Link to="/dashboard">
 					<Button>Airdrop</Button>
 				</Link>
-				<Link to="/deposit">
-					<Button>Merchants</Button>
-				</Link>
 				<Link to="/transfer">
 					<Button>Transfer</Button>
+				</Link>
+				<Link to="/merchants">
+					<Button>Merchants</Button>
 				</Link>
 				<div>
 					{wallet.isConnected ? (
