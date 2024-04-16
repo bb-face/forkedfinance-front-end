@@ -448,7 +448,7 @@ function Dashboard() {
   };
   const getContractsData = async () => {
     const provider = new ethers.providers.JsonRpcProvider(
-      `https://eth-goerli.g.alchemy.com/v2/${process.env.REACT_APP_ALCHEMY_KEY}`
+      `https://eth-goerli.g.alchemy.com/v2/${import.meta.env.VITE_ALCHEMY_KEY}`
     );
     const network = await provider.getNetwork();
 
