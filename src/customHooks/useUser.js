@@ -1,15 +1,16 @@
 import axios from "axios";
-import React, { useContext, useState, useEffect } from "react";
+import { useRecoilState } from "recoil";
 import { ethers } from "ethers";
 
-const AppContext = React.createContext();
+import { userState } from "../state/user";
+import { isLoadingState } from "../state/isLoading";
 
-function AppProvider({ children }) {
-  const [isLoading, setIsLoading] = useState(true);
-  const [user, setUser] = useState(null);
+export const useUserManagement = () => {
+  const [user, setUser] = useRecoilState(userState);
+  const [isLoading, setIsLoading] = useRecoilState(isLoadingState);
 
-  const saveUser = (user) => {
-    setUser(user);
+  const saveUser = (userData) => {
+    setUser(userData);
   };
 
   const removeUser = () => {
@@ -17,6 +18,7 @@ function AppProvider({ children }) {
   };
 
   const fetchUser = async () => {
+    setIsLoading(true);
     try {
       if (window.ethereum?.isMetaMask) {
         const provider = new ethers.providers.Web3Provider(window.ethereum);
@@ -46,25 +48,11 @@ function AppProvider({ children }) {
     setIsLoading(false);
   };
 
-  useEffect(() => {
-    fetchUser();
-  }, [fetchUser]);
-
-  return (
-    <AppContext.Provider
-      value={{
-        isLoading,
-        saveUser,
-        user,
-      }}
-    >
-      {children}
-    </AppContext.Provider>
-  );
-}
-// make sure use
-export const useGlobalContext = () => {
-  return useContext(AppContext);
+  return {
+    isLoading,
+    user,
+    saveUser,
+    removeUser,
+    fetchUser,
+  };
 };
-
-export { AppProvider };

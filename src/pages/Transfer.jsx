@@ -4,13 +4,14 @@ import { Input, Popover } from "antd";
 import { WalletTwoTone } from "@ant-design/icons";
 import { ethers } from "ethers";
 
-import { useGlobalContext } from "../context/context";
 import useLocalState from "../utils/localState";
+import { useUserManagement } from "../customHooks/useUser";
 
 const url = "https://server.forkedfinance.xyz";
 
 const Transfer = () => {
-  const { user } = useGlobalContext();
+  const { user } = useUserManagement();
+
   const [transferTo, settransferTo] = useState(null);
   const [transferAmount, setTransferAmount] = useState(null);
   const [balance, setBalance] = useState(null);
