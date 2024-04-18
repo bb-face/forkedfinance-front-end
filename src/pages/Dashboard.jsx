@@ -1,36 +1,33 @@
 import { useEffect, useState } from "react";
-
+import { useSetRecoilState, useRecoilValue } from "recoil";
 import { ethers } from "ethers";
 
-import usdcABI from "../assets/USDCABI.json";
-
 import stableCoinTrackerABI from "../assets/StableCoinContractABI.json";
-import rewardTrackerABI from "../assets/RewardTrackerABI.json";
 import ffABI from "../assets/FfABI.json";
 
 import DepositUSDC from "../components/Dashboard/DepositUSDC";
 import Tuto from "../components/Dashboard/Tuto";
 import AvailableBalance from "../components/Dashboard/AvailableBalance";
 import { useUserManagement } from "../customHooks/useUser";
+import { walletAddressAtom } from "../state/wallet";
+import { formatUsdc, formatErc } from "../utils/formatBalance";
+import { getProviderSigner } from "../utils/getProviderSignerNetwork";
 
-const url = "https://server.forkedfinance.xyz";
+import { secondsPerYear, feeFF, feeUsdc } from "../costant/prod-costant";
+import { chainIdAtom } from "../state/network";
+import { errorAtom } from "../state/error";
+import { getUsdcContract } from "../utils/getUsdcContract";
+import { getUsdcFeeContract } from "../utils/getUsdcFeeContract";
+import { getFeeFFTrackerContract } from "../utils/getFeeFFTrackerContract";
 
-const ff = "0x00295670C7f8C501f58FA66f1a161a66A05ddC78";
-
-const USDCAddress = "0x55d030B2A681605b7a1E32d8D924EE124e9D01b7";
-
-const feeUsdc = "0xD04f6170Db4B957502FC574049624f72DB64C4Ba";
-const feeFF = "0x81706c695834a6a087D2100B2e52eEeFB158bA7f";
-
-const usdcDecimals = 10 ** 6;
-const decimals = 10 ** 18;
-const secondsPerYear = 31536000;
+async function providerContract(address, ABI) {
+  return new ethers.Contract(address, ABI, provider);
+}
 
 function Dashboard() {
   const { user } = useUserManagement();
-
-  const [currentAccount, setCurrentAccount] = useState(null);
-  const [shortCurrentAccount, setShortCurrentAccount] = useState(null);
+  const chainId = useRecoilValue(chainIdAtom);
+  const setError = useSetRecoilState(errorAtom);
 
   const [usdcAccountBalance, setUsdcAccountBalance] = useState(null);
 
@@ -54,169 +51,107 @@ function Dashboard() {
 
   const [ffTotalStakedAmounts, setFFTotalStakedAmounts] = useState(null);
 
+  const currentAddress = useRecoilValue(walletAddressAtom);
+
   const getAccountContractsData = async () => {
-    if (window.ethereum?.isMetaMask) {
-      const provider = new ethers.providers.Web3Provider(window.ethereum);
-      const network = await provider.getNetwork();
-      await provider.send("eth_requestAccounts");
-      const currentAddress = await provider
-        .getSigner()
-        .getAddress()
-        .catch((e) => {
-          if (e.code === 4001) {
-            console.log("Rejected");
-          }
-        });
+    const { signer } = await getProviderSigner();
 
-      setCurrentAccount(currentAddress);
-      setShortCurrentAccount(
-        `${currentAddress.slice(0, 7)}...${currentAddress.slice(36)}`
-      );
-      const signer = provider.getSigner();
-
-      async function signerContract(address, ABI) {
-        return new ethers.Contract(address, ABI, signer);
-      }
-
-      function formatUsdc(chainOutput) {
-        return (
-          Math.round(
-            parseFloat(ethers.utils.formatUnits(chainOutput, 6)) * 10
-          ) / 10
-        );
-      }
-      function formatErc(chainOutput) {
-        return (
-          Math.round(parseFloat(ethers.utils.formatEther(chainOutput)) * 10) /
-          10
-        );
-      }
-
-      if (network.chainId === 5) {
-        // Trackers
-
-        const usdcContract = new ethers.Contract(USDCAddress, usdcABI, signer);
-
-        const usdcFeeTrackerContract = new ethers.Contract(
-          feeUsdc,
-          stableCoinTrackerABI,
-          signer
-        );
-
-        const feeFFTrackerContract = new ethers.Contract(
-          feeFF,
-          rewardTrackerABI,
-          signer
-        );
-
-        const currentUsdcBalance = await usdcContract.balanceOf(currentAddress);
-        const parsedUsdcBalance = ethers.utils.formatUnits(
-          JSON.parse(currentUsdcBalance, null, 2),
-          6
-        );
-        setUsdcAccountBalance(Math.round(parsedUsdcBalance * 10) / 10);
-
-        const currentUsdcStaked = await usdcFeeTrackerContract.stakedAmounts(
-          currentAddress
-        );
-
-        //.................................................................
-
-        const claimableUsdcFeeReward = await usdcFeeTrackerContract.claimable(
-          currentAddress
-        );
-
-        setUsdcClaimableRewards(formatUsdc(claimableUsdcFeeReward));
-        setStableCoinStakedAmount(formatUsdc(currentUsdcStaked));
-
-        const claimableFFFeeReward = await feeFFTrackerContract.claimable(
-          currentAddress
-        );
-        setFFClaimableRewards(formatUsdc(claimableFFFeeReward));
-
-        // Tokens
-
-        const ffContract = new ethers.Contract(ff, ffABI, signer);
-        const ffAccountBalance = await ffContract.balanceOf(currentAddress);
-        if (!ffAccountBalance) {
-          setFFBalance("0");
-        } else {
-          setFFBalance(
-            Math.round(ethers.utils.formatEther(ffAccountBalance) * 10) / 10
-          );
-        }
-
-        setTotalFeeClaimableRewards(
-          Math.round(
-            (formatUsdc(claimableUsdcFeeReward) +
-              formatUsdc(claimableFFFeeReward)) *
-              10
-          ) / 10
-        );
-      }
+    if (chainId !== 5) {
+      setError("Wrong network");
+      return;
     }
+
+    const usdcContract = getUsdcContract(signer);
+    const usdcFeeTrackerContract = getUsdcFeeContract(signer);
+    const feeFFTrackerContract = getFeeFFTrackerContract(signer);
+
+    const currentUsdcBalance = await usdcContract.balanceOf(currentAddress);
+    const parsedUsdcBalance = ethers.utils.formatUnits(
+      JSON.parse(currentUsdcBalance, null, 2),
+      6
+    );
+
+    setUsdcAccountBalance(Math.round(parsedUsdcBalance * 10) / 10);
+
+    const currentUsdcStaked = await usdcFeeTrackerContract.stakedAmounts(
+      currentAddress
+    );
+    const claimableUsdcFeeReward = await usdcFeeTrackerContract.claimable(
+      currentAddress
+    );
+    const claimableFFFeeReward = await feeFFTrackerContract.claimable(
+      currentAddress
+    );
+
+    setUsdcClaimableRewards(formatUsdc(claimableUsdcFeeReward));
+    setStableCoinStakedAmount(formatUsdc(currentUsdcStaked));
+    setFFClaimableRewards(formatUsdc(claimableFFFeeReward));
+
+    const ffContract = new ethers.Contract(ff, ffABI, signer);
+    const ffAccountBalance = await ffContract.balanceOf(currentAddress);
+
+    console.log("-- here");
+    console.log(ffAccountBalance);
+
+    if (!ffAccountBalance) {
+      setFFBalance("0");
+    } else {
+      setFFBalance(formatErc(ffAccountBalance));
+    }
+
+    setTotalFeeClaimableRewards(
+      Math.round(
+        (formatUsdc(claimableUsdcFeeReward) +
+          formatUsdc(claimableFFFeeReward)) *
+          10
+      ) / 10
+    );
   };
 
   const getContractsData = async () => {
     const provider = new ethers.providers.JsonRpcProvider(
       `https://eth-goerli.g.alchemy.com/v2/${import.meta.env.VITE_ALCHEMY_KEY}`
     );
-    const network = await provider.getNetwork();
 
-    async function providerContract(address, ABI) {
-      return new ethers.Contract(address, ABI, provider);
+    if (chainId !== 5) {
+      setError("Wrong network");
+      return;
     }
 
-    function formatUsdc(chainOutput) {
-      return (
-        Math.round(parseFloat(ethers.utils.formatUnits(chainOutput, 6)) * 10) /
-        10
-      );
-    }
-    function formatErc(chainOutput) {
-      return (
-        Math.round(parseFloat(ethers.utils.formatEther(chainOutput)) * 10) / 10
-      );
-    }
-    if (network.chainId === 5) {
-      const stableCoinTrackerContract = await providerContract(
-        feeUsdc,
-        stableCoinTrackerABI
-      );
+    const stableCoinTrackerContract = await providerContract(
+      feeUsdc,
+      stableCoinTrackerABI
+    );
+    const feeFFTracker = await providerContract(feeFF, stableCoinTrackerABI);
 
-      const feeFFTracker = await providerContract(feeFF, stableCoinTrackerABI);
+    const totalStableCoinStaked =
+      await stableCoinTrackerContract.totalDepositSupply(USDCAddress);
+    const feeTokensPerInterval =
+      await stableCoinTrackerContract.tokensPerInterval();
+    const tokensPerYear = feeTokensPerInterval * secondsPerYear;
 
-      const totalStableCoinStaked =
-        await stableCoinTrackerContract.totalDepositSupply(USDCAddress);
+    setTotalStableCoinStakedAmount(formatUsdc(totalStableCoinStaked));
+    setAPR(
+      Math.round(
+        (formatUsdc(tokensPerYear) / formatUsdc(totalStableCoinStaked)) * 1000
+      ) / 10
+    );
 
-      setTotalStableCoinStakedAmount(formatUsdc(totalStableCoinStaked));
+    const feeFFTotalSupply = await feeFFTracker.totalSupply();
+    const ffFeeTokensPerInterval = await feeFFTracker.tokensPerInterval();
+    const ffFeeAPR =
+      Math.round(
+        (formatUsdc(ffFeeTokensPerInterval * secondsPerYear) /
+          formatErc(feeFFTotalSupply)) *
+          1000
+      ) / 10;
 
-      const feeTokensPerInterval =
-        await stableCoinTrackerContract.tokensPerInterval();
-      const tokensPerYear = feeTokensPerInterval * secondsPerYear;
+    setFeeFFAPR(ffFeeAPR);
 
-      setAPR(
-        Math.round(
-          (formatUsdc(tokensPerYear) / formatUsdc(totalStableCoinStaked)) * 1000
-        ) / 10
-      );
+    const ffContract = new ethers.Contract(ff, ffABI, provider);
+    const ffTotalSupply = await ffContract.totalSupply();
 
-      const feeFFTotalSupply = await feeFFTracker.totalSupply();
-
-      const ffFeeTokensPerInterval = await feeFFTracker.tokensPerInterval();
-      const ffFeeAPR =
-        Math.round(
-          (formatUsdc(ffFeeTokensPerInterval * secondsPerYear) /
-            formatErc(feeFFTotalSupply)) *
-            1000
-        ) / 10;
-      setFeeFFAPR(ffFeeAPR);
-
-      const ffContract = new ethers.Contract(ff, ffABI, provider);
-
-      const ffTotalSupply = await ffContract.totalSupply();
-      setFFSupply(Math.round(ethers.utils.formatEther(ffTotalSupply)));
-    }
+    setFFSupply(Math.round(ethers.utils.formatEther(ffTotalSupply)));
   };
 
   const updateBalance = async () => {
@@ -228,9 +163,9 @@ function Dashboard() {
   };
 
   useEffect(() => {
-    updateBalance();
+    // updateBalance();
     getAccountContractsData();
-    getContractsData();
+    // getContractsData();
   }, [updateBalance, getAccountContractsData, getContractsData]);
 
   return (

@@ -9,6 +9,7 @@ import Transfer from "./pages/Transfer.jsx";
 import Dashboard from "./pages/Dashboard.jsx";
 import Home from "./pages/Home.jsx";
 import Merchants from "./pages/Merchants.jsx";
+import ErrorPopup from "./components/ErrorPopup.jsx";
 
 const router = createBrowserRouter([
   {
@@ -38,6 +39,7 @@ const router = createBrowserRouter([
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
     <RecoilRoot>
+      <ErrorPopup />
       <RouterProvider router={router} />
     </RecoilRoot>
   </React.StrictMode>
