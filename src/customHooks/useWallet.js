@@ -1,32 +1,79 @@
+import { useState, useEffect } from "react";
 import { useSetRecoilState } from "recoil";
-import { walletState } from "../state/wallet";
+import { ethers } from "ethers";
 
-export function useWallet() {
-	const setWallet = useSetRecoilState(walletState);
+import { walletAddressAtom } from "../state/wallet";
+import { chainIdAtom } from "../state/network";
 
-	const connectWallet = async () => {
-		if (window.ethereum) {
-			const addressArray = await window.ethereum.request({
-				method: "eth_requestAccounts",
-			});
-			const address = addressArray[0];
+function useConnectWallet() {
+  const setChainId = useSetRecoilState(chainIdAtom);
+  const setWalletAddress = useSetRecoilState(walletAddressAtom);
 
-			setWallet({
-				isConnected: true,
-				address: address,
-			});
-		} else {
-			console.error("Ethereum object doesn't exist!");
-		}
-	};
+  const [isLoading, setIsLoading] = useState(false);
 
-	const disconnectWallet = () => {
-		setWallet({
-			isConnected: false,
-			address: null,
-			balance: 0,
-		});
-	};
+  const handleAccountsChanged = (accounts) => {
+    const newAddress = accounts.length > 0 ? accounts[0] : null;
+    setWalletAddress(newAddress);
+  };
 
-	return { connectWallet, disconnectWallet };
+  const handleChainChanged = (chainId) => {
+    setChainId(chainId);
+  };
+
+  useEffect(() => {
+    let didMount = false;
+
+    const attachEventListeners = () => {
+      if (typeof window.ethereum !== "undefined") {
+        window.ethereum.on("accountsChanged", handleAccountsChanged);
+        window.ethereum.on("chainChanged", handleChainChanged);
+      }
+    };
+
+    const removeEventListeners = () => {
+      if (typeof window.ethereum !== "undefined") {
+        window.ethereum.removeListener(
+          "accountsChanged",
+          handleAccountsChanged
+        );
+        window.ethereum.removeListener("chainChanged", handleChainChanged);
+      }
+    };
+
+    if (!didMount) {
+      attachEventListeners();
+      didMount = true;
+    }
+
+    return () => {
+      removeEventListeners();
+    };
+  }, []);
+
+  const connectWallet = async () => {
+    setIsLoading(true);
+    try {
+      if (typeof window.ethereum !== "undefined") {
+        const provider = new ethers.providers.Web3Provider(window.ethereum);
+        await provider.send("eth_requestAccounts", []);
+
+        const signer = provider.getSigner();
+        const network = await provider.getNetwork();
+        const address = await signer.getAddress();
+
+        setChainId(network.chainId);
+        setWalletAddress(address);
+      } else {
+        console.log("-- no metamask installed");
+      }
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  return { connectWallet, isLoading };
 }
+
+export default useConnectWallet;

@@ -1,19 +1,19 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
-import { useRecoilValue } from "recoil";
+import { useRecoilState, useRecoilValue } from "recoil";
 
-import { useWallet } from "../customHooks/useWallet";
-import { walletState } from "../state/wallet";
+import useConnectWallet from "../customHooks/useWallet";
+import { walletAddressAtom } from "../state/wallet";
 
-import logo from "../assets/Tuto.png";
 import Button from "../atoms/Button";
 import WalletAddress from "../atoms/WalletAddress";
 
-export const Navbar = () => {
-  const wallet = useRecoilValue(walletState);
+import logo from "../assets/Tuto.png";
 
+export const Navbar = () => {
   const [error, setError] = useState(null);
-  const { connectWallet, disconnectWallet } = useWallet();
+  const { connectWallet } = useConnectWallet();
+  const walletAddress = useRecoilValue(walletAddressAtom);
 
   return (
     <header className="bg-primary text-white w-full py-4 px-8 fixed top-0 z-50">
@@ -37,14 +37,8 @@ export const Navbar = () => {
           <Button>Merchants</Button>
         </Link>
         <div>
-          {wallet.isConnected ? (
-            <button
-              type="button"
-              className="btn btn-small"
-              onClick={disconnectWallet}
-            >
-              Disconnect Wallet
-            </button>
+          {walletAddress ? (
+            <WalletAddress address={walletAddress} />
           ) : (
             <button
               type="button"
@@ -54,7 +48,6 @@ export const Navbar = () => {
               Connect Wallet
             </button>
           )}
-          {wallet.isConnected && <WalletAddress address={wallet.address} />}
         </div>
       </nav>
     </header>
