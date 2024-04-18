@@ -19,6 +19,7 @@ import { errorAtom } from "../state/error";
 import { getUsdcContract } from "../utils/getUsdcContract";
 import { getUsdcFeeContract } from "../utils/getUsdcFeeContract";
 import { getFeeFFTrackerContract } from "../utils/getFeeFFTrackerContract";
+import useConnectWallet from "../customHooks/useWallet";
 
 async function providerContract(address, ABI) {
   return new ethers.Contract(address, ABI, provider);
@@ -28,6 +29,7 @@ function Dashboard() {
   const { user } = useUserManagement();
   const chainId = useRecoilValue(chainIdAtom);
   const setError = useSetRecoilState(errorAtom);
+  const { connectWallet } = useConnectWallet();
 
   const [usdcAccountBalance, setUsdcAccountBalance] = useState(null);
 
@@ -52,14 +54,20 @@ function Dashboard() {
   const [ffTotalStakedAmounts, setFFTotalStakedAmounts] = useState(null);
 
   const currentAddress = useRecoilValue(walletAddressAtom);
+  const setWalletAddress = useSetRecoilState(walletAddressAtom);
 
   const getAccountContractsData = async () => {
-    const { signer } = await getProviderSigner();
+    const { signer } = await getProviderSigner(
+      currentAddress,
+      setWalletAddress
+    );
 
-    if (chainId !== 5) {
+    if (chainId !== 11155111) {
       setError("Wrong network");
       return;
     }
+
+    console.log("-- selected correct network");
 
     const usdcContract = getUsdcContract(signer);
     const usdcFeeTrackerContract = getUsdcFeeContract(signer);
@@ -163,10 +171,12 @@ function Dashboard() {
   };
 
   useEffect(() => {
+    console.log("-- chainId has changed");
+    console.log(chainId);
     // updateBalance();
     getAccountContractsData();
     // getContractsData();
-  }, [updateBalance, getAccountContractsData, getContractsData]);
+  }, [updateBalance, getAccountContractsData, getContractsData, chainId]);
 
   return (
     <div className="container mx-auto p-4">

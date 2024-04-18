@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useRecoilValue } from "recoil";
+import { useRecoilValue, useSetRecoilState } from "recoil";
 
 import { errorAtom } from "../state/error";
 import Error from "../atoms/Error";
@@ -7,14 +7,19 @@ import Error from "../atoms/Error";
 const ErrorPopup = () => {
   const [showPopup, setShowPopup] = useState(false);
   const error = useRecoilValue(errorAtom);
+  const setError = useSetRecoilState(errorAtom);
 
   useEffect(() => {
-    if (error) {
-      setShowPopup(true);
-      const timer = setTimeout(() => setShowPopup(false), 5000);
+    if (!error) return;
 
-      return () => clearTimeout(timer);
-    }
+    setShowPopup(true);
+
+    const timer = setTimeout(() => {
+      setShowPopup(false);
+      setError(null);
+    }, 5000);
+
+    return () => clearTimeout(timer);
   }, [error]);
 
   if (!showPopup) {

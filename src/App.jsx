@@ -5,8 +5,11 @@ import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
 
 import "./App.css";
+import useNetworkChange from "./customHooks/useNetworkChange";
 
 function App() {
+  useNetworkChange();
+
   return (
     <div className="flex flex-col min-h-screen">
       <Navbar />
