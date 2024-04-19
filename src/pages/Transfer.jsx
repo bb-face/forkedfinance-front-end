@@ -128,7 +128,6 @@ const Transfer = () => {
     e.preventDefault();
     setLoading(true);
     hideAlert();
-    console.log("test");
 
     console.log(import.meta.env.VITE_SERVER_URL);
     if (!transferTo) {

@@ -2,21 +2,19 @@ import { useEffect } from "react";
 import { useSetRecoilState } from "recoil";
 
 import { walletAddressAtom } from "../state/wallet";
-import { chainIdAtom } from "../state/network";
+import { useChainIdSetter } from "../state/network";
 
 function useNetworkChange() {
-  const setChainId = useSetRecoilState(chainIdAtom);
   const setWalletAddress = useSetRecoilState(walletAddressAtom);
+  const [_, setProcessedChainId] = useChainIdSetter();
 
   const handleAccountsChanged = (accounts) => {
-    console.log("-- account changing");
     const newAddress = accounts.length > 0 ? accounts[0] : null;
     setWalletAddress(newAddress);
   };
 
   const handleChainChanged = (chainId) => {
-    console.log("-- network changing");
-    setChainId(chainId);
+    setProcessedChainId(chainId);
   };
 
   useEffect(() => {

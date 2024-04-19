@@ -70,8 +70,14 @@ function Dashboard() {
     console.log("-- selected correct network");
 
     const usdcContract = getUsdcContract(signer);
+    console.log("-- 1");
     const usdcFeeTrackerContract = getUsdcFeeContract(signer);
+    console.log("-- 2");
     const feeFFTrackerContract = getFeeFFTrackerContract(signer);
+    console.log("-- 3");
+
+    console.log("-- printing current addres");
+    console.log(currentAddress);
 
     const currentUsdcBalance = await usdcContract.balanceOf(currentAddress);
     const parsedUsdcBalance = ethers.utils.formatUnits(
@@ -79,6 +85,7 @@ function Dashboard() {
       6
     );
 
+    console.log("-- 4");
     setUsdcAccountBalance(Math.round(parsedUsdcBalance * 10) / 10);
 
     const currentUsdcStaked = await usdcFeeTrackerContract.stakedAmounts(
@@ -171,8 +178,18 @@ function Dashboard() {
   };
 
   useEffect(() => {
-    console.log("-- chainId has changed");
+    // 286609681 = null
+    console.log("-- dashboard useEffect");
     console.log(chainId);
+
+    if (!chainId || !currentAddress) {
+      console.log("-- chain id: ", chainId);
+      console.log("-- address:  ", currentAddress);
+
+      connectWallet();
+      return;
+    }
+
     // updateBalance();
     getAccountContractsData();
     // getContractsData();
