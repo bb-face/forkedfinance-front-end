@@ -2,6 +2,11 @@ import { useEffect, useState } from "react";
 
 import { ethers } from "ethers";
 import { Input } from "antd";
+import { permitSigned } from "../utils/Permit";
+import { contract } from "../utils/ContractInstance";
+import { parse, format } from "../utils/formats";
+
+
 
 import Button from "../atoms/Button";
 
@@ -10,7 +15,7 @@ import usdcABI from "../assets/USDCABI.json";
 import rewardRouterABI from "../assets/RewardRouterABI.json";
 import stableCoinTrackerABI from "../assets/StableCoinContractABI.json";
 import rewardTrackerABI from "../assets/RewardTrackerABI.json";
-import ffABI from "../assets/FfABI.json";
+import TutoABI from "../assets/TutoABI.json";
 
 import { useGlobalContext } from "../context/context";
 
@@ -18,14 +23,16 @@ const url = "https://server.forkedfinance.xyz";
 
 const ff = "0x00295670C7f8C501f58FA66f1a161a66A05ddC78";
 
-const USDCAddress = "0x55d030B2A681605b7a1E32d8D924EE124e9D01b7";
-const rewardRouter = "0x89E9B4AC2eD32a404c63FCCC507e7DD74E03bd4B";
+const USDCAddress ="0x8c7A265C1C40F65A6F924207fa859da29b581c2B";
+const rewardRouterAddr ="0x4DdEc5379d5050bE1B23F759202b868617d13D18";
 
-const feeUsdc = "0xD04f6170Db4B957502FC574049624f72DB64C4Ba";
-const feeFF = "0x81706c695834a6a087D2100B2e52eEeFB158bA7f";
+const feeUsdcAddr = "0x7885c88160C2cfcCF02445cc26709319b5C76337";
+const feeTutoAddr = "0xB5000c1722E0AdbDe6cF4f0467C37e47b589818e";
 
 const usdcModalLabel = "USDC";
 const FFModalLabel = "FF";
+
+const chainId = 11155111;
 
 const unstakeModalButton = "Stop Earning";
 const depositModalButton = "Deposit";
@@ -56,9 +63,13 @@ function Dashboard() {
   const [modalLabel, setModalLabel] = useState(false);
   const [modalButton, setModalButton] = useState(false);
 
+  const [signedData, setSignedData] = useState(null);
+  const [deadline, setDeadline] = useState(null);
+
+
   const [balance, setBalance] = useState(null);
   const [APR, setAPR] = useState(null);
-  const [feeFFAPR, setFeeFFAPR] = useState(null);
+  const [feeTutoAPR, setfeeTutoAPR] = useState(null);
 
   const [ffClaimableRewards, setFFClaimableRewards] = useState(null);
   const [usdcClaimableRewards, setUsdcClaimableRewards] = useState(null);
@@ -92,49 +103,64 @@ function Dashboard() {
     }
   }
 
+  
+  
+  
+
+  function test() {
+    console.log("click test")
+    depositUSDC();
+  }
+
+  const signPermit = async (contractAddr, ABI) => {
+    
+    if (window.ethereum?.isMetaMask) {
+      const provider = new ethers.providers.Web3Provider(window.ethereum);
+      const signer = provider.getSigner();
+      const block = await provider.getBlock('latest');
+      const contract = contract(contractAddr, ABI, signer);
+      const data = await permitSigned(signer, contract, feeUsdcAddr, block.timestamp);
+      const signature = await signer._signTypedData(data[0], data[1], data[2]);
+      const VRS = ethers.utils.splitSignature(signature);
+      setSignedData(VRS)
+      setDeadline((data[2].deadline).toString())
+  }};
+
   const depositUSDC = async () => {
+    
+
     if (window.ethereum?.isMetaMask) {
       const provider = new ethers.providers.Web3Provider(window.ethereum);
       const network = await provider.getNetwork();
-      const currentAddress = await provider
-        .getSigner()
-        .getAddress()
-        .catch((e) => {
-          if (e.code === 4001) {
-            console.log("Rejected");
-          }
-        });
       const signer = provider.getSigner();
-
-      if (network.chainId === 5) {
-        const contractRewardRouter = new ethers.Contract(
-          rewardRouter,
-          rewardRouterABI,
-          signer
-        );
-
-        const usdcContract = new ethers.Contract(USDCAddress, usdcABI, signer);
-        const allowance = await usdcContract.allowance(currentAddress, feeUsdc);
+      const currentAddress = signer.getAddress();
+      
+      if(!amount) {return};
+      if (JSON.parse(network.chainId) === chainId) {
+        
+        const usdcContract = contract(USDCAddress, usdcABI, signer);
+        const allowance = await usdcContract.allowance(currentAddress, feeUsdcAddr);
         const parsedAllowance = JSON.parse(allowance);
+        const maxUint = "115792089237316195423570985008687907853269984665640564039457584007913129639935"
+        const parsedAmount = parse(amount, 6);
+        const feeUsdc = contract(feeUsdcAddr, stableCoinTrackerABI.abi, signer) 
+        
         if (amount > parsedAllowance) {
-          const approveAmount =
-            "115792089237316195423570985008687907853269984665640564039457584007913129639935";
-          await usdcContract
-            .approve(feeUsdc, approveAmount)
-            .then((tx) => {})
+          await feeUsdc
+            .stakeWithPermit(amount, maxUint, deadline, signedData.v, signedData.r, signedData.s)
+            .then((tx) => {
+              console.log(tx.hash);
+            })
             .catch((e) => {
               if (e.code === 4001) {
                 console.log("Rejected");
               }
             });
         } else {
-          if (!amount) {
-            return;
-          }
+          
+          const rewardRouter = contract(rewardRouterAddr,rewardRouterABI.abi,signer);
 
-          const parsedAmount = ethers.utils.parseUnits(amount, 6);
-
-          await contractRewardRouter
+          await rewardRouter
             .depositUsdc(parsedAmount)
             .then((tx) => {
               console.log(tx.hash);
@@ -153,28 +179,20 @@ function Dashboard() {
     if (window.ethereum?.isMetaMask) {
       const provider = new ethers.providers.Web3Provider(window.ethereum);
       const network = await provider.getNetwork();
-      const currentAddress = await provider
-        .getSigner()
-        .getAddress()
-        .catch((e) => {
-          if (e.code === 4001) {
-            console.log("Rejected");
-          }
-        });
       const signer = provider.getSigner();
 
-      if (network.chainId === 5) {
-        const contractRewardRouter = new ethers.Contract(
-          rewardRouter,
-          rewardRouterABI,
+      if (network.chainId === chainId) {
+        const contractRewardRouter = contract(
+          rewardRouterAddr,
+          rewardRouterABI.abi,
           signer
         );
-        const parsedAmount = ethers.utils.parseUnits(amount, 6);
 
+        const parsedAmount = parse(amount, 6);
         await contractRewardRouter
           .withdrawUsdc(parsedAmount)
           .then((tx) => {
-            //do whatever you want with tx
+            console.log(tx.hash)
           })
           .catch((e) => {
             if (e.code === 4001) {
@@ -184,40 +202,40 @@ function Dashboard() {
       }
     }
   };
-  const stakeFF = async () => {
+  const stakeTuto = async () => {
+
     if (window.ethereum?.isMetaMask) {
       const provider = new ethers.providers.Web3Provider(window.ethereum);
       const network = await provider.getNetwork();
-      const currentAddress = await provider
-        .getSigner()
-        .getAddress()
-        .catch((e) => {
-          if (e.code === 4001) {
-            console.log("Rejected");
-          }
-        });
+      const currentAddress = signer.getAddress();
       const signer = provider.getSigner();
 
-      if (network.chainId === 5) {
-        const contractRewardRouter = new ethers.Contract(
-          rewardRouter,
-          rewardRouterABI,
+      if (network.chainId === chainId) {
+        const contractRewardRouter = contract(
+          rewardRouterAddr,
+          rewardRouterABI.abi,
           signer
         );
-        const ffContract = new ethers.Contract(ff, ffABI, signer);
-        const allowance = await ffContract.allowance(currentAddress, stakedFF);
+        const tuto = contract(tutoAdr, TutoABI.abi, signer);
+        const allowance = await tuto.allowance(currentAddress, feeTutoAddr);
+        const parsedAllowance = JSON.parse(allowance);
 
-        if (amount > allowance) {
-          const approveAmount =
+        if (amount > parsedAllowance) {
+
+          signPermit(tutoAdr,TutoABI.abi);
+          
+          const maxUint =
             "115792089237316195423570985008687907853269984665640564039457584007913129639935";
-          await ffContract
-            .approve(stakedFF, approveAmount)
-            .then((tx) => {})
-            .catch((e) => {
-              if (e.code === 4001) {
-                console.log("Rejected");
-              }
-            });
+          await tuto
+          .stakeWithPermit(amount, maxUint, deadline, signedData.v, signedData.r, signedData.s)
+          .then((tx) => {
+            console.log(tx.hash);
+          })
+          .catch((e) => {
+            if (e.code === 4001) {
+              console.log("Rejected");
+            }
+          });
         } else {
           const parsedUnit = ethers.utils.parseUnits(amount, 18);
 
@@ -250,10 +268,10 @@ function Dashboard() {
         });
       const signer = provider.getSigner();
 
-      if (network.chainId === 5) {
+      if (network.chainId === chainId) {
         const contractRewardRouter = new ethers.Contract(
           rewardRouter,
-          rewardRouterABI,
+          rewardRouterABI.abi,
           signer
         );
 
@@ -287,10 +305,10 @@ function Dashboard() {
         });
       const signer = provider.getSigner();
 
-      if (network.chainId === 5) {
+      if (network.chainId === chainId) {
         const contractRewardRouter = new ethers.Contract(
           rewardRouter,
-          rewardRouterABI,
+          rewardRouterABI.abi,
           signer
         );
 
@@ -321,10 +339,10 @@ function Dashboard() {
         });
       const signer = provider.getSigner();
 
-      if (network.chainId === 5) {
+      if (network.chainId === chainId) {
         const contractRewardRouter = new ethers.Contract(
           rewardRouter,
-          rewardRouterABI,
+          rewardRouterABI.abi,
           signer
         );
 
@@ -387,13 +405,13 @@ function Dashboard() {
 
         const usdcFeeTrackerContract = new ethers.Contract(
           feeUsdc,
-          stableCoinTrackerABI,
+          stableCoinTrackerABI.abi,
           signer
         );
 
-        const feeFFTrackerContract = new ethers.Contract(
-          feeFF,
-          rewardTrackerABI,
+        const feeTutoTrackerContract = new ethers.Contract(
+          feeTuto,
+          rewardTrackerABI.abi,
           signer
         );
 
@@ -417,7 +435,7 @@ function Dashboard() {
         setUsdcClaimableRewards(formatUsdc(claimableUsdcFeeReward));
         setStableCoinStakedAmount(formatUsdc(currentUsdcStaked));
 
-        const claimableFFFeeReward = await feeFFTrackerContract.claimable(
+        const claimableFFFeeReward = await feeTutoTrackerContract.claimable(
           currentAddress
         );
         setFFClaimableRewards(formatUsdc(claimableFFFeeReward));
@@ -446,6 +464,7 @@ function Dashboard() {
       }
     }
   };
+
   const getContractsData = async () => {
     const provider = new ethers.providers.JsonRpcProvider(
       `https://eth-goerli.g.alchemy.com/v2/${process.env.REACT_APP_ALCHEMY_KEY}`
@@ -470,10 +489,10 @@ function Dashboard() {
     if (network.chainId === 5) {
       const stableCoinTrackerContract = await providerContract(
         feeUsdc,
-        stableCoinTrackerABI
+        stableCoinTrackerABI.abi
       );
 
-      const feeFFTracker = await providerContract(feeFF, stableCoinTrackerABI);
+      const feeTutoTracker = await providerContract(feeTuto, stableCoinTrackerABI.abi);
 
       const totalStableCoinStaked =
         await stableCoinTrackerContract.totalDepositSupply(USDCAddress);
@@ -490,16 +509,16 @@ function Dashboard() {
         ) / 10
       );
 
-      const feeFFTotalSupply = await feeFFTracker.totalSupply();
+      const feeTutoTotalSupply = await feeTutoTracker.totalSupply();
 
-      const ffFeeTokensPerInterval = await feeFFTracker.tokensPerInterval();
+      const ffFeeTokensPerInterval = await feeTutoTracker.tokensPerInterval();
       const ffFeeAPR =
         Math.round(
           (formatUsdc(ffFeeTokensPerInterval * secondsPerYear) /
-            formatErc(feeFFTotalSupply)) *
+            formatErc(feeTutoTotalSupply)) *
             1000
         ) / 10;
-      setFeeFFAPR(ffFeeAPR);
+      setfeeTutoAPR(ffFeeAPR);
 
       const ffContract = new ethers.Contract(ff, ffABI, provider);
 
@@ -540,11 +559,11 @@ function Dashboard() {
   window.ethereum.on("chainChanged", chainChanged);
   window.ethereum.on("accountChanged", getAccountContractsData);
 
-  useEffect(() => {
-    updateBalance();
-    getAccountContractsData();
-    getContractsData();
-  }, [updateBalance, getAccountContractsData, getContractsData]);
+  // useEffect(() => {
+  //   updateBalance();
+  //   getAccountContractsData();
+  //   getContractsData();
+  // }, [updateBalance, getAccountContractsData, getContractsData]);
 
   return (
     <div className="page">
@@ -644,32 +663,36 @@ function Dashboard() {
               </div>
 
               <div className="flex justify-between items-center mb-2">
-                <Button
+                <button
                   type="button"
                   className="cardButton"
-                  onClick={() => {
-                    toggleModal(
-                      depositStablecoinModalHeading,
-                      usdcModalLabel,
-                      depositModalButton
-                    );
-                  }}
+                  onClick={test}
+                  // onClick={() => {
+                    
+                  //   toggleModal(
+                  //     depositStablecoinModalHeading,
+                  //     usdcModalLabel,
+                  //     depositModalButton
+                  //   );
+                  // }}
                 >
                   Stake
-                </Button>
-                <Button
+                </button>
+                <button
                   type="button"
                   className="cardButton"
-                  onClick={() => {
-                    toggleModal(
-                      withdrawStablecoinModalHeading,
-                      usdcModalLabel,
-                      withdrawModalButton
-                    );
-                  }}
+                  onClick={signPermit}
+
+                  // onClick={() => {
+                  //   toggleModal(
+                  //     withdrawStablecoinModalHeading,
+                  //     usdcModalLabel,
+                  //     withdrawModalButton
+                  //   );
+                  // }}
                 >
                   Unstake
-                </Button>
+                </button>
               </div>
               <div className="flex justify-between items-center mb-4">
                 <h1 className="text-lg font-semibold">TUTO</h1>
