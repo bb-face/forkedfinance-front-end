@@ -13,11 +13,6 @@ function DepositUSDC({
   const [stakeAmount, setStakeAmount] = useState(0);
   const [unstakeAmount, setUnstakeAmount] = useState(0);
 
-  function test() {
-    console.log("click test");
-    depositUSDC();
-  }
-
   const depositUSDC = async () => {
     if (window.ethereum?.isMetaMask) {
       const provider = new ethers.providers.Web3Provider(window.ethereum);

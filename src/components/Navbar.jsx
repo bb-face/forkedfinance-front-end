@@ -12,21 +12,12 @@ import WalletAddress from "../atoms/WalletAddress";
 import logo from "../assets/Tuto.png";
 
 export const Navbar = () => {
-  const [error, setError] = useState(null);
   const { connectWallet } = useConnectWallet();
   const walletAddress = useRecoilValue(walletAddressAtom);
   const chainId = useRecoilValue(chainIdAtom);
 
-  useEffect(() => {
-    console.log("Chain ID updated in Navbar: ", chainId);
-    // Additional actions based on the updated chainId can be placed here
-  }, [chainId]);
-
   return (
     <header className="bg-primary text-white w-full py-4 px-8 fixed top-0 z-50">
-      {error && (
-        <WarningPopUp title="Warning" text="This is a warning message." />
-      )}
       <nav className="flex justify-between items-center">
         <Link to="/" className="w">
           <img src={logo} alt="ForkedFinance app" className="logo" />

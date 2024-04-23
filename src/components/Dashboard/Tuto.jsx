@@ -1,6 +1,14 @@
 import React, { useState } from "react";
+import { ethers } from "ethers";
 
 import Button from "../../atoms/Button";
+
+import { permitSigned } from "../../utils/Permit";
+
+import usdcAbi from "../../assets/USDCABI.json";
+import TutoABI from "../../assets/TutoABI.json";
+
+const feeUsdcAddr = "0x7885c88160C2cfcCF02445cc26709319b5C76337";
 
 function Tuto({
   ffBalance,
@@ -9,38 +17,69 @@ function Tuto({
   ffTotalStakedAmounts,
   ffSupply,
 }) {
+  const [signedData, setSignedData] = useState(null);
+  const [deadline, setDeadline] = useState(null);
   const [stakeAmount, setStakeAmount] = useState(0);
   const [unstakeAmount, setUnstakeAmount] = useState(0);
 
-  const stakeFF = async () => {
+  const USDCAddress = "0x8c7A265C1C40F65A6F924207fa859da29b581c2B";
+
+  // const signPermit = async (contractAddr = USDCAddress, ABI = usdcAbi) => {
+  const signPermit = async () => {
+    if (window.ethereum?.isMetaMask) {
+      const contractAddr = USDCAddress;
+      const ABI = usdcAbi;
+      const provider = new ethers.providers.Web3Provider(window.ethereum);
+      const signer = provider.getSigner();
+      const block = await provider.getBlock("latest");
+      const contract = new ethers.Contract(contractAddr, ABI, signer);
+      const data = await permitSigned(
+        signer,
+        contract,
+        feeUsdcAddr,
+        block.timestamp
+      );
+      const signature = await signer._signTypedData(data[0], data[1], data[2]);
+      const VRS = ethers.utils.splitSignature(signature);
+      setSignedData(VRS);
+      setDeadline(data[2].deadline.toString());
+    }
+  };
+
+  const stakeTuto = async () => {
     if (window.ethereum?.isMetaMask) {
       const provider = new ethers.providers.Web3Provider(window.ethereum);
       const network = await provider.getNetwork();
-      const currentAddress = await provider
-        .getSigner()
-        .getAddress()
-        .catch((e) => {
-          if (e.code === 4001) {
-            console.log("Rejected");
-          }
-        });
+      const currentAddress = signer.getAddress();
       const signer = provider.getSigner();
 
-      if (network.chainId === 5) {
-        const contractRewardRouter = new ethers.Contract(
-          rewardRouter,
-          rewardRouterABI,
+      if (network.chainId === chainId) {
+        const contractRewardRouter = contract(
+          rewardRouterAddr,
+          rewardRouterABI.abi,
           signer
         );
-        const ffContract = new ethers.Contract(ff, ffABI, signer);
-        const allowance = await ffContract.allowance(currentAddress, stakedFF);
+        const tuto = contract(tutoAdr, TutoABI.abi, signer);
+        const allowance = await tuto.allowance(currentAddress, feeTutoAddr);
+        const parsedAllowance = JSON.parse(allowance);
 
-        if (amount > allowance) {
-          const approveAmount =
+        if (amount > parsedAllowance) {
+          await signPermit(tutoAdr, TutoABI.abi);
+
+          const maxUint =
             "115792089237316195423570985008687907853269984665640564039457584007913129639935";
-          await ffContract
-            .approve(stakedFF, approveAmount)
-            .then((tx) => {})
+          await tuto
+            .stakeWithPermit(
+              amount,
+              maxUint,
+              deadline,
+              signedData.v,
+              signedData.r,
+              signedData.s
+            )
+            .then((tx) => {
+              console.log(tx.hash);
+            })
             .catch((e) => {
               if (e.code === 4001) {
                 console.log("Rejected");
@@ -64,42 +103,9 @@ function Tuto({
       }
     }
   };
-  const unstakeFF = async () => {
-    if (window.ethereum?.isMetaMask) {
-      const provider = new ethers.providers.Web3Provider(window.ethereum);
-      const network = await provider.getNetwork();
-      const currentAddress = await provider
-        .getSigner()
-        .getAddress()
-        .catch((e) => {
-          if (e.code === 4001) {
-            console.log("Rejected");
-          }
-        });
-      const signer = provider.getSigner();
 
-      if (network.chainId === 5) {
-        const contractRewardRouter = new ethers.Contract(
-          rewardRouter,
-          rewardRouterABI,
-          signer
-        );
+  const unstakeFF = async () => {}; // TODO: transform in unstakeTuto not available yet
 
-        const parsedUnit = ethers.utils.parseUnits(amount, 18);
-
-        await contractRewardRouter
-          .unstakeFF(parsedUnit)
-          .then((tx) => {
-            //do whatever you want with tx
-          })
-          .catch((e) => {
-            if (e.code === 4001) {
-              console.log("Rejected");
-            }
-          });
-      }
-    }
-  };
   return (
     <>
       <div className="flex justify-between items-center mb-4">
@@ -130,7 +136,7 @@ function Tuto({
         <div>{ffSupply}</div>
       </div>
       <div className="flex justify-between items-center mb-2">
-        <form onClick={stakeFF}>
+        <form onClick={stakeTuto}>
           <input
             type="number"
             placeholder="0.0"
@@ -149,6 +155,13 @@ function Tuto({
           <Button type="submit">Unstake</Button>
         </form>
       </div>
+      <h3>Signed data</h3>
+      {signedData}
+      <h3>Deadline</h3>
+      {deadline}
+      <button type="button" onClick={signPermit}>
+        sign permi
+      </button>
     </>
   );
 }
