@@ -1,19 +1,54 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
-	content: ["./src/**/*.{js,jsx,ts,tsx}"],
-	theme: {
-		extend: {
-			spacing: {
-				header: "128px",
-				footer: "64.25px",
-			},
-			colors: {
-				primary: "#7209b7", // Example primary color
-				secondary: "#38a3a5", // Example secondary color
-				accent: "#18a0fb", // Example accent color
-				dark: "#212121", // Example dark color
-			},
-		},
-	},
-	plugins: [],
+  content: ["./src/**/*.{js,jsx,ts,tsx}"],
+  theme: {
+    extend: {
+      spacing: {
+        header: "128px",
+        footer: "64.25px",
+      },
+      boxShadow: {
+        "3d": "4px 4px 0px 0 rgba(0, 0, 0, 0.25)",
+      },
+      borderColor: {
+        default: "#ccc",
+        pressed: "#333",
+      },
+      colors: {
+        font: "#f1f1f1",
+        primary: {
+          light: "#cccccc",
+          DEFAULT: "#888888",
+          dark: "#444444",
+        },
+        secondary: {
+          light: "#d1fae5",
+          DEFAULT: "#10b981",
+          dark: "#047857",
+        },
+        tertiary: {
+          light: "#ff7d85",
+          DEFAULT: "#ff4949",
+          dark: "#b91c1c",
+        },
+        background: "#242424",
+        error: {
+          light: "#fda4af",
+          DEFAULT: "#f87171",
+          dark: "#c24141",
+        },
+        warning: {
+          light: "#fde047",
+          DEFAULT: "#facc15",
+          dark: "#ca8a04",
+        },
+        info: {
+          light: "#bfdbfe",
+          DEFAULT: "#60a5fa",
+          dark: "#2563eb",
+        },
+      },
+    },
+  },
+  plugins: [],
 };
