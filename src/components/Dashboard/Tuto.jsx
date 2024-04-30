@@ -3,12 +3,15 @@ import { ethers } from "ethers";
 
 import Button from "../../atoms/Button";
 
-import { permitSigned } from "../../utils/Permit";
+import { permitSigned } from "../../utils/permit";
+import { getCurrentAddress } from "../../utils/getAddress";
+import { format } from "../../utils/formats";
 
-import usdcAbi from "../../assets/USDCABI.json";
-import TutoABI from "../../assets/TutoABI.json";
 
-const feeUsdcAddr = "0x7885c88160C2cfcCF02445cc26709319b5C76337";
+import { getFeeTutoContract } from "../../utils/getFeeTutoContract";
+import { getTutocContract } from "../../utils/getTutoContract";
+import { feeTutoAddr, maxUint, tutoAddr, chainId } from "../../costant/prod-costant";
+
 
 function Tuto({
   ffBalance,
@@ -17,65 +20,44 @@ function Tuto({
   ffTotalStakedAmounts,
   ffSupply,
 }) {
-  const [signedData, setSignedData] = useState(null);
-  const [deadline, setDeadline] = useState(null);
-  const [stakeAmount, setStakeAmount] = useState(0);
-  const [unstakeAmount, setUnstakeAmount] = useState(0);
 
-  const USDCAddress = "0x8c7A265C1C40F65A6F924207fa859da29b581c2B";
-
-  // const signPermit = async (contractAddr = USDCAddress, ABI = usdcAbi) => {
-  const signPermit = async () => {
-    if (window.ethereum?.isMetaMask) {
-      const contractAddr = USDCAddress;
-      const ABI = usdcAbi;
-      const provider = new ethers.providers.Web3Provider(window.ethereum);
-      const signer = provider.getSigner();
-      const block = await provider.getBlock("latest");
-      const contract = new ethers.Contract(contractAddr, ABI, signer);
-      const data = await permitSigned(
-        signer,
-        contract,
-        feeUsdcAddr,
-        block.timestamp
-      );
-      const signature = await signer._signTypedData(data[0], data[1], data[2]);
-      const VRS = ethers.utils.splitSignature(signature);
-      setSignedData(VRS);
-      setDeadline(data[2].deadline.toString());
-    }
-  };
+  const [amount, setAmount] = useState(0);
+  
 
   const stakeTuto = async () => {
     if (window.ethereum?.isMetaMask) {
       const provider = new ethers.providers.Web3Provider(window.ethereum);
       const network = await provider.getNetwork();
-      const currentAddress = signer.getAddress();
+      const currentAddress = getCurrentAddress(provider);
       const signer = provider.getSigner();
 
+      if(!amount) {return};
+
       if (network.chainId === chainId) {
-        const contractRewardRouter = contract(
-          rewardRouterAddr,
-          rewardRouterABI.abi,
-          signer
-        );
-        const tuto = contract(tutoAdr, TutoABI.abi, signer);
-        const allowance = await tuto.allowance(currentAddress, feeTutoAddr);
-        const parsedAllowance = JSON.parse(allowance);
+        const tutoContract = getTutocContract(signer);
+        const allowance = await tutoContract.allowance(currentAddress, feeTutoAddr);
+        const parsedAllowance = format(allowance, 6)
+        console.log(parsedAllowance)
 
         if (amount > parsedAllowance) {
-          await signPermit(tutoAdr, TutoABI.abi);
 
-          const maxUint =
-            "115792089237316195423570985008687907853269984665640564039457584007913129639935";
-          await tuto
+          const feeTutoContract = getFeeTutoContract(signer);
+
+          const block = await provider.getBlock('latest');
+          const permit = await permitSigned(signer, tutoContract, feeTutoAddr, block.timestamp);
+          const signature = await signer._signTypedData(permit[0], permit[1], permit[2]);
+          const signed = ethers.utils.splitSignature(signature);
+         
+          await feeTutoContract
+          
             .stakeWithPermit(
+              tutoAddr,
               amount,
               maxUint,
-              deadline,
-              signedData.v,
-              signedData.r,
-              signedData.s
+              (permit[2].deadline).toString(),
+              signed.v,
+              signed.r,
+              signed.s
             )
             .then((tx) => {
               console.log(tx.hash);
@@ -104,7 +86,7 @@ function Tuto({
     }
   };
 
-  const unstakeFF = async () => {}; // TODO: transform in unstakeTuto not available yet
+  const unstakeTuto = async () => {}; // TODO: transform in unstakeTuto not available yet
 
   return (
     <>
@@ -131,37 +113,33 @@ function Tuto({
         <div>Total Staked</div>
         <div>{ffTotalStakedAmounts}</div>
       </div>
+     
       <div className="flex justify-between items-center mb-2">
-        <div>Total Supply</div>
-        <div>{ffSupply}</div>
-      </div>
-      <div className="flex justify-between items-center mb-2">
-        <form onClick={stakeTuto}>
+        <form >
           <input
             type="number"
             placeholder="0.0"
-            value={stakeAmount}
-            onChange={(event) => setStakeAmount(event.target.value)}
+            value={amount}
+            onChange={(event) => setAmount(event.target.value)}
           />
-          <Button type="submit">stake</Button>
+         
         </form>
-        <form onClick={unstakeFF}>
-          <input
-            type="number"
-            placeholder="0.0"
-            value={unstakeAmount}
-            onChange={(event) => setUnstakeAmount(event.target.value)}
-          />
+        <form onClick={stakeTuto}>
+          
+          <Button type="submit">Stake</Button>
+          
+        </form>
+        <form onClick={unstakeTuto}>
+          {/* <input
+            // type="number"
+            // placeholder="0.0"
+            // value={amount}
+            // onChange={(event) => setUnstakeAmount(event.target.value)}
+          /> */}
           <Button type="submit">Unstake</Button>
         </form>
       </div>
-      <h3>Signed data</h3>
-      {signedData}
-      <h3>Deadline</h3>
-      {deadline}
-      <button type="button" onClick={signPermit}>
-        sign permi
-      </button>
+      
     </>
   );
 }

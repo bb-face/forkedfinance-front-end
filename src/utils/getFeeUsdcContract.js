@@ -1,12 +1,12 @@
 import { ethers } from "ethers";
 
 import stableCoinTrackerABI from "../assets/StableCoinContractABI.json";
-import { feeUsdc } from "../costant/prod-costant";
+import { feeUsdcAddr } from "../costant/prod-costant";
 
-export function getUsdcFeeContract(signer) {
+export function getFeeUsdcContract(signer) {
   const usdcFeeContract = new ethers.Contract(
-    feeUsdc,
-    stableCoinTrackerABI,
+    feeUsdcAddr,
+    stableCoinTrackerABI.abi,
     signer
   );
 

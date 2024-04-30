@@ -17,13 +17,13 @@ import { getProviderSigner } from "../utils/getProviderSignerNetwork";
 import { chainIdAtom } from "../state/network";
 import { errorAtom } from "../state/error";
 import { getUsdcContract } from "../utils/getUsdcContract";
-import { getUsdcFeeContract } from "../utils/getUsdcFeeContract";
-import { getFeeFFTrackerContract } from "../utils/getFeeFFTrackerContract";
-import { providerContract } from "../utils/providerContract";
+import { getFeeUsdcContract } from "../utils/getFeeUsdcContract";
+import { getFeeTutoContract } from "../utils/getFeeTutoContract";
+import { getTutocContract } from "../utils/getTutoContract";
 
 import useConnectWallet from "../customHooks/useWallet";
 
-import { feeUsdc } from "../costant/prod-costant";
+import { feeUsdcAddr, usdcAddr } from "../costant/prod-costant";
 
 function Dashboard() {
   const { user } = useUserManagement();
@@ -77,8 +77,8 @@ function Dashboard() {
     );
 
     const usdcContract = getUsdcContract(signer);
-    const usdcFeeTrackerContract = getUsdcFeeContract(signer);
-    const feeFFTrackerContract = getFeeFFTrackerContract(signer);
+    const usdcFeeTrackerContract = getFeeUsdcContract(signer);
+    const feeFFTrackerContract = getFeeTutoContract(signer);
 
     const currentUsdcBalance = await usdcContract.balanceOf(currentAddress);
     const parsedUsdcBalance = ethers.utils.formatUnits(
@@ -102,8 +102,8 @@ function Dashboard() {
     setStableCoinStakedAmount(formatUsdc(currentUsdcStaked));
     setFFClaimableRewards(formatUsdc(claimableFFFeeReward));
 
-    const ffContract = new ethers.Contract(ff, ffABI, signer);
-    const ffAccountBalance = await ffContract.balanceOf(currentAddress);
+    const tutoContract = getTutocContract(signer);
+    const ffAccountBalance = await tutoContract.balanceOf(currentAddress);
 
     if (!ffAccountBalance) {
       setFFBalance("0");
@@ -127,40 +127,42 @@ function Dashboard() {
       setError("Wrong network");
       return;
     }
-
-    const stableCoinTrackerContract = await providerContract(
-      feeUsdc,
-      stableCoinTrackerABI
+    const { signer } = await getProviderSigner(
+      currentAddress,
+      setWalletAddress
     );
-    const feeFFTracker = await providerContract(feeFF, stableCoinTrackerABI);
+
+
+    const stableCoinTrackerContract = getFeeUsdcContract(signer);
+    const feeFFTracker = getFeeTutoContract(signer);
 
     const totalStableCoinStaked =
-      await stableCoinTrackerContract.totalDepositSupply(USDCAddress);
-    const feeTokensPerInterval =
-      await stableCoinTrackerContract.tokensPerInterval();
-    const tokensPerYear = feeTokensPerInterval * secondsPerYear;
+      await stableCoinTrackerContract.totalDepositSupply(usdcAddr);
+    // const feeTokensPerInterval =
+    //   await stableCoinTrackerContract.tokensPerInterval();
+    // const tokensPerYear = feeTokensPerInterval * secondsPerYear;
 
     setTotalStableCoinStakedAmount(formatUsdc(totalStableCoinStaked));
-    setAPR(
-      Math.round(
-        (formatUsdc(tokensPerYear) / formatUsdc(totalStableCoinStaked)) * 1000
-      ) / 10
-    );
+    // setAPR(
+    //   Math.round(
+    //     (formatUsdc(tokensPerYear) / formatUsdc(totalStableCoinStaked)) * 1000
+    //   ) / 10
+    // );
 
     const feeFFTotalSupply = await feeFFTracker.totalSupply();
     const ffFeeTokensPerInterval = await feeFFTracker.tokensPerInterval();
-    const ffFeeAPR =
-      Math.round(
-        (formatUsdc(ffFeeTokensPerInterval * secondsPerYear) /
-          formatErc(feeFFTotalSupply)) *
-          1000
-      ) / 10;
+    // const ffFeeAPR =
+    //   Math.round(
+    //     (formatUsdc(ffFeeTokensPerInterval * secondsPerYear) /
+    //       formatErc(feeFFTotalSupply)) *
+    //       1000
+    //   ) / 10;
 
-    setFeeFFAPR(ffFeeAPR);
+    // setFeeFFAPR(ffFeeAPR);
 
-    const ffContract = providerContract(ff, ffABI);
+    const tutoContract = getTutocContract(signer);
 
-    const ffTotalSupply = await ffContract.totalSupply();
+    const ffTotalSupply = await tutoContract.totalSupply();
 
     setFFSupply(Math.round(ethers.utils.formatEther(ffTotalSupply)));
   };

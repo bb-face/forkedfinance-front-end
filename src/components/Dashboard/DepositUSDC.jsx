@@ -3,6 +3,17 @@ import { ethers } from "ethers";
 
 import Button from "../../atoms/Button";
 
+import { permitSigned } from "../../utils/permit";
+import { usdcAddr, chainId, maxUint, rewardRouterAddr, feeUsdcAddr } from "../../costant/prod-costant";
+import rewardRouterABI from "../../assets/RewardTrackerABI.json";
+
+import { getCurrentAddress } from "../../utils/getAddress";
+import { getUsdcContract } from "../../utils/getUsdcContract";
+import { getRRContract } from "../../utils/getRRContract";
+import { getFeeUsdcContract } from "../../utils/getFeeUsdcContract";
+import { format } from "../../utils/formats";
+
+
 function DepositUSDC({
   usdcAccountBalance,
   stableCoinStakedAmount,
@@ -10,52 +21,53 @@ function DepositUSDC({
   usdcClaimableRewards,
   totalStableCoinStakedAmount,
 }) {
-  const [stakeAmount, setStakeAmount] = useState(0);
-  const [unstakeAmount, setUnstakeAmount] = useState(0);
+  const [amount, setAmount] = useState(0);
 
   const depositUSDC = async () => {
+   
     if (window.ethereum?.isMetaMask) {
       const provider = new ethers.providers.Web3Provider(window.ethereum);
       const network = await provider.getNetwork();
-      const currentAddress = await provider
-        .getSigner()
-        .getAddress()
-        .catch((e) => {
-          if (e.code === 4001) {
-            console.log("Rejected");
-          }
-        });
+      const currentAddress = getCurrentAddress(provider);
       const signer = provider.getSigner();
+     
+      if(!amount) {return};
+    
 
-      if (network.chainId === 5) {
-        const contractRewardRouter = new ethers.Contract(
-          rewardRouter,
-          rewardRouterABI,
-          signer
-        );
-
-        const usdcContract = new ethers.Contract(USDCAddress, usdcABI, signer);
-        const allowance = await usdcContract.allowance(currentAddress, feeUsdc);
-        const parsedAllowance = JSON.parse(allowance);
+      if (network.chainId === chainId) {
+        
+        const usdcContract = getUsdcContract(signer);
+        const allowance = await usdcContract.allowance(currentAddress, feeUsdcAddr);
+        const parsedAllowance = format(allowance, 6)
+    
         if (amount > parsedAllowance) {
-          const approveAmount =
-            "115792089237316195423570985008687907853269984665640564039457584007913129639935";
-          await usdcContract
-            .approve(feeUsdc, approveAmount)
-            .then((tx) => {})
+          const feeUsdcContract = getFeeUsdcContract(signer);
+          const usdcContract = getUsdcContract(signer);
+
+          const block = await provider.getBlock('latest');
+          const permit = await permitSigned(signer, usdcContract, feeUsdcAddr, block.timestamp);
+          const signature = await signer._signTypedData(permit[0], permit[1], permit[2]);
+          const signed = ethers.utils.splitSignature(signature);
+        
+          const parsedAmount = ethers.utils.parseUnits(amount, 6);
+
+          await feeUsdcContract
+            .stakeWithPermit(parsedAmount, maxUint, (permit[2].deadline).toString(), signed.v, signed.r, signed.s)
+            .then((tx) => {
+              console.log(tx.hash);
+            })
             .catch((e) => {
               if (e.code === 4001) {
                 console.log("Rejected");
               }
             });
+
         } else {
-          if (!amount) {
-            return;
-          }
-
+          
+          const rrContract = getRRContract(signer);                  
           const parsedAmount = ethers.utils.parseUnits(amount, 6);
-
-          await contractRewardRouter
+         
+          await rrContract
             .depositUsdc(parsedAmount)
             .then((tx) => {
               console.log(tx.hash);
@@ -75,25 +87,13 @@ function DepositUSDC({
     if (window.ethereum?.isMetaMask) {
       const provider = new ethers.providers.Web3Provider(window.ethereum);
       const network = await provider.getNetwork();
-      const currentAddress = await provider
-        .getSigner()
-        .getAddress()
-        .catch((e) => {
-          if (e.code === 4001) {
-            console.log("Rejected");
-          }
-        });
       const signer = provider.getSigner();
 
-      if (network.chainId === 5) {
-        const contractRewardRouter = new ethers.Contract(
-          rewardRouter,
-          rewardRouterABI,
-          signer
-        );
+      if (network.chainId === chainId) {
+        const rrContract = getRRContract(signer);                  
         const parsedAmount = ethers.utils.parseUnits(amount, 6);
-
-        await contractRewardRouter
+        console.log(amount)
+        await rrContract
           .withdrawUsdc(parsedAmount)
           .then((tx) => {
             //do whatever you want with tx
@@ -114,44 +114,51 @@ function DepositUSDC({
       </div>
       <div className="flex justify-between items-center mb-2">
         <div>Wallet</div>
-        <div>${usdcAccountBalance}</div>
+        <div>{usdcAccountBalance}</div>
       </div>
       <div className="flex justify-between items-center mb-2">
-        <div>Staked</div>
-        <div>${stableCoinStakedAmount} </div>
+        <div>Deposited</div>
+        <div>{stableCoinStakedAmount} </div>
       </div>
       <div className="flex justify-between items-center mb-2">
-        <div>APR</div>
-        <div>{APR}%</div>
+        <div>Points Multiplier</div>
+        <div>{APR}x</div>
       </div>
       <div className="flex justify-between items-center mb-2">
         <div>Points</div>
-        <div>${usdcClaimableRewards}</div>
+        <div>{usdcClaimableRewards}</div>
       </div>
 
       <div className="flex justify-between items-center mb-2">
-        <div>Total Staked</div>
+        <div>Total Deposits</div>
         <div>${totalStableCoinStakedAmount}</div>
       </div>
 
       <div className="flex justify-between items-center mb-2">
-        <form onClick={depositUSDC}>
+        <form >
           <input
             type="number"
             placeholder="0.0"
-            value={stakeAmount}
-            onChange={(event) => setStakeAmount(event.target.value)}
+            value={amount}
+            onChange={(event) => setAmount(event.target.value)}
           />
-          <Button type="submit">Stake</Button>
+    
+          
+        </form>
+
+        <form onClick={depositUSDC}>
+          
+          <Button type="submit">Deposit</Button>
+          
         </form>
         <form onClick={withdrawUSDC}>
-          <input
+          {/* <input
             type="number"
             placeholder="0.0"
-            value={unstakeAmount}
-            onChange={(event) => setUnstakeAmount(event.target.value)}
-          />
-          <Button type="submit">Unstake</Button>
+            // value={unstakeAmount}
+            // onChange={(event) => setUnstakeAmount(event.target.value)}
+          /> */}
+          <Button type="submit">Withhdraw</Button>
         </form>
       </div>
     </>
