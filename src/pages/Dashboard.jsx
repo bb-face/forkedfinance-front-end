@@ -183,7 +183,7 @@ function Dashboard() {
     <div className="container mx-auto p-4">
       <div className="flex flex-wrap -mx-2">
         <div className="w-1/2 px-2">
-          <div className=" p-6 shadow-xl">
+          <div className=" p-6 shadow-2xl bg-primary">
             <AvailableBalance
               balance={balance}
               totalFeeClaimableRewards={totalFeeClaimableRewards}
@@ -191,7 +191,7 @@ function Dashboard() {
           </div>
         </div>
         <div className="w-1/2 px-2">
-          <div className="p-6 shadow-xl">
+          <div className="p-6 shadow-2xl bg-primary">
             <DepositUSDC
               usdcAccountBalance={usdcAccountBalance}
               stableCoinStakedAmount={stableCoinStakedAmount}
@@ -199,6 +199,8 @@ function Dashboard() {
               usdcClaimableRewards={usdcClaimableRewards}
               totalStableCoinStakedAmount={totalStableCoinStakedAmount}
             />
+          </div>
+          <div className="p-6 mt-6 shadow-2xl bg-primary">
             <Tuto
               ffBalance={ffBalance}
               ffStakedAmounts={ffStakedAmounts}

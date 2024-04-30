@@ -7,7 +7,7 @@ function Error() {
 
   return (
     <div
-      className="bg-orange-100 border-l-4 border-orange-500 text-orange-700 p-4"
+      className="bg-warning-light border-l-4 border-warning text-warning-dark p-4"
       role="alert"
     >
       <p className="font-bold">Be Warned</p>
