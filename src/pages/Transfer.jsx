@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { Input, Popover } from "antd";
 import { WalletTwoTone } from "@ant-design/icons";
 import { ethers } from "ethers";
+import Button from "../atoms/Button";
+import NumberInput from "../atoms/NumberInput";
+import TextInput from "../atoms/StringInput";
 
 import useLocalState from "../utils/localState";
 import { useUserManagement } from "../customHooks/useUser";
@@ -174,63 +176,36 @@ const Transfer = () => {
     updateBalance();
     clearTimeout();
   }, [updateBalance]);
+  // {alert.show && (
+  //   <div className={`alert alert-${alert.type}`}>{alert.text}</div>
+  // )}
 
   return (
-    <div>
-      {alert.show && (
-        <div className={`alert alert-${alert.type}`}>{alert.text}</div>
-      )}
-
-      <div className="text-white mb-6">
-        <p className="text-sm text-gray-400 mb-2">You're paying</p>
-        <div className="flex items-baseline space-x-2">
-          <Popover
-            content={balance}
-            title="Balance"
-            trigger="click"
-            placement="bottom"
-            className="text-4xl font-bold"
-          >
-            <WalletTwoTone twoToneColor="#504acc" className="cog" />
-          </Popover>
-          <p className="text-lg text-gray-400">0 ETH ↓</p>
+    <div className="mx-auto p-4">
+      <div className="min-w-96">
+        <div className=" p-6 shadow-2xl bg-primary">
+          <div className="flex items-baseline space-x-2">
+            You are transferring:
+          </div>
+          <NumberInput value={transferAmount} onChange={changeAmount} />
+          <label htmlFor="toAddress" className="block text-gray-400 mb-2">
+            To
+          </label>
+          <TextInput value={transferTo} onChange={changetransferTo} />
+          <div className="flex justify-between items-center mt-4">
+            <Button
+              type="button"
+              className="cardButton"
+              onClick={transferBalance}
+            >
+              Claim
+            </Button>
+            <Button type="button" onClick={validateBalanceTo}>
+              Not Sure?
+            </Button>
+          </div>
         </div>
       </div>
-
-      <div className="mb-6">
-        <label htmlFor="toAddress" className="block text-gray-400 mb-2">
-          To
-        </label>
-        <Input
-          id="toAddress"
-          type="text"
-          placeholder="Wallet address or ENS name"
-          className="w-full bg-gray-700 text-white p-3 rounded outline-none focus:ring-2 focus:ring-purple-600"
-          value={transferTo}
-          onChange={changetransferTo}
-        />
-      </div>
-
-      <div className="mb-6">
-        <Input
-          placeholder="Amount"
-          type="number"
-          className="w-full bg-gray-700 text-white p-3 rounded outline-none focus:ring-2 focus:ring-purple-600"
-          value={transferAmount}
-          onChange={changeAmount}
-        />
-      </div>
-
-      <button
-        type="submit"
-        onClick={transferBalance}
-        className="w-full bg-purple-600 text-white p-3 rounded hover:bg-purple-700 transition-colors"
-      >
-        Tuto
-      </button>
-      <button type="button" onClick={validateBalanceTo}>
-        Not Sure?
-      </button>
     </div>
   );
 };
