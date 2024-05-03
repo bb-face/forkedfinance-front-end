@@ -10,6 +10,8 @@ import { format } from "../../utils/formats";
 
 import { getFeeTutoContract } from "../../utils/getFeeTutoContract";
 import { getTutocContract } from "../../utils/getTutoContract";
+import { getRRContract } from "../../utils/getRRContract";
+
 import { feeTutoAddr, maxUint, tutoAddr, chainId } from "../../costant/prod-costant";
 
 
@@ -68,10 +70,12 @@ function Tuto({
               }
             });
         } else {
-          const parsedUnit = ethers.utils.parseUnits(amount, 18);
+          const rrContract = getRRContract(signer);                  
 
-          await contractRewardRouter
-            .stakeFF(parsedUnit)
+          const parsedUnit = ethers.utils.parseUnits(amount, 18);
+          
+          await rrContract
+            .stakeTuto(parsedUnit)
             .then((tx) => {
               console.log(tx);
               //do whatever you want with tx
@@ -86,7 +90,41 @@ function Tuto({
     }
   };
 
-  const unstakeTuto = async () => {}; // TODO: transform in unstakeTuto not available yet
+  const unstakeTuto = async () => {
+    if (window.ethereum?.isMetaMask) {
+      const provider = new ethers.providers.Web3Provider(window.ethereum);
+      const network = await provider.getNetwork();
+      const currentAddress = getCurrentAddress(provider);
+      const signer = provider.getSigner();
+
+      if(!amount) {return};
+
+      if (network.chainId === chainId) {
+        const tutoContract = getTutocContract(signer);
+        const allowance = await tutoContract.allowance(currentAddress, feeTutoAddr);
+        const parsedAllowance = format(allowance, 6)
+        console.log(parsedAllowance)
+
+         
+        const rrContract = getRRContract(signer);                  
+
+        const parsedUnit = ethers.utils.parseUnits(amount, 18);
+          
+        await rrContract
+            .unstakeTuto(parsedUnit)
+            .then((tx) => {
+              console.log(tx);
+              //do whatever you want with tx
+            })
+            .catch((e) => {
+              if (e.code === 4001) {
+                console.log("Rejected");
+              }
+            });
+        
+      }
+    }
+  }; // TODO: transform in unstakeTuto not available yet
 
   return (
     <>

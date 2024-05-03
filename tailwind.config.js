@@ -15,10 +15,10 @@ module.exports = {
         pressed: "#333",
       },
       colors: {
-        font: "#f1f1f1",
+        font: "#eee",
         primary: {
           light: "#cccccc",
-          DEFAULT: "#888888",
+          DEFAULT: "#000",
           dark: "#444444",
         },
         secondary: {
