@@ -7,13 +7,17 @@ import { permitSigned } from "../../utils/permit";
 import { getCurrentAddress } from "../../utils/getAddress";
 import { format } from "../../utils/formats";
 
-
 import { getFeeTutoContract } from "../../utils/getFeeTutoContract";
 import { getTutocContract } from "../../utils/getTutoContract";
 import { getRRContract } from "../../utils/getRRContract";
 
-import { feeTutoAddr, maxUint, tutoAddr, chainId } from "../../costant/prod-costant";
-
+import {
+  feeTutoAddr,
+  maxUint,
+  tutoAddr,
+  chainId,
+} from "../../costant/prod-costant";
+import NumberInput from "../../atoms/NumberInput";
 
 function Tuto({
   ffBalance,
@@ -22,9 +26,7 @@ function Tuto({
   ffTotalStakedAmounts,
   ffSupply,
 }) {
-
   const [amount, setAmount] = useState(0);
-  
 
   const stakeTuto = async () => {
     if (window.ethereum?.isMetaMask) {
@@ -33,30 +35,43 @@ function Tuto({
       const currentAddress = getCurrentAddress(provider);
       const signer = provider.getSigner();
 
-      if(!amount) {return};
+      if (!amount) {
+        return;
+      }
 
       if (network.chainId === chainId) {
         const tutoContract = getTutocContract(signer);
-        const allowance = await tutoContract.allowance(currentAddress, feeTutoAddr);
-        const parsedAllowance = format(allowance, 6)
-        console.log(parsedAllowance)
+        const allowance = await tutoContract.allowance(
+          currentAddress,
+          feeTutoAddr
+        );
+        const parsedAllowance = format(allowance, 6);
+        console.log(parsedAllowance);
 
         if (amount > parsedAllowance) {
-
           const feeTutoContract = getFeeTutoContract(signer);
 
-          const block = await provider.getBlock('latest');
-          const permit = await permitSigned(signer, tutoContract, feeTutoAddr, block.timestamp);
-          const signature = await signer._signTypedData(permit[0], permit[1], permit[2]);
+          const block = await provider.getBlock("latest");
+          const permit = await permitSigned(
+            signer,
+            tutoContract,
+            feeTutoAddr,
+            block.timestamp
+          );
+          const signature = await signer._signTypedData(
+            permit[0],
+            permit[1],
+            permit[2]
+          );
           const signed = ethers.utils.splitSignature(signature);
-         
+
           await feeTutoContract
-          
+
             .stakeWithPermit(
               tutoAddr,
               amount,
               maxUint,
-              (permit[2].deadline).toString(),
+              permit[2].deadline.toString(),
               signed.v,
               signed.r,
               signed.s
@@ -70,10 +85,10 @@ function Tuto({
               }
             });
         } else {
-          const rrContract = getRRContract(signer);                  
+          const rrContract = getRRContract(signer);
 
           const parsedUnit = ethers.utils.parseUnits(amount, 18);
-          
+
           await rrContract
             .stakeTuto(parsedUnit)
             .then((tx) => {
@@ -97,31 +112,34 @@ function Tuto({
       const currentAddress = getCurrentAddress(provider);
       const signer = provider.getSigner();
 
-      if(!amount) {return};
+      if (!amount) {
+        return;
+      }
 
       if (network.chainId === chainId) {
         const tutoContract = getTutocContract(signer);
-        const allowance = await tutoContract.allowance(currentAddress, feeTutoAddr);
-        const parsedAllowance = format(allowance, 6)
-        console.log(parsedAllowance)
+        const allowance = await tutoContract.allowance(
+          currentAddress,
+          feeTutoAddr
+        );
+        const parsedAllowance = format(allowance, 6);
+        console.log(parsedAllowance);
 
-         
-        const rrContract = getRRContract(signer);                  
+        const rrContract = getRRContract(signer);
 
         const parsedUnit = ethers.utils.parseUnits(amount, 18);
-          
+
         await rrContract
-            .unstakeTuto(parsedUnit)
-            .then((tx) => {
-              console.log(tx);
-              //do whatever you want with tx
-            })
-            .catch((e) => {
-              if (e.code === 4001) {
-                console.log("Rejected");
-              }
-            });
-        
+          .unstakeTuto(parsedUnit)
+          .then((tx) => {
+            console.log(tx);
+            //do whatever you want with tx
+          })
+          .catch((e) => {
+            if (e.code === 4001) {
+              console.log("Rejected");
+            }
+          });
       }
     }
   }; // TODO: transform in unstakeTuto not available yet
@@ -151,21 +169,16 @@ function Tuto({
         <div>Total Staked</div>
         <div>{ffTotalStakedAmounts}</div>
       </div>
-     
+
       <div className="flex justify-between items-center mb-2">
-        <form >
-          <input
-            type="number"
-            placeholder="0.0"
+        <form>
+          <NumberInput
             value={amount}
             onChange={(event) => setAmount(event.target.value)}
           />
-         
         </form>
         <form onClick={stakeTuto}>
-          
           <Button type="submit">Stake</Button>
-          
         </form>
         <form onClick={unstakeTuto}>
           {/* <input
@@ -177,7 +190,6 @@ function Tuto({
           <Button type="submit">Unstake</Button>
         </form>
       </div>
-      
     </>
   );
 }

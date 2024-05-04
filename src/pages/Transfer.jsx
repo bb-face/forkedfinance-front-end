@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { WalletTwoTone } from "@ant-design/icons";
 import { ethers } from "ethers";
 import Button from "../atoms/Button";
 import NumberInput from "../atoms/NumberInput";
@@ -14,9 +13,9 @@ const url = "https://server.forkedfinance.xyz";
 const Transfer = () => {
   const { user } = useUserManagement();
 
-  const [transferTo, settransferTo] = useState(null);
-  const [transferAmount, setTransferAmount] = useState(null);
-  const [balance, setBalance] = useState(null);
+  const [transferTo, settransferTo] = useState("");
+  const [transferAmount, setTransferAmount] = useState(0);
+  const [balance, setBalance] = useState(0);
 
   const { alert, showAlert, setLoading, setSuccess, hideAlert } =
     useLocalState();
@@ -188,7 +187,7 @@ const Transfer = () => {
             You are transferring:
           </div>
           <NumberInput value={transferAmount} onChange={changeAmount} />
-          <label htmlFor="toAddress" className="block text-gray-400 mb-2">
+          <label htmlFor="toAddress" className="block text-gray-400 mb-2 mt-6">
             To
           </label>
           <TextInput value={transferTo} onChange={changetransferTo} />

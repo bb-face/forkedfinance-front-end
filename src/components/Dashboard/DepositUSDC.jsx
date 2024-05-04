@@ -18,6 +18,7 @@ import { getUsdcContract } from "../../utils/getUsdcContract";
 import { getRRContract } from "../../utils/getRRContract";
 import { getFeeUsdcContract } from "../../utils/getFeeUsdcContract";
 import { format } from "../../utils/formats";
+import NumberInput from "../../atoms/NumberInput";
 
 function DepositUSDC({
   usdcAccountBalance,
@@ -157,9 +158,7 @@ function DepositUSDC({
 
       <div className="flex justify-between items-center mb-2">
         <form>
-          <input
-            type="number"
-            placeholder="0.0"
+          <NumberInput
             value={amount}
             onChange={(event) => setAmount(event.target.value)}
           />

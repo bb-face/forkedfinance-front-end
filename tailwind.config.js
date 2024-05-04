@@ -10,12 +10,15 @@ module.exports = {
       boxShadow: {
         "3d": "4px 4px 0px 0 rgba(0, 0, 0, 0.25)",
       },
-      borderColor: {
-        default: "#ccc",
-        pressed: "#333",
-      },
       colors: {
         font: "#eee",
+        button: {
+          shadow: "#1b1f11",
+          border: "#1b1f11",
+        },
+        input: {
+          outline: "#1b1f11",
+        },
         primary: {
           light: "#cccccc",
           DEFAULT: "#000",

@@ -3,7 +3,6 @@ import { useSetRecoilState, useRecoilValue } from "recoil";
 import { ethers } from "ethers";
 
 // import { Input } from "antd"; // TODO: remove library
-import stableCoinTrackerABI from "../assets/StableCoinContractABI.json";
 
 import DepositUSDC from "../components/Dashboard/DepositUSDC";
 import Tuto from "../components/Dashboard/Tuto";
@@ -131,7 +130,6 @@ function Dashboard() {
       currentAddress,
       setWalletAddress
     );
-
 
     const stableCoinTrackerContract = getFeeUsdcContract(signer);
     const feeFFTracker = getFeeTutoContract(signer);
