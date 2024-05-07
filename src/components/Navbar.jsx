@@ -10,6 +10,7 @@ import Button from "../atoms/Button";
 import WalletAddress from "../atoms/WalletAddress";
 
 import logo from "../assets/Tuto.png";
+import NetworkInfo from "../atoms/NetworkInfo";
 
 export const Navbar = () => {
   const { connectWallet } = useConnectWallet();
@@ -38,7 +39,7 @@ export const Navbar = () => {
           {walletAddress ? (
             <>
               <WalletAddress address={walletAddress} />
-              <div>chain id: {chainId}</div>
+              <NetworkInfo chainId={chainId} />
             </>
           ) : (
             <button
