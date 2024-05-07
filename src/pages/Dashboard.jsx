@@ -8,7 +8,6 @@ import DepositUSDC from "../components/Dashboard/DepositUSDC";
 import Tuto from "../components/Dashboard/Tuto";
 import AvailableBalance from "../components/Dashboard/AvailableBalance";
 
-import { useUserManagement } from "../customHooks/useUser";
 import { walletAddressAtom } from "../state/wallet";
 import { formatUsdc, formatErc } from "../utils/formatBalance";
 import { getProviderSigner } from "../utils/getProviderSignerNetwork";
@@ -23,9 +22,12 @@ import { getTutocContract } from "../utils/getTutoContract";
 import useConnectWallet from "../customHooks/useWallet";
 
 import { feeUsdcAddr, usdcAddr } from "../costant/prod-costant";
+import { userBalanceAtom } from "../state/userBalance";
 
 function Dashboard() {
-  const { user } = useUserManagement();
+  // TODO: where is this needed?
+  // const balance = useRecoilValue(transformedUserBalance);
+
   const chainId = useRecoilValue(chainIdAtom);
   const setError = useSetRecoilState(errorAtom);
   const { connectWallet } = useConnectWallet();
@@ -54,14 +56,6 @@ function Dashboard() {
 
   const currentAddress = useRecoilValue(walletAddressAtom);
   const setWalletAddress = useSetRecoilState(walletAddressAtom);
-
-  const updateBalance = async () => {
-    try {
-      setBalance(Math.round((user / 1000000) * 100) / 100);
-    } catch (error) {
-      console.log(error);
-    }
-  };
 
   const getAccountContractsData = async () => {
     if (!chainId) return;

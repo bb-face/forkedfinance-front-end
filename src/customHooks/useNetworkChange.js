@@ -4,13 +4,17 @@ import { useSetRecoilState } from "recoil";
 import { walletAddressAtom } from "../state/wallet";
 import { useChainIdSetter } from "../state/network";
 
+import { fetchUserBalance } from "../utils/fetchUserBalance";
+
 function useNetworkChange() {
   const setWalletAddress = useSetRecoilState(walletAddressAtom);
   const [_, setProcessedChainId] = useChainIdSetter();
 
-  const handleAccountsChanged = (accounts) => {
+  const handleAccountsChanged = async (accounts) => {
     const newAddress = accounts.length > 0 ? accounts[0] : null;
+    const newBalance = await fetchUserBalance(newAddress);
     setWalletAddress(newAddress);
+    setUserBalance(newBalance);
   };
 
   const handleChainChanged = (chainId) => {

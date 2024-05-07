@@ -1,35 +1,27 @@
-import React, { useState, useEffect } from "react";
-import axios from "axios";
+import React, { useState } from "react";
 import { ethers } from "ethers";
+import { useRecoilState, useSetRecoilState } from "recoil";
+import axios from "axios";
+
+import useLocalState from "../utils/localState";
+import { fetchUserBalance } from "../utils/fetchUserBalance";
+import { walletAddressAtom } from "../state/wallet";
+import { userBalanceAtom } from "../state/userBalance";
+
 import Button from "../atoms/Button";
 import NumberInput from "../atoms/NumberInput";
 import TextInput from "../atoms/StringInput";
 
-import useLocalState from "../utils/localState";
-import { useUserManagement } from "../customHooks/useUser";
-
-const url = "https://server.forkedfinance.xyz";
-
 const Transfer = () => {
-  const { user } = useUserManagement();
+  // TODO: where is this needed?
+  // const balance = useRecoilValue(transformedUserBalance);
+  const setUserBalance = useSetRecoilState(userBalanceAtom);
+  const walletAddress = useRecoilState(walletAddressAtom);
 
   const [transferTo, settransferTo] = useState("");
   const [transferAmount, setTransferAmount] = useState(0);
-  const [balance, setBalance] = useState(0);
 
-  const { alert, showAlert, setLoading, setSuccess, hideAlert } =
-    useLocalState();
-
-  const updateBalance = async () => {
-    try {
-      // const { data } = await axios.get(`${url}/api/v1/users/updateBalance`, {
-      //   withCredentials: true,
-      // });
-      setBalance(Math.round((user / 1000000) * 100) / 100);
-    } catch (error) {
-      console.log(error);
-    }
-  };
+  const { showAlert, setLoading, setSuccess, hideAlert } = useLocalState();
 
   const transferBalance = async (e) => {
     e.preventDefault();
@@ -80,7 +72,9 @@ const Transfer = () => {
       }, 7000);
       setSuccess(true);
     }
-    updateBalance();
+    const newUserBalance = fetchUserBalance(walletAddress);
+    setUserBalance(newUserBalance);
+
     setLoading(false);
   };
 
@@ -156,7 +150,6 @@ const Transfer = () => {
       });
       setSuccess(true);
     }
-    // updateBalance();
     setTimeout(() => {
       hideAlert();
     }, 7000);
@@ -170,14 +163,6 @@ const Transfer = () => {
   function changetransferTo(e) {
     settransferTo(String(e.target.value));
   }
-
-  useEffect(() => {
-    updateBalance();
-    clearTimeout();
-  }, [updateBalance]);
-  // {alert.show && (
-  //   <div className={`alert alert-${alert.type}`}>{alert.text}</div>
-  // )}
 
   return (
     <div className="mx-auto p-4">

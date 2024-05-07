@@ -3,13 +3,18 @@ import { useSetRecoilState } from "recoil";
 import { ethers } from "ethers";
 
 import { walletAddressAtom } from "../state/wallet";
+import { userBalanceAtom } from "../state/userBalance";
 import { useChainIdSetter } from "../state/network";
 import { errorAtom } from "../state/error";
 
+import { fetchUserBalance } from "../utils/fetchUserBalance";
+
 function useConnectWallet() {
   const [_, setProcessedChainId] = useChainIdSetter();
+
   const setWalletAddress = useSetRecoilState(walletAddressAtom);
   const setError = useSetRecoilState(errorAtom);
+  const setUserBalance = useSetRecoilState(userBalanceAtom);
 
   const [isLoading, setIsLoading] = useState(false);
 
@@ -26,6 +31,9 @@ function useConnectWallet() {
 
         setProcessedChainId(network.chainId);
         setWalletAddress(address);
+
+        const userBalance = await fetchUserBalance(address);
+        setUserBalance(userBalance);
       } else {
         console.log("-- no metamask installed");
       }
