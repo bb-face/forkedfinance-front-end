@@ -26,7 +26,7 @@ export const Navbar = () => {
         <Link to="/dashboard">
           <Button>Dashboard</Button>
         </Link>
-        <Link to="/dashboard">
+        <Link to="/airdrop">
           <Button>Airdrop</Button>
         </Link>
         <Link to="/transfer">

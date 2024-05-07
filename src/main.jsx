@@ -9,6 +9,8 @@ import Transfer from "./pages/Transfer.jsx";
 import Dashboard from "./pages/Dashboard.jsx";
 import Home from "./pages/Home.jsx";
 import Merchants from "./pages/Merchants.jsx";
+import Airdrop from "./pages/Airdrop.jsx";
+
 import ErrorPopup from "./components/ErrorPopup.jsx";
 
 const router = createBrowserRouter([
@@ -21,12 +23,16 @@ const router = createBrowserRouter([
         element: <Home />,
       },
       {
-        path: "transfer",
-        element: <Transfer />,
-      },
-      {
         path: "dashboard",
         element: <Dashboard />,
+      },
+      {
+        path: "airdrop",
+        element: <Airdrop />,
+      },
+      {
+        path: "transfer",
+        element: <Transfer />,
       },
       {
         path: "merchants",
