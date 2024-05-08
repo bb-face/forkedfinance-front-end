@@ -166,7 +166,7 @@ function Dashboard() {
       return;
     }
 
-    updateBalance();
+    // updateBalance();
     getAccountContractsData();
     getContractsData();
   }, [chainId]);

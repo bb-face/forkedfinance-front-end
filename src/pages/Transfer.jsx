@@ -1,9 +1,8 @@
 import React, { useState } from "react";
 import { ethers } from "ethers";
-import { useRecoilState, useSetRecoilState } from "recoil";
+import { useRecoilValue, useSetRecoilState } from "recoil";
 import axios from "axios";
 
-import useLocalState from "../utils/localState";
 import { fetchUserBalance } from "../utils/fetchUserBalance";
 import { walletAddressAtom } from "../state/wallet";
 import { userBalanceAtom } from "../state/userBalance";
@@ -16,35 +15,17 @@ const Transfer = () => {
   // TODO: where is this needed?
   // const balance = useRecoilValue(transformedUserBalance);
   const setUserBalance = useSetRecoilState(userBalanceAtom);
-  const walletAddress = useRecoilState(walletAddressAtom);
+  const walletAddress = useRecoilValue(walletAddressAtom);
 
   const [transferTo, settransferTo] = useState("");
   const [transferAmount, setTransferAmount] = useState(0);
 
-  const { showAlert, setLoading, setSuccess, hideAlert } = useLocalState();
-
   const transferBalance = async (e) => {
     e.preventDefault();
-    setLoading(true);
-    hideAlert();
     if (!transferAmount) {
-      showAlert({
-        text: "Please state the amount...",
-      });
-      setTimeout(() => {
-        hideAlert();
-      }, 7000);
-      setLoading(false);
       return;
     }
     if (!transferTo) {
-      showAlert({
-        text: "Please provide wallet..",
-      });
-      setTimeout(() => {
-        hideAlert();
-      }, 7000);
-      setLoading(false);
       return;
     }
     try {
@@ -59,23 +40,9 @@ const Transfer = () => {
           amount: transferAmount,
         }
       );
-
-      showAlert({ text: data.msg, type: "success" });
-      setTimeout(() => {
-        hideAlert();
-      }, 7000);
-      setSuccess(true);
-    } catch (error) {
-      showAlert({ text: error.response.data.msg });
-      setTimeout(() => {
-        hideAlert();
-      }, 7000);
-      setSuccess(true);
-    }
+    } catch (error) {}
     const newUserBalance = fetchUserBalance(walletAddress);
     setUserBalance(newUserBalance);
-
-    setLoading(false);
   };
 
   const signTransfer = async () => {
@@ -121,18 +88,9 @@ const Transfer = () => {
 
   const validateBalanceTo = async (e) => {
     e.preventDefault();
-    setLoading(true);
-    hideAlert();
 
     console.log(import.meta.env.VITE_SERVER_URL);
     if (!transferTo) {
-      showAlert({
-        text: "Please provide Wallet",
-      });
-      setTimeout(() => {
-        hideAlert();
-      }, 7000);
-      setLoading(false);
       return;
     }
     try {
@@ -142,19 +100,7 @@ const Transfer = () => {
           walletTo: transferTo,
         }
       );
-      showAlert({ text: data.msg, type: "success" });
-      setSuccess(true);
-    } catch (error) {
-      showAlert({
-        text: error.response.data.msg,
-      });
-      setSuccess(true);
-    }
-    setTimeout(() => {
-      hideAlert();
-    }, 7000);
-
-    setLoading(false);
+    } catch (error) {}
   };
 
   function changeAmount(e) {

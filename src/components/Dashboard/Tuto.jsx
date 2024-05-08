@@ -4,7 +4,6 @@ import { ethers } from "ethers";
 import Button from "../../atoms/Button";
 
 import { permitSigned } from "../../utils/permit";
-import { getCurrentAddress } from "../../utils/getAddress";
 import { format } from "../../utils/formats";
 
 import { getFeeTutoContract } from "../../utils/getFeeTutoContract";
@@ -18,6 +17,8 @@ import {
   chainId,
 } from "../../costant/prod-costant";
 import NumberInput from "../../atoms/NumberInput";
+import { useRecoilValue } from "recoil";
+import { walletAddressAtom } from "../../state/wallet";
 
 function Tuto({
   ffBalance,
@@ -27,12 +28,12 @@ function Tuto({
   ffSupply,
 }) {
   const [amount, setAmount] = useState(0);
+  const currentAddress = useRecoilValue(walletAddressAtom);
 
   const stakeTuto = async () => {
     if (window.ethereum?.isMetaMask) {
       const provider = new ethers.providers.Web3Provider(window.ethereum);
       const network = await provider.getNetwork();
-      const currentAddress = getCurrentAddress(provider);
       const signer = provider.getSigner();
 
       if (!amount) {

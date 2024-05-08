@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { ethers } from "ethers";
+import { useRecoilValue } from "recoil";
 
 import Button from "../../atoms/Button";
 
@@ -13,12 +14,12 @@ import {
 } from "../../costant/prod-costant";
 import rewardRouterABI from "../../assets/RewardTrackerABI.json";
 
-import { getCurrentAddress } from "../../utils/getAddress";
 import { getUsdcContract } from "../../utils/getUsdcContract";
 import { getRRContract } from "../../utils/getRRContract";
 import { getFeeUsdcContract } from "../../utils/getFeeUsdcContract";
 import { format } from "../../utils/formats";
 import NumberInput from "../../atoms/NumberInput";
+import { walletAddressAtom } from "../../state/wallet";
 
 function DepositUSDC({
   usdcAccountBalance,
@@ -28,12 +29,12 @@ function DepositUSDC({
   totalStableCoinStakedAmount,
 }) {
   const [amount, setAmount] = useState(0);
+  const currentAddress = useRecoilValue(walletAddressAtom);
 
   const depositUSDC = async () => {
     if (window.ethereum?.isMetaMask) {
       const provider = new ethers.providers.Web3Provider(window.ethereum);
       const network = await provider.getNetwork();
-      const currentAddress = getCurrentAddress(provider);
       const signer = provider.getSigner();
 
       if (!amount) {
