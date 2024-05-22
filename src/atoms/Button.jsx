@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-const Button = ({ children }) => {
+const Button = ({ children, type, onClick }) => {
   const [isPressed, setIsPressed] = useState(false);
 
   const handleMouseEnter = () => setIsPressed(false);
@@ -9,7 +9,8 @@ const Button = ({ children }) => {
 
   return (
     <button
-      type="button"
+      type={type}
+      onClick={onClick}
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
       onMouseDown={handleClick}

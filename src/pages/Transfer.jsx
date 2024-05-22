@@ -6,58 +6,66 @@ import axios from "axios";
 import { fetchUserBalance } from "../utils/fetchUserBalance";
 import { walletAddressAtom } from "../state/wallet";
 import { userBalanceAtom } from "../state/userBalance";
+import useConnectWallet from "../customHooks/useWallet";
 
 import Button from "../atoms/Button";
 import NumberInput from "../atoms/NumberInput";
 import TextInput from "../atoms/StringInput";
 
 const Transfer = () => {
-  // TODO: where is this needed?
-  // const balance = useRecoilValue(transformedUserBalance);
   const setUserBalance = useSetRecoilState(userBalanceAtom);
-  const walletAddress = useRecoilValue(walletAddressAtom);
+  const currentAddress = useRecoilValue(walletAddressAtom);
+  const { connectWallet } = useConnectWallet();
 
   const [transferTo, settransferTo] = useState("");
   const [transferAmount, setTransferAmount] = useState(0);
+  const [message, setMessage] = useState("");
 
   const transferBalance = async (e) => {
     e.preventDefault();
+
+    if (!currentAddress) {
+      connectWallet();
+
+      return;
+    }
+
     if (!transferAmount) {
       return;
     }
     if (!transferTo) {
       return;
     }
+
     try {
-      const { currentAddress, signedMessage } = await signTransfer();
+      const signedMessage = await signTransfer();
+
       const { data } = await axios.patch(
         `${import.meta.env.VITE_SERVER_URL}/balances/transferBalance`,
         {
           account: currentAddress,
-          // unsignedMessage: unsignedMessage,
+          // unsignedMessage:
           signedMessage: signedMessage,
           walletTo: transferTo,
           amount: transferAmount,
         }
       );
-    } catch (error) {}
-    const newUserBalance = fetchUserBalance(walletAddress);
-    setUserBalance(newUserBalance);
+
+      // TODO: do something with data
+
+      const newUserBalance = fetchUserBalance(currentAddress);
+      setUserBalance(newUserBalance);
+    } catch (error) {
+      // TODO: do something with the error
+    }
   };
 
   const signTransfer = async () => {
     const provider = new ethers.providers.Web3Provider(window.ethereum);
     const signer = provider.getSigner();
-    const currentAddress = await provider
-      .getSigner()
-      .getAddress()
-      .catch((e) => {
-        if (e.code === 4001) {
-          console.log("Rejected");
-        }
-      });
 
     const unsignedMessage = import.meta.env.VITE_SECRET_SIGN_STRING;
+
     const payload = ethers.utils.defaultAbiCoder.encode(
       // [import.meta.env.VITE_SECRET_SIGN_STRING],
       ["string"],
@@ -76,17 +84,12 @@ const Transfer = () => {
     if (!signedMessage) {
       return;
     }
-    // const fullyExpandedSig = ethers.utils.splitSignature(signedMessage);
 
-    // const signingAddress = ethers.utils.verifyMessage(
-    //   ethers.utils.arrayify(payloadHash),
-    //   fullyExpandedSig
-    // );
-    const data = { currentAddress, signedMessage };
-    return data;
+    return signedMessage;
   };
 
   const validateBalanceTo = async (e) => {
+    setMessage("");
     e.preventDefault();
 
     console.log(import.meta.env.VITE_SERVER_URL);
@@ -94,13 +97,19 @@ const Transfer = () => {
       return;
     }
     try {
-      const { data } = await axios.post(
+      await axios.post(
         `${import.meta.env.VITE_SERVER_URL}/balances/validateBalanceTo`,
         {
           walletTo: transferTo,
         }
       );
-    } catch (error) {}
+
+      setMessage("Address is valid!");
+    } catch (error) {
+      setMessage("");
+      // TODO: do something with the error
+      // print in the error component?
+    }
   };
 
   function changeAmount(e) {
@@ -109,6 +118,8 @@ const Transfer = () => {
   function changetransferTo(e) {
     settransferTo(String(e.target.value));
   }
+
+  // TODO: create pop up for messages that are not errors/warnings and put [message] there;
 
   return (
     <div className="mx-auto p-4">
@@ -128,7 +139,7 @@ const Transfer = () => {
               className="cardButton"
               onClick={transferBalance}
             >
-              Claim
+              Transfer
             </Button>
             <Button type="button" onClick={validateBalanceTo}>
               Not Sure?

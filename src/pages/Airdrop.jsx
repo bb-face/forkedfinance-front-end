@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import WalletAddress from "../atoms/WalletAddress";
 
 function Airdrop() {
+  // TODO: this is going to be an API request coming from the back-end;
+
   const [leaderboardData, setLeaderboardData] = useState([
     { rank: 1, address: "0x1231273678126378126378162783abc", points: 98 },
     { rank: 2, address: "0x4561273678126378126378162783def", points: 87 },
