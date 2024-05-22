@@ -7,6 +7,7 @@ import { fetchUserBalance } from "../utils/fetchUserBalance";
 import { walletAddressAtom } from "../state/wallet";
 import { userBalanceAtom } from "../state/userBalance";
 import useConnectWallet from "../customHooks/useWallet";
+import { messageAtom } from "../state/message";
 
 import Button from "../atoms/Button";
 import NumberInput from "../atoms/NumberInput";
@@ -14,12 +15,13 @@ import TextInput from "../atoms/StringInput";
 
 const Transfer = () => {
   const setUserBalance = useSetRecoilState(userBalanceAtom);
+  const setMessage = useSetRecoilState(messageAtom);
   const currentAddress = useRecoilValue(walletAddressAtom);
+
   const { connectWallet } = useConnectWallet();
 
   const [transferTo, settransferTo] = useState("");
   const [transferAmount, setTransferAmount] = useState(0);
-  const [message, setMessage] = useState("");
 
   const transferBalance = async (e) => {
     e.preventDefault();
@@ -89,10 +91,8 @@ const Transfer = () => {
   };
 
   const validateBalanceTo = async (e) => {
-    setMessage("");
     e.preventDefault();
 
-    console.log(import.meta.env.VITE_SERVER_URL);
     if (!transferTo) {
       return;
     }
@@ -106,7 +106,6 @@ const Transfer = () => {
 
       setMessage("Address is valid!");
     } catch (error) {
-      setMessage("");
       // TODO: do something with the error
       // print in the error component?
     }

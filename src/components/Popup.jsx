@@ -2,25 +2,33 @@ import React, { useEffect, useState } from "react";
 import { useRecoilValue, useSetRecoilState } from "recoil";
 
 import { errorAtom } from "../state/error";
-import Error from "../atoms/Error";
+import { messageAtom } from "../state/message";
 
-const ErrorPopup = () => {
+import Error from "../atoms/Error";
+import Message from "../atoms/Message";
+
+const Popup = () => {
   const [showPopup, setShowPopup] = useState(false);
+
   const error = useRecoilValue(errorAtom);
   const setError = useSetRecoilState(errorAtom);
 
+  const message = useRecoilValue(messageAtom);
+  const setMessage = useSetRecoilState(messageAtom);
+
   useEffect(() => {
-    if (!error) return;
+    if (!error && !message) return;
 
     setShowPopup(true);
 
     const timer = setTimeout(() => {
       setShowPopup(false);
       setError(null);
+      setMessage(null);
     }, 5000);
 
     return () => clearTimeout(timer);
-  }, [error]);
+  }, [error, message]);
 
   if (!showPopup) {
     return null;
@@ -36,9 +44,11 @@ const ErrorPopup = () => {
         boxShadow: "0 4px 8px rgba(0,0,0,0.1)",
       }}
     >
-      <Error />
+      {error && <Error />}
+      <div style={{ height: "10px" }}></div>
+      {message && <Message />}
     </div>
   );
 };
 
-export default ErrorPopup;
+export default Popup;
