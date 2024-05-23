@@ -148,12 +148,9 @@ function Dashboard() {
   useEffect(() => { //fetch pointsMultiplier from backend
     if (!currentAddress) {
       connectWallet();
-
       return;
     }
-
     // fetch function points, balance, pointsMultiplier
-    
   }, [currentAddress]);
 
   return (

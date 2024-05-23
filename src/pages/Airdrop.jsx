@@ -1,17 +1,47 @@
-import React, { useState } from "react";
+import React, {useEffect, useState } from "react";
+import axios from "axios";
 import WalletAddress from "../atoms/WalletAddress";
 
 function Airdrop() {
   // TODO: this is going to be an API request coming from the back-end;
 
+  const url = "http://localhost:4000/api/v1/balances/points";
+
+
   const [leaderboardData, setLeaderboardData] = useState([
     { rank: 1, address: "0x1231273678126378126378162783abc", points: 98 },
-    { rank: 2, address: "0x4561273678126378126378162783def", points: 87 },
-    { rank: 3, address: "0x4561273678126378126378162783def", points: 15 },
-    { rank: 4, address: "0x4561273678126378126378162783def", points: 12 },
-    { rank: 5, address: "0x4561273678126378126378162783def", points: 8 },
-    { rank: 6, address: "0x4561273678126378126378162783def", points: 7 },
   ]);
+  // const updateLeaderboard= async () => {
+  //   try {
+  //     const { data } = await axios.get(`${import.meta.env.VITE_SERVER_URL}`, {
+  //       // withCredentials: true,
+  //     });
+  //     console.log(meta.env.VITE_SERVER_URL)
+
+  //     console.log(data)
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  // };
+
+  const updateLeaderboard= async () => {
+    try {
+      const { data } = await axios.get(url);
+      setLeaderboardData(data)
+      console.log(data)
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+
+
+
+  useEffect(() => { //fetch pointsMultiplier from backend
+    updateLeaderboard()
+    // fetch function points, balance, pointsMultiplier
+  }, []);
+  
 
   return (
     <table className="m-6 table-auto w-full shadow-md rounded-lg border-2 border-primary">
@@ -34,7 +64,7 @@ function Airdrop() {
           >
             <td className="px-4 py-2 text-center">{entry.rank}</td>
             <td className="px-4 py-2 text-center">
-              <WalletAddress address={entry.address} />
+              <WalletAddress address={entry.wallet} />
             </td>
             <td className="px-4 py-2 text-center">{entry.points}</td>
           </tr>

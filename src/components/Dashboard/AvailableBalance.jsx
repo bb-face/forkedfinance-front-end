@@ -14,6 +14,7 @@ function AvailableBalance({ balance, points }) {
             Deposit, Withdraw, Transfer to get Points
         </div>
       </div>
+      
       <div className="flex justify-end">
         {/* <Button
           type="button"
@@ -26,7 +27,7 @@ function AvailableBalance({ balance, points }) {
           To Transfer
         </Button> */}
         <Link to="../transfer">
-          <Button>Make Instant Gas-Free Transfer</Button>
+          <Button>Instant Gas-Free Transfer</Button>
         </Link>
       </div>
     </>
