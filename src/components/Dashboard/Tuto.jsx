@@ -21,11 +21,10 @@ import { useRecoilValue } from "recoil";
 import { walletAddressAtom } from "../../state/wallet";
 
 function Tuto({
-  ffBalance,
-  ffStakedAmounts,
-  ffClaimableRewards,
-  ffTotalStakedAmounts,
-  ffSupply,
+  tutoBalance,
+  tutoStakedAmounts,
+  pointsMultiplier,
+  tutoTotalStakedAmounts,
 }) {
   const [amount, setAmount] = useState(0);
   const currentAddress = useRecoilValue(walletAddressAtom);
@@ -123,8 +122,7 @@ function Tuto({
           currentAddress,
           feeTutoAddr
         );
-        const parsedAllowance = format(allowance, 6);
-        console.log(parsedAllowance);
+       
 
         const rrContract = getRRContract(signer);
 
@@ -156,19 +154,19 @@ function Tuto({
       </div>
       <div className="flex justify-between items-center mb-2">
         <div>Wallet</div>
-        <div>{ffBalance}</div>
+        <div>{tutoBalance}</div>
       </div>
       <div className="flex justify-between items-center mb-2">
         <div>Staked</div>
-        <div>{ffStakedAmounts}</div>
+        <div>{tutoStakedAmounts}</div>
       </div>
       <div className="flex justify-between items-center mb-2">
-        <div>Points</div>
-        <div>{ffClaimableRewards}</div>
+        <div>Points Multiplier</div>
+        <div>{pointsMultiplier}</div>
       </div>
       <div className="flex justify-between items-center mb-2">
         <div>Total Staked</div>
-        <div>{ffTotalStakedAmounts}</div>
+        <div>{tutoTotalStakedAmounts}</div>
       </div>
 
       <div className="flex justify-between items-center mb-2">

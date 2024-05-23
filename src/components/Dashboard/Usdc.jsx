@@ -21,11 +21,10 @@ import { format } from "../../utils/formats";
 import NumberInput from "../../atoms/NumberInput";
 import { walletAddressAtom } from "../../state/wallet";
 
-function DepositUSDC({
+function Usdc({
   usdcAccountBalance,
   stableCoinStakedAmount,
-  APR,
-  usdcClaimableRewards,
+  points,
   totalStableCoinStakedAmount,
 }) {
   const [amount, setAmount] = useState(0);
@@ -144,17 +143,13 @@ function DepositUSDC({
         <div>{stableCoinStakedAmount} </div>
       </div>
       <div className="flex justify-between items-center mb-2">
-        <div>Points Multiplier</div>
-        <div>{APR}x</div>
-      </div>
-      <div className="flex justify-between items-center mb-2">
         <div>Points</div>
-        <div>{usdcClaimableRewards}</div>
+        <div>{points}</div>
       </div>
 
       <div className="flex justify-between items-center mb-2">
         <div>Total Deposits</div>
-        <div>${totalStableCoinStakedAmount}</div>
+        <div>{totalStableCoinStakedAmount}</div>
       </div>
 
       <div className="flex justify-between items-center mb-2">
@@ -182,4 +177,4 @@ function DepositUSDC({
   );
 }
 
-export default DepositUSDC;
+export default Usdc;

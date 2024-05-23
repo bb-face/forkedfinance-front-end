@@ -4,7 +4,7 @@ import { ethers } from "ethers";
 
 // import { Input } from "antd"; // TODO: remove library
 
-import DepositUSDC from "../components/Dashboard/DepositUSDC";
+import Usdc from "../components/Dashboard/Usdc";
 import Tuto from "../components/Dashboard/Tuto";
 import AvailableBalance from "../components/Dashboard/AvailableBalance";
 
@@ -21,7 +21,7 @@ import { getTutocContract } from "../utils/getTutoContract";
 
 import useConnectWallet from "../customHooks/useWallet";
 
-import { feeUsdcAddr, usdcAddr } from "../costant/prod-costant";
+import { feeUsdcAddr, usdcAddr, tutoAddr } from "../costant/prod-costant";
 import { userBalanceAtom } from "../state/userBalance";
 
 function Dashboard() {
@@ -32,28 +32,19 @@ function Dashboard() {
   const setError = useSetRecoilState(errorAtom);
   const { connectWallet } = useConnectWallet();
 
-  const [usdcAccountBalance, setUsdcAccountBalance] = useState(null);
+  const [usdcAccountBalance, setUsdcAccountBalance] = useState(0);
 
-  const [stableCoinStakedAmount, setStableCoinStakedAmount] = useState(null);
+  const [stableCoinStakedAmount, setStableCoinStakedAmount] = useState(0);
   const [totalStableCoinStakedAmount, setTotalStableCoinStakedAmount] =
-    useState(null);
+  useState(0);
 
   const [balance, setBalance] = useState(null);
-  const [APR, setAPR] = useState(null);
-  const [feeTutoAPR, setfeeTutoAPR] = useState(null);
-
-  const [ffClaimableRewards, setFFClaimableRewards] = useState(null);
-  const [usdcClaimableRewards, setUsdcClaimableRewards] = useState(null);
-  const [totalFeeClaimableRewards, setTotalFeeClaimableRewards] =
-    useState(null);
-
-  const [ffSupply, setFFSupply] = useState(null);
+  const [pointsMultiplier, setpointsMultiplier] = useState(1);
   const [points, setPoints] = useState(0);
 
-  const [ffBalance, setFFBalance] = useState(null);
-  const [ffStakedAmounts, setFFStakedAmounts] = useState(null);
-
-  const [ffTotalStakedAmounts, setFFTotalStakedAmounts] = useState(null);
+  const [tutoBalance, setTutoBalance] = useState(0);
+  const [tutoStakedAmounts, setTutoStakedAmounts] = useState(0);
+  const [tutoTotalStakedAmounts, setTutoTotalStakedAmounts] = useState(0);
 
   const currentAddress = useRecoilValue(walletAddressAtom);
   const setWalletAddress = useSetRecoilState(walletAddressAtom);
@@ -72,7 +63,7 @@ function Dashboard() {
 
     const usdcContract = getUsdcContract(signer);
     const usdcFeeTrackerContract = getFeeUsdcContract(signer);
-    const feeFFTrackerContract = getFeeTutoContract(signer);
+    const tutoFeeTrackerContract = getFeeTutoContract(signer);
 
     const currentUsdcBalance = await usdcContract.balanceOf(currentAddress);
     const parsedUsdcBalance = ethers.utils.formatUnits(
@@ -85,33 +76,27 @@ function Dashboard() {
     const currentUsdcStaked = await usdcFeeTrackerContract.stakedAmounts(
       currentAddress
     );
-    const claimableUsdcFeeReward = await usdcFeeTrackerContract.claimable(
+    const currentTutoStaked = await tutoFeeTrackerContract.stakedAmounts(
       currentAddress
     );
-    const claimableFFFeeReward = await feeFFTrackerContract.claimable(
-      currentAddress
+    const totalTutoStaked = await tutoFeeTrackerContract.totalDepositSupply(
+      tutoAddr 
     );
 
-    setUsdcClaimableRewards(formatUsdc(claimableUsdcFeeReward));
     setStableCoinStakedAmount(formatUsdc(currentUsdcStaked));
-    setFFClaimableRewards(formatUsdc(claimableFFFeeReward));
+    setTutoStakedAmounts(formatErc(currentTutoStaked));
+    setTutoTotalStakedAmounts(formatErc(totalTutoStaked));
 
     const tutoContract = getTutocContract(signer);
-    const ffAccountBalance = await tutoContract.balanceOf(currentAddress);
+    const tutoAccountBalance = await tutoContract.balanceOf(currentAddress);
 
-    if (!ffAccountBalance) {
-      setFFBalance("0");
+    if (!tutoAccountBalance) {
+      setTutoBalance("0");
     } else {
-      setFFBalance(formatErc(ffAccountBalance));
+      setTutoBalance(formatErc(tutoAccountBalance));
     }
 
-    setTotalFeeClaimableRewards(
-      Math.round(
-        (formatUsdc(claimableUsdcFeeReward) +
-          formatUsdc(claimableFFFeeReward)) *
-          10
-      ) / 10
-    );
+    
   };
 
   const getContractsData = async () => {
@@ -128,36 +113,24 @@ function Dashboard() {
 
     const stableCoinTrackerContract = getFeeUsdcContract(signer);
     const feeFFTracker = getFeeTutoContract(signer);
-
+    
     const totalStableCoinStaked =
-      await stableCoinTrackerContract.totalDepositSupply(usdcAddr);
+    await stableCoinTrackerContract.totalDepositSupply(usdcAddr);
     // const feeTokensPerInterval =
     //   await stableCoinTrackerContract.tokensPerInterval();
     // const tokensPerYear = feeTokensPerInterval * secondsPerYear;
-
+    
     setTotalStableCoinStakedAmount(formatUsdc(totalStableCoinStaked));
     // setAPR(
-    //   Math.round(
-    //     (formatUsdc(tokensPerYear) / formatUsdc(totalStableCoinStaked)) * 1000
-    //   ) / 10
-    // );
+      //   Math.round(
+        //     (formatUsdc(tokensPerYear) / formatUsdc(totalStableCoinStaked)) * 1000
+        //   ) / 10
+        // );
+        
+   
 
-    const feeFFTotalSupply = await feeFFTracker.totalSupply();
-    const ffFeeTokensPerInterval = await feeFFTracker.tokensPerInterval();
-    // const ffFeeAPR =
-    //   Math.round(
-    //     (formatUsdc(ffFeeTokensPerInterval * secondsPerYear) /
-    //       formatErc(feeFFTotalSupply)) *
-    //       1000
-    //   ) / 10;
 
-    // setFeeFFAPR(ffFeeAPR);
 
-    const tutoContract = getTutocContract(signer);
-
-    const ffTotalSupply = await tutoContract.totalSupply();
-
-    setFFSupply(Math.round(ethers.utils.formatEther(ffTotalSupply)));
   };
 
   useEffect(() => {
@@ -172,6 +145,17 @@ function Dashboard() {
     getContractsData();
   }, [chainId]);
 
+  useEffect(() => { //fetch pointsMultiplier from backend
+    if (!currentAddress) {
+      connectWallet();
+
+      return;
+    }
+
+    // fetch function points, balance, pointsMultiplier
+    
+  }, [currentAddress]);
+
   return (
     <div className="container mx-auto p-4">
       <div className="flex flex-wrap -mx-2">
@@ -182,21 +166,19 @@ function Dashboard() {
         </div>
         <div className="w-1/2 px-2">
           <div className="p-6 shadow-2xl bg-primary">
-            <DepositUSDC
+            <Usdc
               usdcAccountBalance={usdcAccountBalance}
               stableCoinStakedAmount={stableCoinStakedAmount}
-              APR={APR}
-              usdcClaimableRewards={usdcClaimableRewards}
+              points={points}
               totalStableCoinStakedAmount={totalStableCoinStakedAmount}
             />
           </div>
           <div className="p-6 mt-6 shadow-2xl bg-primary">
             <Tuto
-              ffBalance={ffBalance}
-              ffStakedAmounts={ffStakedAmounts}
-              ffClaimableRewards={ffClaimableRewards}
-              ffTotalStakedAmounts={ffTotalStakedAmounts}
-              ffSupply={ffSupply}
+              tutoBalance={tutoBalance}
+              tutoStakedAmounts={tutoStakedAmounts}
+              pointsMultiplier={pointsMultiplier}
+              tutoTotalStakedAmounts={tutoTotalStakedAmounts}
             />
           </div>
         </div>

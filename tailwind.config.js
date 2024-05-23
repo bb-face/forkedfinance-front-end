@@ -13,8 +13,8 @@ module.exports = {
       colors: {
         font: "#eee",
         button: {
-          shadow: "#1b1f11",
-          border: "#1b1f11",
+          shadow: "#eee",
+          border: "#eee",
         },
         input: {
           outline: "#1b1f11",

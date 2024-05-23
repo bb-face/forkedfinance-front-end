@@ -23,7 +23,7 @@ const Button = ({ children, type, onClick, disabled }) => {
 		hover:translate-y-1 hover:[box-shadow:2px_3px_0_0_var(--tw-shadow-color),0_0_1px_0_var(--tw-shadow-color)]
 		disabled:cursor-not-allowed disabled:opacity-50"
       style={{
-        "--tw-shadow-color": "#1b1f11",
+        "--tw-shadow-color": "#eee",
       }}
     >
       {children}

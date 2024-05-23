@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
 import Button from "../../atoms/Button";
 
@@ -10,11 +11,11 @@ function AvailableBalance({ balance, points }) {
           Avaliable Balance: <span>{balance || 0}</span>
         </div>
         <div>
-          Points: <span>{points || 0}</span>
+            Deposit, Withdraw, Transfer to get Points
         </div>
       </div>
       <div className="flex justify-end">
-        <Button
+        {/* <Button
           type="button"
           className="cardButton"
           disabled="true"
@@ -22,8 +23,11 @@ function AvailableBalance({ balance, points }) {
             console.log("-- claim rewards not active yet!");
           }}
         >
-          Claim
-        </Button>
+          To Transfer
+        </Button> */}
+        <Link to="../transfer">
+          <Button>Make Instant Gas-Free Transfer</Button>
+        </Link>
       </div>
     </>
   );
