@@ -48,6 +48,7 @@ function Dashboard() {
     useState(null);
 
   const [ffSupply, setFFSupply] = useState(null);
+  const [points, setPoints] = useState(0);
 
   const [ffBalance, setFFBalance] = useState(null);
   const [ffStakedAmounts, setFFStakedAmounts] = useState(null);
@@ -176,10 +177,7 @@ function Dashboard() {
       <div className="flex flex-wrap -mx-2">
         <div className="w-1/2 px-2">
           <div className=" p-6 shadow-2xl bg-primary">
-            <AvailableBalance
-              balance={balance}
-              totalFeeClaimableRewards={totalFeeClaimableRewards}
-            />
+            <AvailableBalance balance={balance} points={points} />
           </div>
         </div>
         <div className="w-1/2 px-2">
