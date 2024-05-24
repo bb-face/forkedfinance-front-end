@@ -112,7 +112,6 @@ function Dashboard() {
     );
 
     const stableCoinTrackerContract = getFeeUsdcContract(signer);
-    const feeFFTracker = getFeeTutoContract(signer);
     
     const totalStableCoinStaked =
     await stableCoinTrackerContract.totalDepositSupply(usdcAddr);

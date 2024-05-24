@@ -9,7 +9,6 @@ function Airdrop() {
 
 
   const [leaderboardData, setLeaderboardData] = useState([
-    { rank: 1, address: "0x1231273678126378126378162783abc", points: 98 },
   ]);
   // const updateLeaderboard= async () => {
   //   try {
@@ -26,7 +25,7 @@ function Airdrop() {
 
   const updateLeaderboard= async () => {
     try {
-      const { data } = await axios.get(url);
+      const { data } = await axios.get(import.meta.env.VITE_SERVER_URL);
       setLeaderboardData(data)
       console.log(data)
     } catch (error) {
@@ -53,7 +52,7 @@ function Airdrop() {
         </tr>
       </thead>
       <tbody>
-        {leaderboardData.map((entry, index) => (
+        {leaderboardData.length > 0 && leaderboardData.map((entry, index) => (
           <tr
             key={entry.rank}
             className={`${
@@ -62,7 +61,7 @@ function Airdrop() {
                 : ""
             }`}
           >
-            <td className="px-4 py-2 text-center">{entry.rank}</td>
+            <td className="px-4 py-2 text-center">{index + 1}</td>
             <td className="px-4 py-2 text-center">
               <WalletAddress address={entry.wallet} />
             </td>
