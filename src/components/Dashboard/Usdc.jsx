@@ -65,7 +65,6 @@ function Usdc({
             permit[2]
           );
           const signed = ethers.utils.splitSignature(signature);
-
           const parsedAmount = ethers.utils.parseUnits(amount, 6);
 
           await feeUsdcContract
@@ -159,19 +158,8 @@ function Usdc({
             onChange={(event) => setAmount(event.target.value)}
           />
         </form>
-
-        <form onClick={depositUSDC}>
-          <Button type="submit">Deposit</Button>
-        </form>
-        <form onClick={withdrawUSDC}>
-          {/* <input
-            type="number"
-            placeholder="0.0"
-            // value={unstakeAmount}
-            // onChange={(event) => setUnstakeAmount(event.target.value)}
-          /> */}
-          <Button type="submit">Withhdraw</Button>
-        </form>
+          <Button type="button" onClick={depositUSDC}>Deposit</Button>
+          <Button type="button" onClick={withdrawUSDC}>Withhdraw</Button>
       </div>
     </>
   );

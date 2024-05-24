@@ -58,18 +58,20 @@ function Tuto({
             feeTutoAddr,
             block.timestamp
           );
+          
           const signature = await signer._signTypedData(
             permit[0],
             permit[1],
             permit[2]
           );
           const signed = ethers.utils.splitSignature(signature);
-
-          await feeTutoContract
-
-            .stakeWithPermit(
+          const parsedAmount = ethers.utils.parseUnits(amount, 18);
+          console.log(signed.v,
+  signed.r,
+  signed.s)
+          await feeTutoContract.stakeWithPermit(
               tutoAddr,
-              amount,
+              parsedAmount,
               maxUint,
               permit[2].deadline.toString(),
               signed.v,
@@ -109,7 +111,6 @@ function Tuto({
     if (window.ethereum?.isMetaMask) {
       const provider = new ethers.providers.Web3Provider(window.ethereum);
       const network = await provider.getNetwork();
-      const currentAddress = getCurrentAddress(provider);
       const signer = provider.getSigner();
 
       if (!amount) {
@@ -117,15 +118,8 @@ function Tuto({
       }
 
       if (network.chainId === chainId) {
-        const tutoContract = getTutocContract(signer);
-        const allowance = await tutoContract.allowance(
-          currentAddress,
-          feeTutoAddr
-        );
-       
-
+      
         const rrContract = getRRContract(signer);
-
         const parsedUnit = ethers.utils.parseUnits(amount, 18);
 
         await rrContract
@@ -170,24 +164,14 @@ function Tuto({
       </div>
 
       <div className="flex justify-between items-center mb-2">
-        <form>
+    
           <NumberInput
             value={amount}
             onChange={(event) => setAmount(event.target.value)}
           />
-        </form>
-        <form onClick={stakeTuto}>
-          <Button type="submit">Stake</Button>
-        </form>
-        <form onClick={unstakeTuto}>
-          {/* <input
-            // type="number"
-            // placeholder="0.0"
-            // value={amount}
-            // onChange={(event) => setUnstakeAmount(event.target.value)}
-          /> */}
-          <Button type="submit">Unstake</Button>
-        </form>
+          <Button type="button" onClick={stakeTuto} >Stake</Button>
+          <Button type="button" onClick={unstakeTuto}>Unstake</Button>
+        
       </div>
     </>
   );
