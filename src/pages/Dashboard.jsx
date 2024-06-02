@@ -144,7 +144,6 @@ function Dashboard() {
 
     async function fetchPoints() {
       const res = await fetchUserPoints(currentAddress);
-      console.log(res);
       setPoints(res.userPoints);
       setPointsMultiplier(res.userPointsMultiplier);
     }

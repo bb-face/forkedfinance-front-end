@@ -9,6 +9,8 @@ import { userBalanceAtom } from "../state/userBalance";
 import useConnectWallet from "../customHooks/useWallet";
 import { messageAtom } from "../state/message";
 import { fetchString } from "../utils/fetchString";
+import { requestTransfer } from "../utils/requestTransfer";
+
 
 
 import Button from "../atoms/Button";
@@ -45,16 +47,8 @@ const Transfer = () => {
     try {
       const signedMessage = await signTransfer();
 
-      const { data } = await axios.patch(
-        `${import.meta.env.VITE_SERVER_URL}/balances/transferBalance`,
-        {
-          account: currentAddress,
-          // unsignedMessage:
-          signedMessage: signedMessage,
-          walletTo: transferTo,
-          amount: transferAmount,
-        }
-      );
+      const res = await requestTransfer(currentAddress, signedMessage, transferTo, transferAmount);
+
 
       // TODO: do something with data
 
@@ -121,7 +115,7 @@ const Transfer = () => {
       <div className="min-w-96">
         <div className=" p-6 shadow-2xl bg-primary">
           <div className="flex items-baseline space-x-2">
-            You are transferring:
+            Balance:
           </div>
           <NumberInput value={transferAmount} onChange={changeAmount} />
           <label htmlFor="toAddress" className="block text-gray-400 mb-2 mt-6">
@@ -132,7 +126,7 @@ const Transfer = () => {
             <Button
               type="button"
               className="cardButton"
-              onClick={signTransfer}
+              onClick={transferBalance}
             >
               Transfer
             </Button>
