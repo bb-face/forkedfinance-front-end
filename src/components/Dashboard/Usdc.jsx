@@ -52,6 +52,7 @@ function Usdc({
           const feeUsdcContract = getFeeUsdcContract(signer);
           const usdcContract = getUsdcContract(signer);
 
+          
           const block = await provider.getBlock("latest");
           const permit = await permitSigned(
             signer,

@@ -28,7 +28,7 @@ function Tuto({
 }) {
   const [amount, setAmount] = useState(0);
   const currentAddress = useRecoilValue(walletAddressAtom);
-
+  console.log(pointsMultiplier);
   const stakeTuto = async () => {
     if (window.ethereum?.isMetaMask) {
       const provider = new ethers.providers.Web3Provider(window.ethereum);
@@ -46,7 +46,7 @@ function Tuto({
           feeTutoAddr
         );
         const parsedAllowance = format(allowance, 6);
-        console.log(parsedAllowance);
+        
 
         if (amount > parsedAllowance) {
           const feeTutoContract = getFeeTutoContract(signer);
@@ -66,13 +66,11 @@ function Tuto({
           );
           const signed = ethers.utils.splitSignature(signature);
           const parsedAmount = ethers.utils.parseUnits(amount, 18);
-          console.log(signed.v,
-  signed.r,
-  signed.s)
+         console.log(await feeTutoContract.depositToken());
+
           await feeTutoContract.stakeWithPermit(
-              tutoAddr,
-              parsedAmount,
               maxUint,
+              parsedAmount,
               permit[2].deadline.toString(),
               signed.v,
               signed.r,
@@ -82,10 +80,13 @@ function Tuto({
               console.log(tx.hash);
             })
             .catch((e) => {
+              console.log(e)
               if (e.code === 4001) {
                 console.log("Rejected");
               }
             });
+
+           
         } else {
           const rrContract = getRRContract(signer);
 

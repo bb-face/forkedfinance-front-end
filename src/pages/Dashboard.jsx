@@ -23,6 +23,9 @@ import useConnectWallet from "../customHooks/useWallet";
 
 import { feeUsdcAddr, usdcAddr, tutoAddr } from "../costant/prod-costant";
 import { userBalanceAtom } from "../state/userBalance";
+import { fetchUserPoints } from "../utils/fetchUserPoints";
+
+
 
 function Dashboard() {
   // TODO: where is this needed?
@@ -39,7 +42,7 @@ function Dashboard() {
   useState(0);
 
   const [balance, setBalance] = useState(null);
-  const [pointsMultiplier, setpointsMultiplier] = useState(1);
+  const [pointsMultiplier, setPointsMultiplier] = useState(1);
   const [points, setPoints] = useState(0);
 
   const [tutoBalance, setTutoBalance] = useState(0);
@@ -115,20 +118,9 @@ function Dashboard() {
     
     const totalStableCoinStaked =
     await stableCoinTrackerContract.totalDepositSupply(usdcAddr);
-    // const feeTokensPerInterval =
-    //   await stableCoinTrackerContract.tokensPerInterval();
-    // const tokensPerYear = feeTokensPerInterval * secondsPerYear;
+    
     
     setTotalStableCoinStakedAmount(formatUsdc(totalStableCoinStaked));
-    // setAPR(
-      //   Math.round(
-        //     (formatUsdc(tokensPerYear) / formatUsdc(totalStableCoinStaked)) * 1000
-        //   ) / 10
-        // );
-        
-   
-
-
 
   };
 
@@ -149,7 +141,15 @@ function Dashboard() {
       connectWallet();
       return;
     }
-    // fetch function points, balance, pointsMultiplier
+
+    async function fetchPoints() {
+      const res = await fetchUserPoints(currentAddress);
+      console.log(res);
+      setPoints(res.userPoints);
+      setPointsMultiplier(res.userPointsMultiplier);
+    }
+    fetchPoints();
+
   }, [currentAddress]);
 
   return (

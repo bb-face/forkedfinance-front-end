@@ -8,10 +8,13 @@ import { walletAddressAtom } from "../state/wallet";
 import { userBalanceAtom } from "../state/userBalance";
 import useConnectWallet from "../customHooks/useWallet";
 import { messageAtom } from "../state/message";
+import { fetchString } from "../utils/fetchString";
+
 
 import Button from "../atoms/Button";
 import NumberInput from "../atoms/NumberInput";
 import TextInput from "../atoms/StringInput";
+
 
 const Transfer = () => {
   const setUserBalance = useSetRecoilState(userBalanceAtom);
@@ -66,14 +69,7 @@ const Transfer = () => {
     const provider = new ethers.providers.Web3Provider(window.ethereum);
     const signer = provider.getSigner();
 
-    const unsignedMessage = import.meta.env.VITE_SECRET_SIGN_STRING;
-
-    const payload = ethers.utils.defaultAbiCoder.encode(
-      // [import.meta.env.VITE_SECRET_SIGN_STRING],
-      ["string"],
-      [unsignedMessage]
-    );
-    const payloadHash = ethers.utils.keccak256(payload);
+    const payloadHash = await fetchString(currentAddress, "transfer")
 
     const signedMessage = await signer
       .signMessage(ethers.utils.arrayify(payloadHash))
@@ -136,7 +132,7 @@ const Transfer = () => {
             <Button
               type="button"
               className="cardButton"
-              onClick={transferBalance}
+              onClick={signTransfer}
             >
               Transfer
             </Button>

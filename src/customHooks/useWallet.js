@@ -8,6 +8,8 @@ import { useChainIdSetter } from "../state/network";
 import { errorAtom } from "../state/error";
 
 import { fetchUserBalance } from "../utils/fetchUserBalance";
+import { fetchUserPoints } from "../utils/fetchUserPoints";
+
 
 function useConnectWallet() {
   const [_, setProcessedChainId] = useChainIdSetter();
@@ -33,6 +35,7 @@ function useConnectWallet() {
         setWalletAddress(address);
 
         const userBalance = await fetchUserBalance(address);
+        const {userPoint, userPointsMutlipler} = await fetchUserPoints(address);
         setUserBalance(userBalance);
       } else {
         console.log("-- no metamask installed");

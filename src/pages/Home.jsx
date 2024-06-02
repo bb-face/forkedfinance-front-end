@@ -3,6 +3,7 @@ import { AiOutlineRise } from "react-icons/ai";
 import { IoSend } from "react-icons/io5";
 import { RiTakeawayFill } from "react-icons/ri";
 
+
 function Home() {
 	return (
 		<div className="flex flex-col h-screen justify-center items-center  text-center px-4">
@@ -25,7 +26,9 @@ function Home() {
 					</li>
 				</ul>
 			</div>
+			
 		</div>
+		
 	);
 }
 
