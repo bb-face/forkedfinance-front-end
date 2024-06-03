@@ -51,8 +51,10 @@ const Transfer = () => {
 
       const res = await requestTransfer(currentAddress, signedMessage, transferTo, transferAmount);
 
+      // TODO: do something with res
 
-      // TODO: do something with data
+
+      // PLS FIX
 
       // const newUserBalance = fetchUserBalance(currentAddress);
       // setUserBalance(newUserBalance);
@@ -119,6 +121,9 @@ const Transfer = () => {
           <div className="flex items-baseline space-x-2">
             Balance: {balance}
           </div>
+          <label htmlFor="amount" className="block text-gray-400 mb-2 mt-6">
+            Amount
+          </label>
           <NumberInput value={transferAmount} onChange={changeAmount} />
           <label htmlFor="toAddress" className="block text-gray-400 mb-2 mt-6">
             To

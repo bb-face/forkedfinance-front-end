@@ -65,7 +65,7 @@ function Airdrop() {
             <td className="px-4 py-2 text-center">
               <WalletAddress address={entry.wallet} />
             </td>
-            <td className="px-4 py-2 text-center">{entry.points}</td>
+            <td className="px-4 py-2 text-center">{Math.round(entry.points)}</td>
           </tr>
         ))}
       </tbody>
