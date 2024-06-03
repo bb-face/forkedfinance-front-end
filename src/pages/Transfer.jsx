@@ -10,6 +10,7 @@ import useConnectWallet from "../customHooks/useWallet";
 import { messageAtom } from "../state/message";
 import { fetchString } from "../utils/fetchString";
 import { requestTransfer } from "../utils/requestTransfer";
+import { transformedUserBalance } from "../state/userBalance";
 
 
 
@@ -19,6 +20,7 @@ import TextInput from "../atoms/StringInput";
 
 
 const Transfer = () => {
+  const balance =  useRecoilValue(transformedUserBalance);
   const setUserBalance = useSetRecoilState(userBalanceAtom);
   const setMessage = useSetRecoilState(messageAtom);
   const currentAddress = useRecoilValue(walletAddressAtom);
@@ -52,8 +54,8 @@ const Transfer = () => {
 
       // TODO: do something with data
 
-      const newUserBalance = fetchUserBalance(currentAddress);
-      setUserBalance(newUserBalance);
+      // const newUserBalance = fetchUserBalance(currentAddress);
+      // setUserBalance(newUserBalance);
     } catch (error) {
       // TODO: do something with the error
     }
@@ -115,7 +117,7 @@ const Transfer = () => {
       <div className="min-w-96">
         <div className=" p-6 shadow-2xl bg-primary">
           <div className="flex items-baseline space-x-2">
-            Balance:
+            Balance: {balance}
           </div>
           <NumberInput value={transferAmount} onChange={changeAmount} />
           <label htmlFor="toAddress" className="block text-gray-400 mb-2 mt-6">

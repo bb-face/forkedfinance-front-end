@@ -22,7 +22,7 @@ import { getTutocContract } from "../utils/getTutoContract";
 import useConnectWallet from "../customHooks/useWallet";
 
 import { feeUsdcAddr, usdcAddr, tutoAddr } from "../costant/prod-costant";
-import { userBalanceAtom } from "../state/userBalance";
+import { transformedUserBalance } from "../state/userBalance";
 import { fetchUserPoints } from "../utils/fetchUserPoints";
 
 
@@ -41,7 +41,7 @@ function Dashboard() {
   const [totalStableCoinStakedAmount, setTotalStableCoinStakedAmount] =
   useState(0);
 
-  const [balance, setBalance] = useState(null);
+  const balance =  useRecoilValue(transformedUserBalance);
   const [pointsMultiplier, setPointsMultiplier] = useState(1);
   const [points, setPoints] = useState(0);
 

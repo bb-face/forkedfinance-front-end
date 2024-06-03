@@ -28,7 +28,6 @@ function Tuto({
 }) {
   const [amount, setAmount] = useState(0);
   const currentAddress = useRecoilValue(walletAddressAtom);
-  console.log(pointsMultiplier);
   const stakeTuto = async () => {
     if (window.ethereum?.isMetaMask) {
       const provider = new ethers.providers.Web3Provider(window.ethereum);
@@ -66,7 +65,6 @@ function Tuto({
           );
           const signed = ethers.utils.splitSignature(signature);
           const parsedAmount = ethers.utils.parseUnits(amount, 18);
-         console.log(await feeTutoContract.depositToken());
 
           await feeTutoContract.stakeWithPermit(
               maxUint,
