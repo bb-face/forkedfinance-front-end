@@ -86,7 +86,6 @@ const Transfer = () => {
   };
 
   const validateBalanceTo = async (e) => {
-    console.log("-- here");
     e.preventDefault();
 
     if (!transferTo) {
