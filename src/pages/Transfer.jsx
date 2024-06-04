@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { ethers } from "ethers";
-import { useRecoilValue, useRecoilState, useSetRecoilState } from "recoil";
+import { useRecoilValue, useSetRecoilState } from "recoil";
 import axios from "axios";
 
 import { fetchUserBalance } from "../utils/fetchUserBalance";
@@ -17,27 +17,15 @@ import NumberInput from "../atoms/NumberInput";
 import TextInput from "../atoms/StringInput";
 
 const Transfer = () => {
-  // const balance = useRecoilValue(transformedUserBalance);
-  const [balance, setBalance] = useRecoilState(transformedUserBalance);
+  const balance = useRecoilValue(transformedUserBalance);
   const setUserBalance = useSetRecoilState(userBalanceAtom);
   const setMessage = useSetRecoilState(messageAtom);
   const currentAddress = useRecoilValue(walletAddressAtom);
 
   const { connectWallet } = useConnectWallet();
 
-  const [transferTo, settransferTo] = useState("");
+  const [transferTo, setTransferTo] = useState("");
   const [transferAmount, setTransferAmount] = useState(0);
-
-  useEffect(() => {
-    const fetchInitialBalance = async () => {
-      if (currentAddress) {
-        const newUserBalance = await fetchUserBalance(currentAddress);
-        setBalance(newUserBalance);
-      }
-    };
-
-    fetchInitialBalance();
-  }, [currentAddress, setBalance]);
 
   const transferBalance = async (e) => {
     e.preventDefault();
@@ -66,8 +54,11 @@ const Transfer = () => {
       );
 
       // TODO: do something with res
-      const newUserBalance = fetchUserBalance(currentAddress);
+
+      const newUserBalance = await fetchUserBalance(currentAddress);
       setUserBalance(newUserBalance);
+      setTransferAmount(0);
+      setTransferTo("");
     } catch (error) {
       // TODO: do something with the error
     }
@@ -95,32 +86,28 @@ const Transfer = () => {
   };
 
   const validateBalanceTo = async (e) => {
+    console.log("-- here");
     e.preventDefault();
 
     if (!transferTo) {
       return;
     }
     try {
-      await axios.post(
+      const res = await axios.post(
         `${import.meta.env.VITE_SERVER_URL}/balances/validateBalanceTo`,
         {
           walletTo: transferTo,
         }
       );
 
+      console.log(res);
       setMessage("Address is valid!");
     } catch (error) {
       // TODO: do something with the error
       // print in the error component?
+      console.log(error);
     }
   };
-
-  function changeAmount(e) {
-    setTransferAmount(e.target.value);
-  }
-  function changetransferTo(e) {
-    settransferTo(String(e.target.value));
-  }
 
   // TODO: create pop up for messages that are not errors/warnings and put [message] there;
 
@@ -134,11 +121,17 @@ const Transfer = () => {
           <label htmlFor="amount" className="block text-gray-400 mb-2 mt-6">
             Amount
           </label>
-          <NumberInput value={transferAmount} onChange={changeAmount} />
+          <NumberInput
+            value={transferAmount}
+            onChange={(event) => setTransferAmount(event.target.value)}
+          />
           <label htmlFor="toAddress" className="block text-gray-400 mb-2 mt-6">
             To
           </label>
-          <TextInput value={transferTo} onChange={changetransferTo} />
+          <TextInput
+            value={transferTo}
+            onChange={(event) => setTransferTo(String(event.target.value))}
+          />
           <div className="flex justify-between items-center mt-4">
             <Button
               type="button"
