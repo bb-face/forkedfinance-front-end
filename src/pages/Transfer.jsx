@@ -1,6 +1,6 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { ethers } from "ethers";
-import { useRecoilValue, useSetRecoilState } from "recoil";
+import { useRecoilValue, useRecoilState, useSetRecoilState } from "recoil";
 import axios from "axios";
 
 import { fetchUserBalance } from "../utils/fetchUserBalance";
@@ -12,15 +12,13 @@ import { fetchString } from "../utils/fetchString";
 import { requestTransfer } from "../utils/requestTransfer";
 import { transformedUserBalance } from "../state/userBalance";
 
-
-
 import Button from "../atoms/Button";
 import NumberInput from "../atoms/NumberInput";
 import TextInput from "../atoms/StringInput";
 
-
 const Transfer = () => {
-  const balance =  useRecoilValue(transformedUserBalance);
+  // const balance = useRecoilValue(transformedUserBalance);
+  const [balance, setBalance] = useRecoilState(transformedUserBalance);
   const setUserBalance = useSetRecoilState(userBalanceAtom);
   const setMessage = useSetRecoilState(messageAtom);
   const currentAddress = useRecoilValue(walletAddressAtom);
@@ -29,6 +27,17 @@ const Transfer = () => {
 
   const [transferTo, settransferTo] = useState("");
   const [transferAmount, setTransferAmount] = useState(0);
+
+  useEffect(() => {
+    const fetchInitialBalance = async () => {
+      if (currentAddress) {
+        const newUserBalance = await fetchUserBalance(currentAddress);
+        setBalance(newUserBalance);
+      }
+    };
+
+    fetchInitialBalance();
+  }, [currentAddress, setBalance]);
 
   const transferBalance = async (e) => {
     e.preventDefault();
@@ -49,15 +58,16 @@ const Transfer = () => {
     try {
       const signedMessage = await signTransfer();
 
-      const res = await requestTransfer(currentAddress, signedMessage, transferTo, transferAmount);
+      const res = await requestTransfer(
+        currentAddress,
+        signedMessage,
+        transferTo,
+        transferAmount
+      );
 
       // TODO: do something with res
-
-
-      // PLS FIX
-
-      // const newUserBalance = fetchUserBalance(currentAddress);
-      // setUserBalance(newUserBalance);
+      const newUserBalance = fetchUserBalance(currentAddress);
+      setUserBalance(newUserBalance);
     } catch (error) {
       // TODO: do something with the error
     }
@@ -67,7 +77,7 @@ const Transfer = () => {
     const provider = new ethers.providers.Web3Provider(window.ethereum);
     const signer = provider.getSigner();
 
-    const payloadHash = await fetchString(currentAddress, "transfer")
+    const payloadHash = await fetchString(currentAddress, "transfer");
 
     const signedMessage = await signer
       .signMessage(ethers.utils.arrayify(payloadHash))
