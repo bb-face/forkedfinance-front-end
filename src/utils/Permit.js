@@ -1,6 +1,6 @@
 import { ethers } from "ethers";
 
-const value = ethers.constants.MaxUint256;
+import maxUint from "../../costant/prod-costant";
 
 async function permitSigned(signer, token, spender, timestamp) {
   const deadline = timestamp + 86400;
@@ -46,7 +46,7 @@ async function permitSigned(signer, token, spender, timestamp) {
     {
       owner: ownerAddress,
       spender,
-      value,
+      maxUint,
       nonce,
       deadline,
     },
