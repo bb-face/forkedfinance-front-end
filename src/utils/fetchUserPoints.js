@@ -12,7 +12,7 @@ export async function fetchUserPoints(address) {
   });
 
   return {
-    userPoints: res.data || 0,
-    userPointsMultiplier: res1.data || 1
+    userPoints: (Math.round(res.data)*10)/10 || 0,
+    userPointsMultiplier: (Math.round(res1.data)*10)/10 || 1
     };
 }
