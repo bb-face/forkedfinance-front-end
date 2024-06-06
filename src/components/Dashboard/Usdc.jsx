@@ -6,13 +6,10 @@ import Button from "../../atoms/Button";
 
 import { permitSigned } from "../../utils/permit";
 import {
-  usdcAddr,
   chainId,
   maxUint,
-  rewardRouterAddr,
   feeUsdcAddr,
 } from "../../costant/prod-costant";
-import rewardRouterABI from "../../assets/RewardTrackerABI.json";
 
 import { getUsdcContract } from "../../utils/getUsdcContract";
 import { getRRContract } from "../../utils/getRRContract";
