@@ -3,29 +3,13 @@ import axios from "axios";
 import WalletAddress from "../atoms/WalletAddress";
 
 function Airdrop() {
-  // TODO: this is going to be an API request coming from the back-end;
-
-  const url = "http://localhost:4000/api/v1/balances/points";
-
 
   const [leaderboardData, setLeaderboardData] = useState([
   ]);
-  // const updateLeaderboard= async () => {
-  //   try {
-  //     const { data } = await axios.get(`${import.meta.env.VITE_SERVER_URL}`, {
-  //       // withCredentials: true,
-  //     });
-  //     console.log(meta.env.VITE_SERVER_URL)
-
-  //     console.log(data)
-  //   } catch (error) {
-  //     console.log(error);
-  //   }
-  // };
 
   const updateLeaderboard= async () => {
     try {
-      const { data } = await axios.get(import.meta.env.VITE_SERVER_URL);
+      const { data } = await axios.get(`${import.meta.env.VITE_SERVER_URL}/points`);
       setLeaderboardData(data)
       console.log(data)
     } catch (error) {
