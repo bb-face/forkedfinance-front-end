@@ -1,10 +1,8 @@
 import { ethers } from "ethers";
 
-// const chainId = 11155111 // this is for the chain's ID. value is 1 for remix
-
 const value = ethers.constants.MaxUint256;
 
-export async function permitSigned(signer, token, spender, timestamp) {
+async function permitSigned(signer, token, spender, timestamp) {
   const deadline = timestamp + 86400;
   const [nonce, name, version, chainId, ownerAddress] = await Promise.all([
     token.nonces(signer.getAddress()),
@@ -56,3 +54,5 @@ export async function permitSigned(signer, token, spender, timestamp) {
 
   return typedData;
 }
+
+export default permitSigned;
