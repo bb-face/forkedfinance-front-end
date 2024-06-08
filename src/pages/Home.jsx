@@ -32,8 +32,29 @@ function Home() {
 					</li>
 				</ul>
 				
+				
 				</div>
 			</div>
+			{/* <div  className="flex flex-row w-screen justify-center items-center">
+        
+				<div className="flex text-base text-white items-center  max-w-md mb-8">
+				<ul className="list-none space-y-2">
+					<li className="text-white text-lg flex items-center">
+					We Challenge the Current Status Quo
+					</li>
+					<li className="text-white text-lg flex items-center">
+					Unfair token distribution. Nonsense airdrop. Poor execution. 
+					</li>
+					<li className="text-white text-lg flex items-center">
+					We see you, crypto world. Tuto is here to call out all the nonsense and do things differently.
+					No more privileged insiders, no more rigged games. Just a fair shot at owning the first proto-memecoin 
+					</li>
+			
+				</ul>
+				
+				
+				</div>
+			</div> */}
 			
 			
 		</div>
