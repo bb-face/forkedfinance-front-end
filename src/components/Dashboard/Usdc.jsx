@@ -166,7 +166,6 @@ function Usdc({
       if (network.chainId === chainId) {
         const rrContract = getRRContract(signer);
         const parsedAmount = ethers.utils.parseUnits(amount, 6);
-        console.log(amount);
         await rrContract
           .withdrawUsdc(parsedAmount)
           .then((tx) => {
