@@ -17,44 +17,27 @@ function Home() {
 				The First and Only Ethereum Protocol Memecoin
 			</h1>
 
-			<div  className="flex flex-row w-screen justify-evenly items-center">
+			<div  className="flex flex-row w-screen max-w-5xl justify-evenly items-center">
           		<img src={tutoBear} alt="Tuto Bear" className="tutoBear scale-x-[-1]"/>
-
 				<div className="flex text-base text-lg text-white items-center  max-w-lg mb-8">
 				Tuto is  both a memecoin and a protocol utility token. Tuto is above greedy developers and investors, crazy APYs and continuous token price drops. Tuto is different.			
-				{/* <ul className="list-none space-y-2">
-					<li className="text-white text-lg flex items-center">
-						<CiWallet className="mr-2" /> Etherscan
-					</li>
-					<li className="text-white text-lg flex items-center">
-						<RiTakeawayFill className="mr-2" /> Uniswap
-					</li>
-					<li className="text-white text-lg flex items-center">
-						<AiOutlineRise className="mr-2" /> Dexscreener
-					</li>
-					<li className="text-white text-lg flex items-center">
-						<IoSend className="mr-2" /> Contract address
-					</li>
-				</ul> */}
-				
-				
 				</div>
 			</div>
 
 			<div>
-			<div className="flex text-base text-white items-center  max-w-lg mb-8"> 
+			<div className="flex text-base text-white items-center  max-w-2xl mb-8"> 
 				<ul className="list-none space-y-2">
 					<li className="text-white text-lg flex items-center">
 						No Pre-sale, no allocations, 86% of supply in Uniswap Pair. Anyone who wants to be a part of it - can.
 					</li>
 					<li className="text-white text-lg flex items-center">
-						Liquidity Pair token burnt - no rug pulls
+						Liquidity Pair (LP) tokens burnt - no chance for a rug pull
 					</li>
 					<li className="text-white text-lg flex items-center">
-						Contract ownership renounced to guarantee complete security and value of your Tuto tokens.
+						Contract ownership renounced to make Tuto trustless and transparent
 					</li>
 					<li className="text-white text-lg flex items-center">
-						Deposit Tuto tokens and multiply points for a bigger chunk of community airdrop. After the Airdrop seasons are compelted staked Tuto tokens will earn protocol revenue share.
+						Stake Tuto tokens to multiply your points. After the airdrop Tuto tokens will earn protocol revenue.
 					</li>
 				</ul>
 			</div>	
@@ -69,41 +52,44 @@ function Home() {
 			<div> 
 				<div className="flex flex-col justify-center items-center">
 					<div className="flex flex-row">
-						<div className="h-32 w-32">
+						<div className="h-50 w-45">
 							<h2  className="text-2xl">
 								Deposit USDC
 							</h2>
-							<p>Testing Testing Testing Testing Testing</p>
+							<p>Deposits generate points. Deposited USDC allows users to make p2p transfers.</p>
 						</div>
-							<HiArrowSmRight className="mr-2 justify-center items-center" />
-						<div className="h-32 w-32">
+							<HiArrowSmRight className="place-self-center" />
+						<div className="h-50 w-45">
 							<h2  className="text-2xl">
 								Transfer
 							</h2>
+							<p>Trasnfers generate points. Trasnfers are gas-free and instant.</p>
 					
 						</div>
 					</div>
 					<div className="flex flex-row">
-						<HiArrowSmDown className="mr-2" />
-						<HiArrowSmUp className="mr-2" />
+						<HiArrowSmDown className="place-self-center" />
+						<HiArrowSmUp className="place-self-center" />
 					</div>
 					<div className="flex flex-row">
-						<div className="h-32 w-32">
+						<div className="h-50 w-45">
 							<h2  className="text-2xl">
 								Withdraw USDC
 							</h2>
+							<p>Withdrawals generate points. </p>
 						</div>
-						<HiArrowSmLeft className="mr-2" />
-						<div className="h-32 w-32">
+						<HiArrowSmLeft className="place-self-center" />
+						<div className="h-50 w-45">
 							<h2  className="text-2xl">
 								Get Points
 							</h2>
+							<p>Staked Tuto increases points mutliplier. </p>
 						</div>
 					</div>
 				</div>
 			</div>
-			<div> Roadmap </div>
-			<div> Disclaimer - no asscoication with Bare Bears and intrinsic value or expectation of financial return </div>	
+			<div> Roadmap: meme to defi dominance; Community Airdrop; Merchants; Lending and Borrowing;  </div>
+			<div> Tuto Bear is inspired by Ice Bear from "We Bare Bears". Tuto has no asscoication with "We Bare Bears" or Cartoon Network.  </div>	
 			
 		</div>
 		
