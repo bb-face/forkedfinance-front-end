@@ -20,7 +20,7 @@ function Home() {
 			<div  className="flex flex-row w-screen justify-evenly items-center">
           		<img src={tutoBear} alt="Tuto Bear" className="tutoBear scale-x-[-1]"/>
 
-				<div className="flex text-base text-white items-center  max-w-md mb-8">
+				<div className="flex text-base text-lg text-white items-center  max-w-lg mb-8">
 				Tuto is  both a memecoin and a protocol utility token. Tuto is above greedy developers and investors, crazy APYs and continuous token price drops. Tuto is different.			
 				{/* <ul className="list-none space-y-2">
 					<li className="text-white text-lg flex items-center">
@@ -42,31 +42,31 @@ function Home() {
 			</div>
 
 			<div>
-			<div className="flex text-base text-white items-center  max-w-md mb-8"> 
+			<div className="flex text-base text-white items-center  max-w-lg mb-8"> 
 				<ul className="list-none space-y-2">
 					<li className="text-white text-lg flex items-center">
-					No Pre-sale, no allocations, 86% of all token in Uniswap Pair. Anyone who wants to be a part of it - can.
-					</li>
-					
-					<li className="text-white text-lg flex items-center">
-					LP Burnt
+						No Pre-sale, no allocations, 86% of supply in Uniswap Pair. Anyone who wants to be a part of it - can.
 					</li>
 					<li className="text-white text-lg flex items-center">
-					Ownership Renounced 
-					Contract ownership renounced to guarantee complete security and safety of your Tuto tokens.
+						Liquidity Pair token burnt - no rug pulls
 					</li>
 					<li className="text-white text-lg flex items-center">
-					Deposit Tuto tokens and recieve a points mulriplier to be eligible for a bigger chunk of community airdrop. After the Airdrop seasons are compelted staked Tuto tokens will earn protocol revenue share.
+						Contract ownership renounced to guarantee complete security and value of your Tuto tokens.
+					</li>
+					<li className="text-white text-lg flex items-center">
+						Deposit Tuto tokens and multiply points for a bigger chunk of community airdrop. After the Airdrop seasons are compelted staked Tuto tokens will earn protocol revenue share.
 					</li>
 				</ul>
 			</div>	
 			</div>
-				<div> 
-					<p>
-						Tokenomics
-					</p>
+				<div className="text-base text-lg text-white  max-w-lg"> 
+				 	Token Supply: 84,000,000,000
+				 	Tokenomics:
+					Uniswap Pool: 86% - 72,240,000,000
+					Community airdrop: 9% - 7,560,000,000
+					CEX listing: 5% - 4,200,000,000
 				</div>
-			<div> How to use it - steps 
+			<div> 
 				<div className="flex flex-col justify-center items-center">
 					<div className="flex flex-row">
 						<div className="h-32 w-32">
@@ -75,10 +75,10 @@ function Home() {
 							</h2>
 							<p>Testing Testing Testing Testing Testing</p>
 						</div>
-							<HiArrowSmRight className="mr-2" />
+							<HiArrowSmRight className="mr-2 justify-center items-center" />
 						<div className="h-32 w-32">
 							<h2  className="text-2xl">
-								Transfer and Pay
+								Transfer
 							</h2>
 					
 						</div>
@@ -96,51 +96,14 @@ function Home() {
 						<HiArrowSmLeft className="mr-2" />
 						<div className="h-32 w-32">
 							<h2  className="text-2xl">
-								Accumulate Points
+								Get Points
 							</h2>
 						</div>
 					</div>
-
-					{/* <li className="text-white text-lg flex items-center">
-						 Deposit USDC
-					</li>
-					<div> <HiArrowSmRight className="mr-2" /> </div>
-					<li className="text-white text-lg flex items-center">
-						 Transfer and Pay
-					</li>
-					<li className="text-white text-lg flex items-center">
-						Accumulate Points
-					</li>
-					<li className="text-white text-lg flex items-center">
-						Withdraw USDC
-					</li> */}
 				</div>
 			</div>
 			<div> Roadmap </div>
-			<div> Disclaimer - no asscoication with bare bears and intrinsic value or expectation of financial return </div>
-
-
-			{/* <div  className="flex flex-row w-screen justify-center items-center">
-        
-				<div className="flex text-base text-white items-center  max-w-md mb-8">
-				<ul className="list-none space-y-2">
-					<li className="text-white text-lg flex items-center">
-					We Challenge the Current Status Quo
-					</li>
-					<li className="text-white text-lg flex items-center">
-					Unfair token distribution. Nonsense airdrop. Poor execution. 
-					</li>
-					<li className="text-white text-lg flex items-center">
-					We see you, crypto world. Tuto is here to call out all the nonsense and do things differently.
-					No more privileged insiders, no more rigged games. Just a fair shot at owning the first proto-memecoin 
-					</li>
-			
-				</ul>
-				
-				
-				</div>
-			</div> */}
-			
+			<div> Disclaimer - no asscoication with Bare Bears and intrinsic value or expectation of financial return </div>	
 			
 		</div>
 		
