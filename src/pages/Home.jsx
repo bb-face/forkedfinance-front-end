@@ -52,38 +52,41 @@ function Home() {
 			<div> 
 				<div className="flex flex-col justify-center items-center">
 					<div className="flex flex-row">
-						<div className="h-50 w-45">
-							<h2  className="text-2xl">
-								Deposit USDC
+
+						<div className="h-48 w-48 border-white border-2 ">
+							<h2  className="text-2xl bg-black py-4">
+							Deposit USDC
 							</h2>
-							<p>Deposits generate points. Deposited USDC allows users to make p2p transfers.</p>
-						</div>
-							<HiArrowSmRight className="place-self-center" />
-						<div className="h-50 w-45">
-							<h2  className="text-2xl">
-								Transfer
+							<p className="h-32 flex items-center justify-center text-left px-4">Deposits generate points. Deposited USDC allows users to make p2p transfers.</p>
+
+							</div>
+							<HiArrowSmRight size={50} className="place-self-center" />
+
+						<div className="h-48 w-48 border-white border-2 ">
+							<h2  className="text-2xl bg-black py-4">
+							Transfer
 							</h2>
-							<p>Trasnfers generate points. Trasnfers are gas-free and instant.</p>
-					
+							<p className="h-32 flex items-center justify-center text-left px-4">Trasnfers generate points. Trasnfers are gas-free and instant.</p>
 						</div>
 					</div>
 					<div className="flex flex-row">
-						<HiArrowSmDown className="place-self-center" />
-						<HiArrowSmUp className="place-self-center" />
+						<HiArrowSmUp size={50} className="place-self-center" />
+						<div className="w-48"></div>
+						<HiArrowSmDown size={50} className="place-self-center" />
 					</div>
 					<div className="flex flex-row">
-						<div className="h-50 w-45">
-							<h2  className="text-2xl">
+						<div className="h-48 w-48 border-white border-2 ">
+							<h2  className="text-2xl bg-black py-4">
 								Withdraw USDC
 							</h2>
-							<p>Withdrawals generate points. </p>
+							<p className="h-32 flex items-center justify-center text-left px-4">Withdrawals generate points. </p>
 						</div>
-						<HiArrowSmLeft className="place-self-center" />
-						<div className="h-50 w-45">
-							<h2  className="text-2xl">
-								Get Points
+						<HiArrowSmLeft size={50} className="place-self-center" />
+						<div className="h-48 w-48 border-white border-2 ">
+							<h2  className="text-2xl bg-black py-4">
+							Get Points
 							</h2>
-							<p>Staked Tuto increases points mutliplier. </p>
+							<p className="h-32 flex items-center justify-center text-left px-4">Staked Tuto increases points mutliplier.</p>
 						</div>
 					</div>
 				</div>
