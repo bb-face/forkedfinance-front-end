@@ -6,6 +6,8 @@ import { HiArrowSmUp} from "react-icons/hi";
 import { HiArrowSmDown } from "react-icons/hi";
 import { HiArrowSmRight } from "react-icons/hi";
 import { HiArrowSmLeft } from "react-icons/hi";
+import { RiNumber1, RiNumber2, RiNumber3, RiNumber4 } from "react-icons/ri";
+
 
 
 import tutoBear from "../assets/TutoBear.png";
@@ -13,19 +15,19 @@ import tutoBear from "../assets/TutoBear.png";
 function Home() {
 	return (
 		<div className="flex flex-col justify-center items-center  text-center px-4">
-			<h1 className="text-white text-4xl font-bold text-primary leading-tight mb-4">
+			<h1 className="text-white text-4xl font-bold leading-tight mb-4">
 				The First and Only Ethereum Protocol Memecoin
 			</h1>
 
 			<div  className="flex flex-row w-screen max-w-5xl justify-evenly items-center">
           		<img src={tutoBear} alt="Tuto Bear" className="tutoBear scale-x-[-1]"/>
-				<div className="flex text-base text-lg text-white items-center  max-w-lg mb-8">
+				<div className="flex text-lg text-white items-center  max-w-lg mb-8">
 				Tuto is  both a memecoin and a protocol utility token. Tuto is above greedy developers and investors, crazy APYs and continuous token price drops. Tuto is different.			
 				</div>
 			</div>
 
 			<div>
-			<div className="flex text-base text-white items-center  max-w-2xl mb-8"> 
+			<div className="flex text-base text-white items-center w-svw mb-8 mt-8 bg-zinc-900"> 
 				<ul className="list-none space-y-2">
 					<li className="text-white text-lg flex items-center">
 						No Pre-sale, no allocations, 86% of supply in Uniswap Pair. Anyone who wants to be a part of it - can.
@@ -42,7 +44,7 @@ function Home() {
 				</ul>
 			</div>	
 			</div>
-				<div className="text-base text-lg text-white  max-w-lg"> 
+				<div className="text-lg text-white  max-w-lg mb-8"> 
 				 	Token Supply: 84,000,000,000
 				 	Tokenomics:
 					Uniswap Pool: 86% - 72,240,000,000
@@ -53,20 +55,26 @@ function Home() {
 				<div className="flex flex-col justify-center items-center">
 					<div className="flex flex-row">
 
-						<div className="h-48 w-48 border-white border-2 ">
+						<div className="h-44 w-48 border-white border-2 flex flex-col">
 							<h2  className="text-2xl bg-black py-4">
 							Deposit USDC
 							</h2>
-							<p className="h-32 flex items-center justify-center text-left px-4">Deposits generate points. Deposited USDC allows users to make p2p transfers.</p>
+							<div className="flex flex-col flex-grow items-center justify-center text-left px-4 bg-zinc-900"> 
+							<p> Generates Points</p>
+							<p> Access to Transfers</p>
+							</div>
 
 							</div>
 							<HiArrowSmRight size={50} className="place-self-center" />
 
-						<div className="h-48 w-48 border-white border-2 ">
+						<div className="h-44 w-48 border-white border-2 flex flex-col">
 							<h2  className="text-2xl bg-black py-4">
 							Transfer
 							</h2>
-							<p className="h-32 flex items-center justify-center text-left px-4">Trasnfers generate points. Trasnfers are gas-free and instant.</p>
+							<div className="flex flex-col flex-grow items-center justify-center text-left px-4 bg-zinc-900"> 
+								<p> Generates Points</p>
+								<p> Free and Instant</p>
+							</div>
 						</div>
 					</div>
 					<div className="flex flex-row">
@@ -75,24 +83,49 @@ function Home() {
 						<HiArrowSmDown size={50} className="place-self-center" />
 					</div>
 					<div className="flex flex-row">
-						<div className="h-48 w-48 border-white border-2 ">
+						<div className="h-44 w-48 border-white border-2 flex flex-col">
 							<h2  className="text-2xl bg-black py-4">
 								Withdraw USDC
 							</h2>
-							<p className="h-32 flex items-center justify-center text-left px-4">Withdrawals generate points. </p>
+							<div className="flex flex-col flex-grow items-center justify-center px-4 bg-zinc-900"> 
+								<p> Generates Points</p>
+							</div>
 						</div>
 						<HiArrowSmLeft size={50} className="place-self-center" />
-						<div className="h-48 w-48 border-white border-2 ">
+						<div className="h-44 w-48 border-white border-2 flex flex-col">
 							<h2  className="text-2xl bg-black py-4">
 							Get Points
 							</h2>
-							<p className="h-32 flex items-center justify-center text-left px-4">Staked Tuto increases points mutliplier.</p>
+							<div className="flex flex-col flex-grow items-center justify-center px-4 bg-zinc-900"> 
+								<p> Stake Tuto to Mutliply Points</p>
+							</div>
 						</div>
 					</div>
 				</div>
 			</div>
-			<div> Roadmap: meme to defi dominance; Community Airdrop; Merchants; Lending and Borrowing;  </div>
-			<div> Tuto Bear is inspired by Ice Bear from "We Bare Bears". Tuto has no asscoication with "We Bare Bears" or Cartoon Network.  </div>	
+			<div className="mb-8 mt-8">
+				<h2 className="text-2xl">MemeFi Dominance Roadmap</h2>
+				<div className="flex flex-row items-center">
+					<div className="bg-black w-6 h-6 flex justify-center items-center">
+						<RiNumber1 />
+					</div>
+					<p className="ml-2"> Community Airdrop </p>
+				</div>
+				<div className="flex flex-row items-center">
+					<div className="bg-black w-6 h-6 flex justify-center items-center">
+						<RiNumber2 />
+					</div>
+					<p className="ml-2"> Merchants Section </p>
+				</div>
+				<div className="flex flex-row items-center">
+					<div className="bg-black w-6 h-6 flex justify-center items-center">
+						<RiNumber3 />
+					</div>
+					<p className="ml-2"> Lending and Borrowing </p>
+				</div>
+				
+			</div>
+			<div> Tuto Bear is inspired by "We Bare Bears". Tuto has no asscoication with "We Bare Bears" or Cartoon Network.  </div>	
 			
 		</div>
 		
