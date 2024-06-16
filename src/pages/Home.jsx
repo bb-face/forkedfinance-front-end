@@ -1,11 +1,5 @@
-import { CiWallet } from "react-icons/ci";
-import { AiOutlineRise } from "react-icons/ai";
-import { IoSend } from "react-icons/io5";
-import { RiTakeawayFill } from "react-icons/ri";
-import { HiArrowSmUp} from "react-icons/hi";
-import { HiArrowSmDown } from "react-icons/hi";
-import { HiArrowSmRight } from "react-icons/hi";
-import { HiArrowSmLeft } from "react-icons/hi";
+
+import { IoArrowBackSharp, IoArrowDownSharp, IoArrowForwardSharp, IoArrowUpSharp } from "react-icons/io5";
 import { RiNumber1, RiNumber2, RiNumber3, RiNumber4 } from "react-icons/ri";
 
 
@@ -15,19 +9,22 @@ import tutoBear from "../assets/TutoBear.png";
 function Home() {
 	return (
 		<div className="flex flex-col justify-center items-center  text-center px-4">
-			<h1 className="text-white text-4xl font-bold leading-tight mb-4">
+			<h1 className="text-white text-4xl font-bold leading-tight mb-4 mt-4">
 				The First and Only Ethereum Protocol Memecoin
 			</h1>
 
 			<div  className="flex flex-row w-screen max-w-5xl justify-evenly items-center">
           		<img src={tutoBear} alt="Tuto Bear" className="tutoBear scale-x-[-1]"/>
-				<div className="flex text-lg text-white items-center  max-w-lg mb-8">
-				Tuto is  both a memecoin and a protocol utility token. Tuto is above greedy developers and investors, crazy APYs and continuous token price drops. Tuto is different.			
+				<div className="flex flex-col text-lg text-white items-center  max-w-lg mb-8">
+					<h2 className="text-white text-3xl font-bold leading-tight mb-4 mt-4">
+					$TUTO
+					</h2>
+					Tuto is  both a memecoin and a protocol utility token. Tuto is above greedy developers and investors, crazy APYs and continuous token price drops. Tuto is different.			
 				</div>
 			</div>
 
 			<div>
-			<div className="flex text-base text-white items-center w-svw mb-8 mt-8 bg-zinc-900"> 
+			<div className="flex text-base text-white items-center w-screen py-4 mt-8 bg-zinc-900"> 
 				<ul className="list-none space-y-2">
 					<li className="text-white text-lg flex items-center">
 						No Pre-sale, no allocations, 86% of supply in Uniswap Pair. Anyone who wants to be a part of it - can.
@@ -44,7 +41,7 @@ function Home() {
 				</ul>
 			</div>	
 			</div>
-				<div className="text-lg text-white  max-w-lg mb-8"> 
+				<div className="text-lg text-white  max-w-lg mt-4 mb-8"> 
 				 	Token Supply: 84,000,000,000
 				 	Tokenomics:
 					Uniswap Pool: 86% - 72,240,000,000
@@ -65,7 +62,7 @@ function Home() {
 							</div>
 
 							</div>
-							<HiArrowSmRight size={50} className="place-self-center" />
+							<IoArrowForwardSharp size={40} className="place-self-center" />
 
 						<div className="h-44 w-48 border-white border-2 flex flex-col">
 							<h2  className="text-2xl bg-black py-4">
@@ -78,9 +75,9 @@ function Home() {
 						</div>
 					</div>
 					<div className="flex flex-row">
-						<HiArrowSmUp size={50} className="place-self-center" />
+						<IoArrowUpSharp size={40} className="place-self-center" />
 						<div className="w-48"></div>
-						<HiArrowSmDown size={50} className="place-self-center" />
+						<IoArrowDownSharp size={40} className="place-self-center" />
 					</div>
 					<div className="flex flex-row">
 						<div className="h-44 w-48 border-white border-2 flex flex-col">
@@ -91,7 +88,7 @@ function Home() {
 								<p> Generates Points</p>
 							</div>
 						</div>
-						<HiArrowSmLeft size={50} className="place-self-center" />
+						<IoArrowBackSharp size={40} className="place-self-center" />
 						<div className="h-44 w-48 border-white border-2 flex flex-col">
 							<h2  className="text-2xl bg-black py-4">
 							Get Points
@@ -103,8 +100,8 @@ function Home() {
 					</div>
 				</div>
 			</div>
-			<div className="mb-8 mt-8">
-				<h2 className="text-2xl">MemeFi Dominance Roadmap</h2>
+			<div className="mt-8 w-screen py-4 bg-zinc-900">
+				<h2 className="text-2xl mb-2">MemeFi Dominance Roadmap</h2>
 				<div className="flex flex-row items-center">
 					<div className="bg-black w-6 h-6 flex justify-center items-center">
 						<RiNumber1 />
@@ -125,7 +122,7 @@ function Home() {
 				</div>
 				
 			</div>
-			<div> Tuto Bear is inspired by "We Bare Bears". Tuto has no asscoication with "We Bare Bears" or Cartoon Network.  </div>	
+			<div className="mt-4"> Tuto Bear is inspired by "We Bare Bears". Tuto has no asscoication with "We Bare Bears" or Cartoon Network.  </div>	
 			
 		</div>
 		
