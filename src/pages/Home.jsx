@@ -24,7 +24,7 @@ function Home() {
 			</div>
 
 			<div>
-			<div className="flex text-base text-white items-center w-screen py-4 mt-8 bg-zinc-900"> 
+			<div className="flex flex-grow text-base text-white items-center py-4 mt-8 bg-zinc-900"> 
 				<ul className="list-none space-y-2">
 					<li className="text-white text-lg flex items-center">
 						No Pre-sale, no allocations, 86% of supply in Uniswap Pair. Anyone who wants to be a part of it - can.
@@ -74,7 +74,7 @@ function Home() {
 							</div>
 						</div>
 					</div>
-					<div className="flex flex-row">
+					<div className="flex flex-row ">
 						<IoArrowUpSharp size={40} className="place-self-center" />
 						<div className="w-48"></div>
 						<IoArrowDownSharp size={40} className="place-self-center" />
@@ -100,7 +100,10 @@ function Home() {
 					</div>
 				</div>
 			</div>
-			<div className="mt-8 w-screen py-4 bg-zinc-900">
+			<div className="flex w-screen" >
+
+
+			<div className="mt-8 flex flex-col flex-grow py-4 bg-zinc-900">
 				<h2 className="text-2xl mb-2">MemeFi Dominance Roadmap</h2>
 				<div className="flex flex-row items-center">
 					<div className="bg-black w-6 h-6 flex justify-center items-center">
@@ -120,7 +123,8 @@ function Home() {
 					</div>
 					<p className="ml-2"> Lending and Borrowing </p>
 				</div>
-				
+			</div>
+
 			</div>
 			<div className="mt-4"> Tuto Bear is inspired by "We Bare Bears". Tuto has no asscoication with "We Bare Bears" or Cartoon Network.  </div>	
 			
