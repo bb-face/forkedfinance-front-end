@@ -7,10 +7,11 @@ import {
 import { RiNumber1, RiNumber2, RiNumber3, RiNumber4 } from "react-icons/ri";
 
 import tutoBear from "../assets/TutoBear.png";
+import PieChart from "../components/PieChart";
 
 function Home() {
   return (
-    <div className="flex flex-col justify-center items-center  text-center px-4">
+    <div className="flex flex-col justify-center items-center text-center">
       <h1 className="text-white text-4xl font-bold leading-tight mb-4 mt-4">
         The First and Only Ethereum Protocol Memecoin
       </h1>
@@ -64,6 +65,7 @@ function Home() {
         Token Supply: 84,000,000,000 Tokenomics: Uniswap Pool: 86% -
         72,240,000,000 Community airdrop: 9% - 7,560,000,000 CEX listing: 5% -
         4,200,000,000
+        <PieChart />
       </div>
       <div>
         <div className="flex flex-col justify-center items-center">
