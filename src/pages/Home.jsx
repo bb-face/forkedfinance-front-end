@@ -5,15 +5,18 @@ import {
   IoArrowUpSharp,
 } from "react-icons/io5";
 import { RiNumber1, RiNumber2, RiNumber3, RiNumber4 } from "react-icons/ri";
-import { RiHandCoinLine } from "react-icons/ri";
+import { RiHandCoinLine, RiContractFill } from "react-icons/ri";
 import { BsFire } from "react-icons/bs";
+import { BiSolidNoEntry } from "react-icons/bi";
+
+
 
 
 import tutoBear from "../assets/TutoBear.png";
 
 function Home() {
   return (
-    <div className="flex flex-col justify-center items-center  text-center px-4">
+    <div className="flex flex-col justify-center items-center  text-center">
       <h1 className="text-white text-4xl font-bold leading-tight mb-4 mt-4">
         The First and Only Ethereum Protocol Memecoin
       </h1>
@@ -24,9 +27,16 @@ function Home() {
           <h2 className="text-white text-3xl font-bold leading-tight mb-4 mt-4">
             $TUTO
           </h2>
-          Tuto is both a memecoin and a protocol utility token. Tuto is above
-          greedy developers and investors, crazy APYs and continuous token price
-          drops. Tuto is different.
+          Tuto is Both a Memecoin and a Protocol Utility Token 
+		  <p> 
+		  Tuto is above greedy teams and investors
+		  </p>
+		  <p>
+		  No Crazy APYs and No Dumps
+		  </p>
+		  {/* <p>
+		  Tuto is different.
+		  </p> */}
         </div>
       </div>
 
@@ -42,7 +52,7 @@ function Home() {
             <div className="h-10 w-0.5 bg-white ml-5"></div>
             <div className="flex flex-row justfy-center items-center">
               <div className="w-10 h-10 border-2 border-white flex justify-center items-center">
-                <IoArrowForwardSharp size={20} />
+                <BiSolidNoEntry size={20} />
               </div>
               <div className="ml-10">No Allocations</div>
             </div>
@@ -56,7 +66,7 @@ function Home() {
             <div className="h-10 w-0.5 bg-white ml-5"></div>
             <div className="flex flex-row justfy-center items-center">
               <div className="w-10 h-10 border-2 border-white flex justify-center items-center">
-                <IoArrowForwardSharp size={20} />
+                <RiContractFill size={20} />
               </div>
               <div className="ml-10">Contract Ownership Renounced</div>
             </div>
