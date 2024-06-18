@@ -5,6 +5,9 @@ import {
   IoArrowUpSharp,
 } from "react-icons/io5";
 import { RiNumber1, RiNumber2, RiNumber3, RiNumber4 } from "react-icons/ri";
+import { RiHandCoinLine } from "react-icons/ri";
+import { BsFire } from "react-icons/bs";
+
 
 import tutoBear from "../assets/TutoBear.png";
 
@@ -27,35 +30,35 @@ function Home() {
         </div>
       </div>
 
-      <div className="w-screen bg-zinc-900 flex flex-col items-center justify-center">
+      <div className="w-screen bg-neutral-900 flex flex-col items-center justify-center">
         <div className="max-w-5xl py-8 flex justify-center items-center flex-col">
           <div className="w-42">
             <div className="flex flex-row justfy-center items-center">
               <div className="w-10 h-10 border-2 border-white flex justify-center items-center">
-                <IoArrowForwardSharp size={20} />
+                <RiHandCoinLine size={20} />
               </div>
-              <div className="ml-10">No pre-sale</div>
+              <div className="ml-10">No Pre-Sale</div>
             </div>
             <div className="h-10 w-0.5 bg-white ml-5"></div>
             <div className="flex flex-row justfy-center items-center">
               <div className="w-10 h-10 border-2 border-white flex justify-center items-center">
                 <IoArrowForwardSharp size={20} />
               </div>
-              <div className="ml-10">No allocations</div>
+              <div className="ml-10">No Allocations</div>
+            </div>
+            <div className="h-10 w-0.5 bg-white ml-5"></div>
+            <div className="flex flex-row justfy-center items-center">
+              <div className="w-10 h-10 border-2 border-white flex justify-center items-center">
+                <BsFire size={20} />
+              </div>
+              <div className="ml-10">Liquidity pair (LP) Tokens Burnt</div>
             </div>
             <div className="h-10 w-0.5 bg-white ml-5"></div>
             <div className="flex flex-row justfy-center items-center">
               <div className="w-10 h-10 border-2 border-white flex justify-center items-center">
                 <IoArrowForwardSharp size={20} />
               </div>
-              <div className="ml-10">Liquidity pair (LP) tokens burnt</div>
-            </div>
-            <div className="h-10 w-0.5 bg-white ml-5"></div>
-            <div className="flex flex-row justfy-center items-center">
-              <div className="w-10 h-10 border-2 border-white flex justify-center items-center">
-                <IoArrowForwardSharp size={20} />
-              </div>
-              <div className="ml-10">Contract ownership renounced</div>
+              <div className="ml-10">Contract Ownership Renounced</div>
             </div>
           </div>
         </div>
@@ -107,7 +110,7 @@ function Home() {
           </div>
         </div>
       </div>
-      <div className="w-screen bg-zinc-900 flex flex-col items-center justify-center">
+      <div className="w-screen bg-neutral-900 flex flex-col items-center justify-center mt-4">
         <div className="max-w-5xl py-8">
           <h2 className="text-2xl mb-2">MemeFi Dominance Roadmap</h2>
           <div className="flex flex-row items-center">
