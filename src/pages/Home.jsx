@@ -8,45 +8,58 @@ import { RiNumber1, RiNumber2, RiNumber3, RiNumber4 } from "react-icons/ri";
 import { RiHandCoinLine, RiContractFill } from "react-icons/ri";
 import { BsFire } from "react-icons/bs";
 import { BiSolidNoEntry } from "react-icons/bi";
+import { GiFinishLine } from "react-icons/gi";
+import { IoMdRocket } from "react-icons/io";
+import { MdOutlineTrendingDown } from "react-icons/md";
+import { FiCopy } from "react-icons/fi";
 
 
 
+import {useSetRecoilState} from "recoil";
+import {messageAtom} from "../state/message";
 
 import tutoBear from "../assets/TutoBear.png";
+
+
+import { tutoAddr } from "../costant/prod-costant";
+
+import CopyToClipboard from "react-copy-to-clipboard";
 import PieChart from "../components/PieChart";
 
 function Home() {
+
+const setMessage = useSetRecoilState(messageAtom);
+
   return (
-<<<<<<< HEAD
     <div className="flex flex-col justify-center items-center text-center">
-=======
-    <div className="flex flex-col justify-center items-center  text-center">
->>>>>>> 7dd49c23c74414016a66c6a20f2976b9719a3c72
+
       <h1 className="text-white text-4xl font-bold leading-tight mb-4 mt-4">
         The First and Only Ethereum Protocol Memecoin
       </h1>
 
       <div className="flex flex-row w-screen max-w-5xl justify-evenly items-center">
         <img src={tutoBear} alt="Tuto Bear" className="tutoBear scale-x-[-1]" />
-        <div className="flex flex-col text-lg text-white items-center  max-w-lg mb-8">
-          <h2 className="text-white text-3xl font-bold leading-tight mb-4 mt-4">
-            $TUTO
+        <div className="flex flex-col text-2xl text-white items-center  max-w-lg">
+          <h2 className="text-white text-3xl font-bold leading-tight mb-1 ">
+    		$TUTO
           </h2>
-          Tuto is Both a Memecoin and a Protocol Utility Token 
-		  <p> 
-		  Tuto is above greedy teams and investors
-		  </p>
-		  <p>
-		  No Crazy APYs and No Dumps
-		  </p>
-		  {/* <p>
-		  Tuto is different.
-		  </p> */}
+		  <p>No More Greedy Developers.</p>
+		  <p>No More Crazy APYs.</p>
+		  <p className="flex items-center">No More <MdOutlineTrendingDown size={35} className="ml-2" /></p>
+
+		  <p className="mt-6 text-2xl font-black">Tuto is Different.</p>
+		  <CopyToClipboard  className="flex flex-row text-xl cursor-copy items-center" text={tutoAddr} onCopy={()=>{setMessage("Copied to Clipboard!")}} > 
+
+		  <div className="mt-1"> {tutoAddr} <FiCopy size={22} className="ml-2" /></div>
+		  
+		  </CopyToClipboard>
+
+
         </div>
       </div>
 
-      <div className="w-screen bg-neutral-900 flex flex-col items-center justify-center">
-        <div className="max-w-5xl py-8 flex justify-center items-center flex-col">
+      <div className="w-screen h-fit py-7 bg-neutral-900 flex flex-row items-center justify-center">
+        <div className="max-w-5xl py-8 mr-60 flex justify-center items-center flex-col">
           <div className="w-42">
             <div className="flex flex-row justfy-center items-center">
               <div className="w-10 h-10 border-2 border-white flex justify-center items-center">
@@ -77,15 +90,8 @@ function Home() {
             </div>
           </div>
         </div>
-      </div>
-      <div className="text-lg text-white  max-w-lg mt-4 mb-8">
-        Token Supply: 84,000,000,000 Tokenomics: Uniswap Pool: 86% -
-        72,240,000,000 Community airdrop: 9% - 7,560,000,000 CEX listing: 5% -
-        4,200,000,000
-        <PieChart />
-      </div>
-      <div>
-        <div className="flex flex-col justify-center items-center">
+		<div className="flex flex-col justify-center items-center">
+		{/* <h1 className="text-3xl mb-3"> How to Use </h1> */}
           <div className="flex flex-row">
             <div className="h-44 w-48 border-white border-2 flex flex-col">
               <h2 className="text-2xl bg-black py-4">Deposit USDC</h2>
@@ -126,32 +132,53 @@ function Home() {
           </div>
         </div>
       </div>
-      <div className="w-screen bg-neutral-900 flex flex-col items-center justify-center mt-4">
-        <div className="max-w-5xl py-8">
-          <h2 className="text-2xl mb-2">MemeFi Dominance Roadmap</h2>
-          <div className="flex flex-row items-center">
-            <div className="bg-black w-6 h-6 flex justify-center items-center">
-              <RiNumber1 />
-            </div>
-            <p className="ml-2"> Community Airdrop </p>
-          </div>
-          <div className="flex flex-row items-center">
-            <div className="bg-black w-6 h-6 flex justify-center items-center">
-              <RiNumber2 />
-            </div>
-            <p className="ml-2"> Merchants Section </p>
-          </div>
-          <div className="flex flex-row items-center">
-            <div className="bg-black w-6 h-6 flex justify-center items-center">
-              <RiNumber3 />
-            </div>
-            <p className="ml-2"> Lending and Borrowing </p>
-          </div>
-        </div>
-      </div>
-      <div className="mt-4">
+	  <div className="flex flex-col justify-center items-center"> 
+	
+      	<div className="flex flex-row text-2xl text-left text-white max-w-6xl mt-4 mb-8 justify-center items-center">
+			<div className="w-1/3 min-w-96 py-8">
+          		<h2 className="text-3xl text-left mb-2"> Roadmap</h2>
+          			<div className="flex flex-row items-center">
+            			<div className="bg-black w-6 h-8 flex justify-center items-center">
+              			<RiNumber1 />
+            			</div>
+           			<p className="ml-2"> Community Airdrop </p>
+         			</div>
+          		<div className="flex flex-row items-center">
+            	<div className="bg-black w-6 h-8  flex justify-center items-center">
+              		<RiNumber2 />
+            	</div>
+            		<p className="ml-2"> Merchants Section </p>
+          		</div>
+          		<div className="flex flex-row items-center">
+           			<div className="bg-black w-6 h-8 flex justify-center items-center">
+             	 		<RiNumber3 />
+            		</div>
+           			<p className="ml-2"> Lending and Borrowing </p>
+          		</div>
+				  <div className="flex flex-row items-center">
+           			<div className="bg-black w-6 h-8  flex justify-center items-center">
+             	 		<IoMdRocket />
+            		</div>
+           			<p className="ml-2"> MemeFi Dominance </p>
+          		</div>
+        	</div>
+			<div className="w-1/3 min-w-96"> 
+        		<PieChart />
+			</div>
+			<div className="flex flex-col w-1/3 min-w-96 text-lg text-right"> 
+				<p className="mb-4 text-2xl  underline underline-offset-8 decoration-2	">Token Supply: 84,000,000,000</p>
+				<p className="mb-2 text-xl ">Uniswap Pool: 72,240,000,000</p>
+				<p className="mb-2 text-xl ">Community airdrop: 7,560,000,000</p>
+				<p className="text-xl ">CEX listing: 4,200,000,000</p>
+			</div>
+		
+      	</div>
+	  </div>
+      
+
+      <div className="w-screen text-xs py-1 bg-neutral-900 text-">
         Tuto Bear is inspired by "We Bare Bears". Tuto has no asscoication with
-        "We Bare Bears" or Cartoon Network.
+        "We Bare Bears" or Cartoon Network. Pie Chart by highcharts.com
       </div>
     </div>
   );

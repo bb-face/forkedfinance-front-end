@@ -11,16 +11,33 @@ const PieChart = () => {
     title: {
       text: "",
     },
+    tooltip: {
+      pointFormat: '{point.name} {point.percentage:.1f}%' // Customize the tooltip format to show percentage
+
+    },
     series: [
       {
         name: "Tokenomics",
         data: [
-          { name: "Centralised Exchange", y: 5, color: "#e5e7eb" },
+          { name: "CEX Listing", y: 5, color: "#e5e7eb" },
           { name: "Airdrop", y: 9, color: "#4c4c4c" },
           { name: "Uniswap Pool", y: 86, color: "#2f2f2f" },
         ],
+        // dataLabels: {
+        //   enabled: true,
+        //   format: '{point.percentage:.1f}%' // Customize the label format to show percentage
+        // },
+        
       },
     ],
+    credits: {
+      enabled: false,
+      href: 'https://www.highcharts.com',
+      text: 'highcharts.com',
+      style: {
+        color: '#FF0000' // Change this to your desired color
+      }
+    }
   };
 
   return <HighchartsReact highcharts={Highcharts} options={options} />;

@@ -19,3 +19,9 @@
 	will-change: filter;
 	transition: filter 300ms;
 }
+
+
+
+.custom-cursor {
+	cursor: url("./assets/dexScreenerLogo.png") 15 15, auto;
+}

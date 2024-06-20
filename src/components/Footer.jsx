@@ -1,5 +1,8 @@
 import React from "react";
 import { FaGithub, FaDiscord, FaTwitter, FaTelegram } from "react-icons/fa";
+import etherscanLogo from "../assets/etherscan.png";
+import uniswapLogo from "../assets/uniswapLogo.png";
+import dexScreenerLogo from "../assets/dexScreenerLogo.png";
 
 function Footer() {
 	return (
@@ -26,6 +29,9 @@ function Footer() {
 				>
 					<FaGithub size={24} />
 				</a>
+				<img src={etherscanLogo} alt="etherscan" className="w-6 " />
+		  		<img src={uniswapLogo} alt="uniswap" className="w-6 bg-white border rounded-full" />
+		  		<img src={dexScreenerLogo} alt="dexscreener" className="w-6 "/>
 				<p className="text-sm">© 2024 Tuto by ForkedFinance</p>
 			</div>
 		</footer>
