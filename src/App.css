@@ -20,7 +20,10 @@
 	transition: filter 300ms;
 }
 
-
+.custom-outline {
+	outline: 1px solid red;
+  	outline-offset: 2px;
+}
 
 .custom-cursor {
 	cursor: url("./assets/dexScreenerLogo.png") 15 15, auto;

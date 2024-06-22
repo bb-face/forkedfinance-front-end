@@ -13,12 +13,14 @@ import { IoMdRocket } from "react-icons/io";
 import { MdOutlineTrendingDown } from "react-icons/md";
 import { FiCopy } from "react-icons/fi";
 
+import Roadmap from "../components/Roadmap";
 
 
 import {useSetRecoilState} from "recoil";
 import {messageAtom} from "../state/message";
 
 import tutoBear from "../assets/TutoBear.png";
+import roadmap from "../assets/roadmap.svg"
 
 
 import { tutoAddr } from "../costant/prod-costant";
@@ -135,32 +137,51 @@ const setMessage = useSetRecoilState(messageAtom);
 	  <div className="flex flex-col justify-center items-center"> 
 	
       	<div className="flex flex-row text-2xl text-left text-white max-w-6xl mt-4 mb-8 justify-center items-center">
-			<div className="w-1/3 min-w-96 py-8">
-          		<h2 className="text-3xl text-left mb-2"> Roadmap</h2>
-          			<div className="flex flex-row items-center">
-            			<div className="bg-black w-6 h-8 flex justify-center items-center">
+
+			<div className="flex flex-col items-end justify-evenly h-96 w-1/3 min-w-96 py-8 relative ">
+      <img src={roadmap} className="absolute scale-75 rotate-12 invert" style={{top: "40px", right:"140px"}}/> 
+              {/* <div className="absolute" style={{top: "-140px", right:"150px"}}> */}
+
+              <div className="flex flex-col items-start w-72"> 
+          		<h2 className="text-3xl items-center mb-2"> Roadmap</h2>
+
+              </div>
+              {/* </div> */}
+                {/* <div className="absolute" style={{top: "-93px", right:"120px"}}> */}
+          			<div className="flex flex-row items-start w-60">
+            			{/* <div className="bg-black w-6 h-8 flex justify-center items-center">
               			<RiNumber1 />
-            			</div>
+            			</div> */}
            			<p className="ml-2"> Community Airdrop </p>
-         			</div>
-          		<div className="flex flex-row items-center">
-            	<div className="bg-black w-6 h-8  flex justify-center items-center">
+         			  </div>
+                {/* </div> */}
+              {/* <div className="absolute" style={{top: "-12px", right:"120px"}}> */}
+
+          		<div className="flex flex-row items-start w-60">
+            	{/* <div className="bg-black w-6 h-8  flex justify-center items-center">
               		<RiNumber2 />
-            	</div>
+            	</div> */}
             		<p className="ml-2"> Merchants Section </p>
           		</div>
-          		<div className="flex flex-row items-center">
-           			<div className="bg-black w-6 h-8 flex justify-center items-center">
+              {/* </div> */}
+              {/* <div className="absolute" style={{top: "68px", right:"140px"}}> */}
+          		<div className="flex flex-row items-start w-60">
+           			{/* <div className="bg-black w-6 h-8 flex justify-center items-center">
              	 		<RiNumber3 />
-            		</div>
-           			<p className="ml-2"> Lending and Borrowing </p>
+            		</div> */}
+           			<p className="ml-2"> Lending & Borrowing </p>
           		</div>
-				  <div className="flex flex-row items-center">
+
+              {/* </div> */}
+              {/* <div className="absolute" style={{top: "180px", right:"100px"}}> */}
+				      <div className="flex flex-row items-center">
            			<div className="bg-black w-6 h-8  flex justify-center items-center">
              	 		<IoMdRocket />
             		</div>
            			<p className="ml-2"> MemeFi Dominance </p>
           		</div>
+
+              {/* </div> */}
         	</div>
 			<div className="w-1/3 min-w-96"> 
         		<PieChart />
