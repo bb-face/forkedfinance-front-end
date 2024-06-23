@@ -6,7 +6,7 @@ const PieChart = () => {
   const options = {
     chart: {
       type: "pie",
-      backgroundColor: "#242424",
+      backgroundColor: "#000",
     },
     title: {
       text: "",

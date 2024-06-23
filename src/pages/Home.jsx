@@ -33,7 +33,7 @@ function Home() {
 const setMessage = useSetRecoilState(messageAtom);
 
   return (
-    <div className="flex flex-col justify-center items-center text-center">
+    <div className="flex flex-col justify-center items-center text-center bg-black">
 
       <h1 className="text-white text-4xl font-bold leading-tight mb-4 mt-4">
         The First and Only Ethereum Protocol Memecoin
@@ -45,11 +45,11 @@ const setMessage = useSetRecoilState(messageAtom);
           <h2 className="text-white text-3xl font-bold leading-tight mb-1 ">
     		$TUTO
           </h2>
-		  <p>No More Greedy Developers.</p>
-		  <p>No More Crazy APYs.</p>
+		  <p>No More Greedy Developers</p>
+		  <p>No More Crazy APYs</p>
 		  <p className="flex items-center">No More <MdOutlineTrendingDown size={35} className="ml-2" /></p>
 
-		  <p className="mt-6 text-2xl font-black">Tuto is Different.</p>
+		  <p className="mt-6 text-2xl font-black">Tuto is Different</p>
 		  <CopyToClipboard  className="flex flex-row text-xl cursor-copy items-center" text={tutoAddr} onCopy={()=>{setMessage("Copied to Clipboard!")}} > 
 
 		  <div className="mt-1"> {tutoAddr} <FiCopy size={22} className="ml-2" /></div>
@@ -60,7 +60,7 @@ const setMessage = useSetRecoilState(messageAtom);
         </div>
       </div>
 
-      <div className="w-screen h-fit py-7 bg-neutral-900 flex flex-row items-center justify-center">
+      <div className="w-screen h-fit py-7 bg-zinc-900 flex flex-row items-center justify-center">
         <div className="max-w-5xl py-8 mr-60 flex justify-center items-center flex-col">
           <div className="w-42">
             <div className="flex flex-row justfy-center items-center">
@@ -134,21 +134,24 @@ const setMessage = useSetRecoilState(messageAtom);
           </div>
         </div>
       </div>
-	  <div className="flex flex-col justify-center items-center"> 
+	  <div className="flex flex-col justify-center items-center w-screen bg-black"> 
 	
-      	<div className="flex flex-row text-2xl text-left text-white max-w-6xl mt-4 mb-8 justify-center items-center">
+      	<div className="flex flex-row text-xl text-left text-white max-w-7xl mt-4 mb-8 justify-center items-center">
 
-			<div className="flex flex-col items-end justify-evenly h-96 w-1/3 min-w-96 py-8 relative ">
-      <img src={roadmap} className="absolute scale-75 rotate-12 invert" style={{top: "40px", right:"140px"}}/> 
+			<div className="flex flex-col items-end justify-center h-96 w-1/3 min-w-96 py-8 relative mr-6 ">
+      <img src={roadmap} className="absolute scale-75 scale-x-100 rotate-12 invert" style={{top: "40px", right:"170px"}}/> 
+      <div className="absolute" style={{top: "310px", right:"243px"}}> 
+      <IoMdRocket size={50}/>
+      </div>
               {/* <div className="absolute" style={{top: "-140px", right:"150px"}}> */}
 
-              <div className="flex flex-col items-start w-72"> 
-          		<h2 className="text-3xl items-center mb-2"> Roadmap</h2>
+              <div className="flex flex-col items-start w-72 mb-8"> 
+          		<h2 className="text-3xl items-center mb-2 underline underline-offset-8 "> Roadmap</h2>
 
               </div>
               {/* </div> */}
                 {/* <div className="absolute" style={{top: "-93px", right:"120px"}}> */}
-          			<div className="flex flex-row items-start w-60">
+          			<div className="flex flex-row items-start w-60 mb-6 mt-2">
             			{/* <div className="bg-black w-6 h-8 flex justify-center items-center">
               			<RiNumber1 />
             			</div> */}
@@ -157,7 +160,7 @@ const setMessage = useSetRecoilState(messageAtom);
                 {/* </div> */}
               {/* <div className="absolute" style={{top: "-12px", right:"120px"}}> */}
 
-          		<div className="flex flex-row items-start w-60">
+          		<div className="flex flex-row items-start w-60 mb-6">
             	{/* <div className="bg-black w-6 h-8  flex justify-center items-center">
               		<RiNumber2 />
             	</div> */}
@@ -165,7 +168,7 @@ const setMessage = useSetRecoilState(messageAtom);
           		</div>
               {/* </div> */}
               {/* <div className="absolute" style={{top: "68px", right:"140px"}}> */}
-          		<div className="flex flex-row items-start w-60">
+          		<div className="flex flex-row items-start w-60 mb-6">
            			{/* <div className="bg-black w-6 h-8 flex justify-center items-center">
              	 		<RiNumber3 />
             		</div> */}
@@ -174,10 +177,10 @@ const setMessage = useSetRecoilState(messageAtom);
 
               {/* </div> */}
               {/* <div className="absolute" style={{top: "180px", right:"100px"}}> */}
-				      <div className="flex flex-row items-center">
-           			<div className="bg-black w-6 h-8  flex justify-center items-center">
+				      <div className="flex flex-row items-start w-60 mb-10">
+           			{/* <div className="bg-black w-6 h-8  flex justify-center items-center">
              	 		<IoMdRocket />
-            		</div>
+            		</div> */}
            			<p className="ml-2"> MemeFi Dominance </p>
           		</div>
 
@@ -197,7 +200,7 @@ const setMessage = useSetRecoilState(messageAtom);
 	  </div>
       
 
-      <div className="w-screen text-xs py-1 bg-neutral-900 text-">
+      <div className="w-screen text-xs py-1 bg-black text-">
         Tuto Bear is inspired by "We Bare Bears". Tuto has no asscoication with
         "We Bare Bears" or Cartoon Network. Pie Chart by highcharts.com
       </div>

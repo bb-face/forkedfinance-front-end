@@ -18,7 +18,7 @@ module.exports = {
           border: "#eee",
         },
         input: {
-          outline: "#1b1f11",
+          outline: "#eee",
         },
         primary: {
           light: "#cccccc",
@@ -35,7 +35,7 @@ module.exports = {
           DEFAULT: "#ff4949",
           dark: "#b91c1c",
         },
-        background: "#242424",
+        background: "#242427",
         error: {
           light: "#fda4af",
           DEFAULT: "#f87171",
