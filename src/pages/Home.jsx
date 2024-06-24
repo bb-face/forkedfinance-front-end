@@ -97,7 +97,7 @@ const setMessage = useSetRecoilState(messageAtom);
           <div className="flex flex-row">
             <div className="h-44 w-48 border-white border-2 flex flex-col">
               <h2 className="text-2xl bg-black py-4">Deposit USDC</h2>
-              <div className="flex flex-col flex-grow items-center justify-center text-left px-4 bg-zinc-900">
+              <div className="flex flex-col flex-grow items-center justify-center text-left border-t-2 px-4 bg-black">
                 <p> Generates Points</p>
                 <p> Access to Transfers</p>
               </div>
@@ -106,7 +106,7 @@ const setMessage = useSetRecoilState(messageAtom);
 
             <div className="h-44 w-48 border-white border-2 flex flex-col">
               <h2 className="text-2xl bg-black py-4">Transfer</h2>
-              <div className="flex flex-col flex-grow items-center justify-center text-left px-4 bg-zinc-900">
+              <div className="flex flex-col flex-grow items-center justify-center text-left border-t-2 px-4 bg-black">
                 <p> Generates Points</p>
                 <p> Free and Instant</p>
               </div>
@@ -120,14 +120,14 @@ const setMessage = useSetRecoilState(messageAtom);
           <div className="flex flex-row">
             <div className="h-44 w-48 border-white border-2 flex flex-col">
               <h2 className="text-2xl bg-black py-4">Withdraw USDC</h2>
-              <div className="flex flex-col flex-grow items-center justify-center px-4 bg-zinc-900">
+              <div className="flex flex-col flex-grow items-center justify-center border-t-2 px-4 bg-black">
                 <p> Generates Points</p>
               </div>
             </div>
             <IoArrowBackSharp size={40} className="place-self-center" />
             <div className="h-44 w-48 border-white border-2 flex flex-col">
               <h2 className="text-2xl bg-black py-4">Get Points</h2>
-              <div className="flex flex-col flex-grow items-center justify-center px-4 bg-zinc-900">
+              <div className="flex flex-col flex-grow items-center justify-center border-t-2 px-4 bg-black">
                 <p> Stake Tuto to Mutliply Points</p>
               </div>
             </div>
@@ -201,7 +201,7 @@ const setMessage = useSetRecoilState(messageAtom);
       
 
       <div className="w-screen text-xs py-1 bg-black text-">
-        Tuto Bear is inspired by "We Bare Bears". Tuto has no asscoication with
+        Tuto Bear is inspired by "We Bare Bears". Tuto has no association with
         "We Bare Bears" or Cartoon Network. Pie Chart by highcharts.com
       </div>
     </div>

@@ -19,9 +19,9 @@ const PieChart = () => {
       {
         name: "Tokenomics",
         data: [
-          { name: "CEX Listing", y: 5, color: "#e5e7eb" },
+          { name: "CEX Listing", y: 5, color: "#eee" },
           { name: "Airdrop", y: 9, color: "#4c4c4c" },
-          { name: "Uniswap Pool", y: 86, color: "#2f2f2f" },
+          { name: "Uniswap Pool", y: 86, color: "#242427" },
         ],
         // dataLabels: {
         //   enabled: true,
