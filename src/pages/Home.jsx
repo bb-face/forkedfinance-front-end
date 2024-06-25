@@ -143,7 +143,7 @@ const setMessage = useSetRecoilState(messageAtom);
 	
       	<div className="flex flex-row text-xl text-left text-white max-w-7xl mt-4 mb-8 justify-center items-center">
 
-			<div className="flex flex-col justify-center h-96 w-1/3 min-w-96 relative ">
+			<div className="flex flex-col justify-center h-96 w-1/3 min-w-96 relative mr-14 ">
       <img src={rocket} className="absolute h-12 invert" style={{top: "288px", right:"275px"}}/> 
      
         <div className="absolute " style={{top: "25px", right:"254px"}}>
@@ -158,7 +158,7 @@ const setMessage = useSetRecoilState(messageAtom);
         <div className="absolute " style={{top: "33px", right:"312px"}}>
           <IoMdStar/>
         </div>
-        <div className="absolute " style={{top: "14px", right:"290px"}}>
+        <div className="absolute " style={{top: "14px", right:"296px"}}>
           <IoMdStar/>
         </div>
 
@@ -173,7 +173,7 @@ const setMessage = useSetRecoilState(messageAtom);
               </div>
                 <div className="flex items-start" >
                   <div className="absolute press-start-2p-regular text-xs " style={{top: "103px", right:"18px"}}> 
-                    <div className="flex flex-col items-end gap-y-12 "> 
+                    <div className="flex flex-col items-center gap-y-12 "> 
                       <p className="ml-2"> Community Airdrop </p>
                       <p className="ml-2"> Merchants Section </p>
                       <p className="ml-2"> Lending & Borrowing </p>
