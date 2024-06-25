@@ -19,7 +19,7 @@ function App() {
       <main className="flex-grow pt-32 pb-10 flex items-center justify-center overflow-auto">
         <Outlet />
       </main>
-      <Footer className="fixed bottom-0 left-0 w-full z-10" />
+      <Footer className="fixed bottom-0 left-0 w-full z-10"/>
     </div>
   );
 }

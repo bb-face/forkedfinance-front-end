@@ -20,11 +20,8 @@
 	transition: filter 300ms;
 }
 
-.custom-outline {
-	outline: 1px solid red;
-  	outline-offset: 2px;
-}
-
-.custom-cursor {
-	cursor: url("./assets/dexScreenerLogo.png") 15 15, auto;
-}
+.press-start-2p-regular {
+	font-family: "Press Start 2P", system-ui;
+	font-weight: 400;
+	font-style: normal;
+  }

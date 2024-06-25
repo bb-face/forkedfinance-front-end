@@ -8,18 +8,21 @@ import { RiNumber1, RiNumber2, RiNumber3, RiNumber4 } from "react-icons/ri";
 import { RiHandCoinLine, RiContractFill } from "react-icons/ri";
 import { BsFire } from "react-icons/bs";
 import { BiSolidNoEntry } from "react-icons/bi";
-import { GiFinishLine } from "react-icons/gi";
-import { IoMdRocket } from "react-icons/io";
 import { MdOutlineTrendingDown } from "react-icons/md";
 import { FiCopy } from "react-icons/fi";
-
-import Roadmap from "../components/Roadmap";
+import { IoMdStar } from "react-icons/io";
 
 
 import {useSetRecoilState} from "recoil";
 import {messageAtom} from "../state/message";
 
 import tutoBear from "../assets/TutoBear.png";
+import roadMapPixel from "../assets/pixelRoadmapv2.png";
+import rocket from "../assets/rocket.png";
+import star from "../assets/star.png";
+
+
+
 import roadmap from "../assets/roadmap.svg"
 
 
@@ -33,9 +36,11 @@ function Home() {
 const setMessage = useSetRecoilState(messageAtom);
 
   return (
-    <div className="flex flex-col justify-center items-center text-center bg-black">
+    
 
-      <h1 className="text-white text-4xl font-bold leading-tight mb-4 mt-4">
+    <div className="flex flex-col justify-center items-center text-center bg-black ">
+
+      <h1 className="text-white text-2xl font-bold leading-tight mb-4 mt-4 press-start-2p-regular">
         The First and Only Ethereum Protocol Memecoin
       </h1>
 
@@ -60,8 +65,8 @@ const setMessage = useSetRecoilState(messageAtom);
         </div>
       </div>
 
-      <div className="w-screen h-fit py-7 bg-zinc-900 flex flex-row items-center justify-center">
-        <div className="max-w-5xl py-8 mr-60 flex justify-center items-center flex-col">
+      <div className="w-screen h-fit py-7 bg-zinc-900 flex flex-row items-center justify-center ">
+        <div className="max-w-5xl py-8 mr-60 flex justify-center items-center flex-col text-sm press-start-2p-regular">
           <div className="w-42">
             <div className="flex flex-row justfy-center items-center">
               <div className="w-10 h-10 border-2 border-white flex justify-center items-center">
@@ -95,8 +100,8 @@ const setMessage = useSetRecoilState(messageAtom);
 		<div className="flex flex-col justify-center items-center">
 		{/* <h1 className="text-3xl mb-3"> How to Use </h1> */}
           <div className="flex flex-row">
-            <div className="h-44 w-48 border-white border-2 flex flex-col">
-              <h2 className="text-2xl bg-black py-4">Deposit USDC</h2>
+            <div className="h-44 w-52 border-white border-2 flex flex-col">
+              <h2 className="text-sm press-start-2p-regular bg-black py-4">Deposit USDC</h2>
               <div className="flex flex-col flex-grow items-center justify-center text-left border-t-2 px-4 bg-black">
                 <p> Generates Points</p>
                 <p> Access to Transfers</p>
@@ -104,8 +109,8 @@ const setMessage = useSetRecoilState(messageAtom);
             </div>
             <IoArrowForwardSharp size={40} className="place-self-center" />
 
-            <div className="h-44 w-48 border-white border-2 flex flex-col">
-              <h2 className="text-2xl bg-black py-4">Transfer</h2>
+            <div className="h-44 w-52 border-white border-2 flex flex-col">
+              <h2 className="text-sm press-start-2p-regular bg-black py-4">Transfer</h2>
               <div className="flex flex-col flex-grow items-center justify-center text-left border-t-2 px-4 bg-black">
                 <p> Generates Points</p>
                 <p> Free and Instant</p>
@@ -118,15 +123,15 @@ const setMessage = useSetRecoilState(messageAtom);
             <IoArrowDownSharp size={40} className="place-self-center" />
           </div>
           <div className="flex flex-row">
-            <div className="h-44 w-48 border-white border-2 flex flex-col">
-              <h2 className="text-2xl bg-black py-4">Withdraw USDC</h2>
+            <div className="h-44 w-52 border-white border-2 flex flex-col">
+              <h2 className="text-sm press-start-2p-regular bg-black py-4">Withdraw USDC</h2>
               <div className="flex flex-col flex-grow items-center justify-center border-t-2 px-4 bg-black">
                 <p> Generates Points</p>
               </div>
             </div>
             <IoArrowBackSharp size={40} className="place-self-center" />
-            <div className="h-44 w-48 border-white border-2 flex flex-col">
-              <h2 className="text-2xl bg-black py-4">Get Points</h2>
+            <div className="h-44 w-52 border-white border-2 flex flex-col">
+              <h2 className="text-sm press-start-2p-regular bg-black py-4">Get Points</h2>
               <div className="flex flex-col flex-grow items-center justify-center border-t-2 px-4 bg-black">
                 <p> Stake Tuto to Mutliply Points</p>
               </div>
@@ -138,53 +143,45 @@ const setMessage = useSetRecoilState(messageAtom);
 	
       	<div className="flex flex-row text-xl text-left text-white max-w-7xl mt-4 mb-8 justify-center items-center">
 
-			<div className="flex flex-col items-end justify-center h-96 w-1/3 min-w-96 py-8 relative mr-6 ">
-      <img src={roadmap} className="absolute scale-75 scale-x-100 rotate-12 invert" style={{top: "40px", right:"170px"}}/> 
-      <div className="absolute" style={{top: "310px", right:"243px"}}> 
-      <IoMdRocket size={50}/>
-      </div>
-              {/* <div className="absolute" style={{top: "-140px", right:"150px"}}> */}
+			<div className="flex flex-col justify-center h-96 w-1/3 min-w-96 relative ">
+      <img src={rocket} className="absolute h-12 invert" style={{top: "288px", right:"275px"}}/> 
+     
+        <div className="absolute " style={{top: "25px", right:"254px"}}>
+          <IoMdStar/>
+        </div>
+        <div className="absolute " style={{top: "11px", right:"218px"}}>
+          <IoMdStar/>
+        </div>
+        <div className="absolute " style={{top: "1px", right:"242px"}}>
+          <IoMdStar/>
+        </div>
+        <div className="absolute " style={{top: "33px", right:"312px"}}>
+          <IoMdStar/>
+        </div>
+        <div className="absolute " style={{top: "14px", right:"290px"}}>
+          <IoMdStar/>
+        </div>
 
-              <div className="flex flex-col items-start w-72 mb-8"> 
-          		<h2 className="text-3xl items-center mb-2 underline underline-offset-8 "> Roadmap</h2>
 
+          
+      
+
+              <div className="flex flex-col items-center"> 
+          		<h2 className="absolute press-start-2p-regular items-start  mb-4" style={{top: "38px", right:"94px"}}> Roadmap</h2>
+              <div className="absolute " style={{top: "75px", right:"190px"}}> 
+                  <img src={roadMapPixel} className=" scale-x-150 h-64 w-80 invert" /> 
               </div>
-              {/* </div> */}
-                {/* <div className="absolute" style={{top: "-93px", right:"120px"}}> */}
-          			<div className="flex flex-row items-start w-60 mb-6 mt-2">
-            			{/* <div className="bg-black w-6 h-8 flex justify-center items-center">
-              			<RiNumber1 />
-            			</div> */}
-           			<p className="ml-2"> Community Airdrop </p>
-         			  </div>
-                {/* </div> */}
-              {/* <div className="absolute" style={{top: "-12px", right:"120px"}}> */}
-
-          		<div className="flex flex-row items-start w-60 mb-6">
-            	{/* <div className="bg-black w-6 h-8  flex justify-center items-center">
-              		<RiNumber2 />
-            	</div> */}
-            		<p className="ml-2"> Merchants Section </p>
-          		</div>
-              {/* </div> */}
-              {/* <div className="absolute" style={{top: "68px", right:"140px"}}> */}
-          		<div className="flex flex-row items-start w-60 mb-6">
-           			{/* <div className="bg-black w-6 h-8 flex justify-center items-center">
-             	 		<RiNumber3 />
-            		</div> */}
-           			<p className="ml-2"> Lending & Borrowing </p>
-          		</div>
-
-              {/* </div> */}
-              {/* <div className="absolute" style={{top: "180px", right:"100px"}}> */}
-				      <div className="flex flex-row items-start w-60 mb-10">
-           			{/* <div className="bg-black w-6 h-8  flex justify-center items-center">
-             	 		<IoMdRocket />
-            		</div> */}
-           			<p className="ml-2"> MemeFi Dominance </p>
-          		</div>
-
-              {/* </div> */}
+                <div className="flex items-start" >
+                  <div className="absolute press-start-2p-regular text-xs " style={{top: "103px", right:"18px"}}> 
+                    <div className="flex flex-col items-end gap-y-12 "> 
+                      <p className="ml-2"> Community Airdrop </p>
+                      <p className="ml-2"> Merchants Section </p>
+                      <p className="ml-2"> Lending & Borrowing </p>
+                      <p className="ml-2"> MemeFi Dominance </p>
+                    </div>
+                  </div>
+                </div>
+              </div>          		
         	</div>
 			<div className="w-1/3 min-w-96"> 
         		<PieChart />
