@@ -15,17 +15,7 @@ function AvailableBalance({ balance, points }) {
         </div>
       </div>
       
-      <div className="flex justify-end">
-        {/* <Button
-          type="button"
-          className="cardButton"
-          disabled="true"
-          onClick={() => {
-            console.log("-- claim rewards not active yet!");
-          }}
-        >
-          To Transfer
-        </Button> */}
+      <div className="flex justify-end ">
         <Link to="../transfer">
           <Button>Instant Gas-Free Transfer</Button>
         </Link>

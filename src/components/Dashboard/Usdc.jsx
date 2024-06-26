@@ -203,7 +203,7 @@ function Usdc({
         <div>{totalStableCoinStakedAmount}</div>
       </div>
 
-      <div className="flex justify-between items-center mb-2">
+      <div className="flex justify-between items-center mb-2 press-start-2p-regular text-xs">
         <form>
           <NumberInput
             value={amount}

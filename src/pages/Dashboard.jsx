@@ -152,7 +152,7 @@ function Dashboard() {
   }, [currentAddress]);
 
   return (
-    <div className="container mx-auto p-4">
+    <div className="container mx-auto p-4 ">
       <div className="flex flex-wrap -mx-2">
         <div className="w-1/2 px-2">
           <div className=" p-6 shadow-2xl bg-primary">

@@ -111,7 +111,7 @@ const Transfer = () => {
   // TODO: create pop up for messages that are not errors/warnings and put [message] there;
 
   return (
-    <div className="mx-auto p-4">
+    <div className="mx-auto p-4 press-start-2p-regular text-xs">
       <div className="min-w-96">
         <div className=" p-6 shadow-2xl bg-primary">
           <div className="flex items-baseline space-x-2">

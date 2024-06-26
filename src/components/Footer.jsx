@@ -29,9 +29,27 @@ function Footer() {
 				>
 					<FaGithub size={24} />
 				</a>
-				<img src={etherscanLogo} alt="etherscan" className="w-6 " />
-		  		<img src={uniswapLogo} alt="uniswap" className="w-6 bg-white border rounded-full" />
-		  		<img src={dexScreenerLogo} alt="dexscreener" className="w-6 "/>
+				<a
+					href="https://etherscan.io/"
+					target="_blank"
+					rel="noopener noreferrer"
+				>
+					<img src={etherscanLogo} alt="etherscan" className="w-6 " />
+				</a>
+				<a
+					href="https://app.uniswap.org/swap?chain=sepolia"
+					target="_blank"
+					rel="noopener noreferrer"
+				>
+		  			<img src={uniswapLogo} alt="uniswap" className="w-6 bg-white border rounded-full" />
+				</a>
+				<a
+					href="https://dexscreener.com/"
+					target="_blank"
+					rel="noopener noreferrer"
+				>
+					<img src={dexScreenerLogo} alt="dexscreener" className="w-6 "/>
+				</a>
 				<p className="text-sm">© 2024 Tuto by ForkedFinance</p>
 			</div>
 		</footer>
