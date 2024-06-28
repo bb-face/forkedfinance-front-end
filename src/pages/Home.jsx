@@ -36,7 +36,7 @@ function Home() {
         The First & Only Ethereum Protocol Memecoin
       </h1>
       <div className="flex flex-col w-screen max-w-5xl justify-evenly items-center md:flex-row">
-        <img src={tutoBear} alt="Tuto Bear" className="tutoBear scale-x-[-1] h-60 z-1" />
+        <img src={tutoBear} alt="Tuto Bear" className="tutoBear scale-x-[-1] h-60 md:h-96 z-1" />
         <div className="flex flex-col text-2xl text-white items-center  max-w-lg">
           <h2 className="text-white text-3xl font-bold leading-tight mb-1 ">
             $TUTO
@@ -60,28 +60,28 @@ function Home() {
               <div className="w-10 h-10 border-2 border-white flex justify-center items-center">
                 <RiHandCoinLine size={20} />
               </div>
-              <div className="ml-10">No Pre-Sale</div>
+              <div className="ml-10 md:text-xs text-sm-custom">No Pre-Sale</div>
             </div>
             <div className="h-10 w-0.5 bg-white ml-5"></div>
             <div className="flex flex-row justfy-center items-center">
               <div className="w-10 h-10 border-2 border-white flex justify-center items-center">
                 <BiSolidNoEntry size={20} />
               </div>
-              <div className="ml-10">No Allocations</div>
+              <div className="ml-10 md:text-xs text-sm-custom">No Allocations</div>
             </div>
             <div className="h-10 w-0.5 bg-white ml-5"></div>
             <div className="flex flex-row justfy-center items-center">
               <div className="w-10 h-10 border-2 border-white flex justify-center items-center">
                 <BsFire size={20} />
               </div>
-              <div className="ml-10">Liquidity pair (LP) Tokens Burnt</div>
+              <div className="ml-10 md:text-xs text-sm-custom">Liquidity pair (LP) Tokens Burnt</div>
             </div>
             <div className="h-10 w-0.5 bg-white ml-5"></div>
             <div className="flex flex-row justfy-center items-center">
               <div className="w-10 h-10 border-2 border-white flex justify-center items-center">
                 <RiContractFill size={20} />
               </div>
-              <div className="ml-10">Contract Ownership Renounced</div>
+              <div className="ml-10 md:text-xs text-sm-custom">Contract Ownership Renounced</div>
             </div>
           </div>
         </div>
