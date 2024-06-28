@@ -16,7 +16,7 @@ function App() {
   return (
     <div className="flex flex-col min-h-screen">
       <Navbar className="fixed top-0 left-0 w-full z-10 h-32" />
-      <main className="flex-grow mt-32 mb-14 flex items-center justify-center overflow-auto">
+      <main className="flex-grow mt-32 md:mb-14 flex items-center justify-center overflow-auto">
         <Outlet />
       </main>
       <Footer className="fixed bottom-0 left-0 w-full z-10 h-14"/>

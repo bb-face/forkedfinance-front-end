@@ -6,7 +6,7 @@ import dexScreenerLogo from "../assets/dexScreenerLogo.png";
 
 function Footer() {
   return (
-    <footer className="bg-primary py-4 w-full fixed bottom-0 z-50 flex items-center justify-evenly sm:justify-center">
+    <footer className="bg-primary py-4 w-full md:fixed bottom-0 z-50 flex items-center justify-evenly sm:justify-center">
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
         <div className="flex items-center space-x-8 justify-center">
           <a
