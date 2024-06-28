@@ -32,11 +32,11 @@ function Home() {
 
 
     <div className="flex flex-col justify-center items-center text-center bg-black overflow-x-hidden">
-      <h1 className="text-white text-2xl font-bold leading-tight mb-4 mt-4 press-start-2p-regular">
+      <h1 className="text-white md:text-2xl text-xl font-bold leading-tight mb-4 mt-4 press-start-2p-regular">
         The First & Only Ethereum Protocol Memecoin
       </h1>
       <div className="flex flex-col w-screen max-w-5xl justify-evenly items-center md:flex-row">
-        <img src={tutoBear} alt="Tuto Bear" className="tutoBear scale-x-[-1]" />
+        <img src={tutoBear} alt="Tuto Bear" className="tutoBear scale-x-[-1] h-60 z-1" />
         <div className="flex flex-col text-2xl text-white items-center  max-w-lg">
           <h2 className="text-white text-3xl font-bold leading-tight mb-1 ">
             $TUTO
@@ -46,7 +46,7 @@ function Home() {
           <p className="flex items-center">No More <MdOutlineTrendingDown size={35} className="ml-2" /></p>
 
           <p className="mt-6 text-2xl font-black">Tuto is Different</p>
-          <CopyToClipboard className="flex flex-row text-xl cursor-copy items-center" text={tutoAddr} onCopy={() => { setMessage("Copied to Clipboard!") }} >
+          <CopyToClipboard className="flex flex-row md:text-xl text-sm cursor-copy items-center" text={tutoAddr} onCopy={() => { setMessage("Copied to Clipboard!") }} >
 
             <div className="mt-1"> {tutoAddr} <FiCopy size={22} className="ml-2" />
             </div>
