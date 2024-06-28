@@ -35,7 +35,7 @@ function Home() {
       <h1 className="text-white text-2xl font-bold leading-tight mb-4 mt-4 press-start-2p-regular">
         The First & Only Ethereum Protocol Memecoin
       </h1>
-      <div className="flex flex-row w-screen max-w-5xl justify-evenly items-center">
+      <div className="flex flex-col w-screen max-w-5xl justify-evenly items-center md:flex-row">
         <img src={tutoBear} alt="Tuto Bear" className="tutoBear scale-x-[-1]" />
         <div className="flex flex-col text-2xl text-white items-center  max-w-lg">
           <h2 className="text-white text-3xl font-bold leading-tight mb-1 ">
@@ -53,9 +53,9 @@ function Home() {
           </CopyToClipboard>
         </div>
       </div>
-      <div className="w-screen h-fit py-7 bg-zinc-900 flex flex-row items-center justify-center ">
-        <div className="max-w-5xl py-8 mr-60 flex justify-center items-center flex-col text-sm press-start-2p-regular">
-          <div className="w-42">
+      <div className="w-screen h-fit py-7 bg-zinc-900 flex flex-col sm:flex-row items-center justify-center ">
+        <div className="max-w-5xl py-8 md:mr-60 flex justify-center items-center flex-col text-sm press-start-2p-regular">
+          <div className="w-42 text-xs md:text-md">
             <div className="flex flex-row justfy-center items-center">
               <div className="w-10 h-10 border-2 border-white flex justify-center items-center">
                 <RiHandCoinLine size={20} />
@@ -87,46 +87,46 @@ function Home() {
         </div>
         <div className="flex flex-col justify-center items-center">
           <div className="flex flex-row">
-            <div className="h-44 w-52 border-white border-2 flex flex-col">
-              <h2 className="text-sm press-start-2p-regular bg-black py-4">Deposit USDC</h2>
-              <div className="flex flex-col flex-grow items-center justify-center text-left border-t-2 px-4 bg-black">
-                <p> Generates Points</p>
-                <p> Access to Transfers</p>
+            <div className="md:h-44 md:w-52 h-32 w-32 border-white border-2 flex flex-col">
+              <h2 className="press-start-2p-regular bg-black py-4 md:text-sm text-sm-custom">Deposit USDC</h2>
+              <div className="flex flex-col flex-grow items-center justify-center text-left border-t-2 px-4 bg-black md:text-sm text-xs">
+                Generates Points <br />
+                Access to Transfers
               </div>
             </div>
             <IoArrowForwardSharp size={40} className="place-self-center" />
-            <div className="h-44 w-52 border-white border-2 flex flex-col">
-              <h2 className="text-sm press-start-2p-regular bg-black py-4">Transfer</h2>
-              <div className="flex flex-col flex-grow items-center justify-center text-left border-t-2 px-4 bg-black">
-                <p> Generates Points</p>
-                <p> Free and Instant</p>
+            <div className="md:h-44 md:w-52 h-32 w-32 border-white border-2 flex flex-col">
+              <h2 className=" md:text-sm text-sm-custom press-start-2p-regular bg-black py-4">Transfer</h2>
+              <div className="flex flex-col flex-grow items-center justify-center text-left border-t-2 px-4 bg-black  md:text-sm text-xs">
+                Generates Points<br />
+                Free and Instant
               </div>
             </div>
           </div>
           <div className="flex flex-row ">
             <IoArrowUpSharp size={40} className="place-self-center" />
-            <div className="w-48"></div>
+            <div className="md:w-48 w-32"></div>
             <IoArrowDownSharp size={40} className="place-self-center" />
           </div>
           <div className="flex flex-row">
-            <div className="h-44 w-52 border-white border-2 flex flex-col">
-              <h2 className="text-sm press-start-2p-regular bg-black py-4">Withdraw USDC</h2>
-              <div className="flex flex-col flex-grow items-center justify-center border-t-2 px-4 bg-black">
-                <p> Generates Points</p>
+            <div className="md:h-44 md:w-52 h-32 w-32 border-white border-2 flex flex-col">
+              <h2 className="md:text-sm text-sm-custom press-start-2p-regular bg-black py-4">Withdraw USDC</h2>
+              <div className="flex flex-col flex-grow items-center justify-center border-t-2 px-4 bg-black  md:text-sm text-xs">
+                Generates Points
               </div>
             </div>
             <IoArrowBackSharp size={40} className="place-self-center" />
-            <div className="h-44 w-52 border-white border-2 flex flex-col">
-              <h2 className="text-sm press-start-2p-regular bg-black py-4">Get Points</h2>
-              <div className="flex flex-col flex-grow items-center justify-center border-t-2 px-4 bg-black">
-                <p> Stake Tuto to Mutliply Points</p>
+            <div className="md:h-44 md:w-52 h-32 w-32 border-white border-2 flex flex-col">
+              <h2 className="md:text-sm text-sm-custom press-start-2p-regular bg-black py-4">Get Points</h2>
+              <div className="flex flex-col flex-grow items-center justify-center border-t-2 px-4 bg-black  md:text-sm text-xs">
+                Stake Tuto to Mutliply Points
               </div>
             </div>
           </div>
         </div>
       </div>
       <div className="flex flex-col justify-center items-center w-screen bg-black">
-        <div className="flex flex-row text-xl text-left text-white max-w-7xl mt-4 mb-8 justify-center items-center">
+        <div className="flex flex-col md:flex-row text-xl text-left text-white max-w-7xl mt-4 mb-8 justify-center items-center">
           <div className="flex flex-col justify-center h-96 w-1/3 min-w-96 relative mr-14 ">
             <img src={rocket} className="absolute h-12 invert" style={{ top: "288px", right: "275px" }} />
             <div className="absolute " style={{ top: "25px", right: "254px" }}>
@@ -164,7 +164,7 @@ function Home() {
           <div className="w-1/3 min-w-96">
             <PieChart />
           </div>
-          <div className="flex flex-col w-1/3 min-w-96 text-right gap-y-2 ml-4">
+          <div className="flex flex-col w-1/3 min-w-96 md:text-right gap-y-2 ml-4">
             <p className="mb-2 text-2xl  underline underline-offset-8 decoration-2	">Token Supply: 84,000,000,000</p>
             <p className="text-xl ">Uniswap Pool: 72,240,000,000</p>
             <p className="text-xl ">Community Airdrop: 7,560,000,000</p>

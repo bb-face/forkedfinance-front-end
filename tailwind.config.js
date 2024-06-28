@@ -7,7 +7,9 @@ module.exports = {
         header: "128px",
         footer: "64.25px",
       },
-
+			fontSize: {
+        'sm-custom': '0.6rem',
+      },
       boxShadow: {
         "3d": "4px 4px 0px 0 rgba(0, 0, 0, 0.25)",
       },
