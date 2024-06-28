@@ -15,12 +15,14 @@ import { transformedUserBalance } from "../state/userBalance";
 import Button from "../atoms/Button";
 import NumberInput from "../atoms/NumberInput";
 import TextInput from "../atoms/StringInput";
+import { errorAtom } from "../state/error";
 
 const Transfer = () => {
   const balance = useRecoilValue(transformedUserBalance);
   const setUserBalance = useSetRecoilState(userBalanceAtom);
   const setMessage = useSetRecoilState(messageAtom);
   const currentAddress = useRecoilValue(walletAddressAtom);
+  const setError = useSetRecoilState(errorAtom);
 
   const { connectWallet } = useConnectWallet();
 
@@ -60,6 +62,7 @@ const Transfer = () => {
       setTransferAmount(0);
       setTransferTo("");
     } catch (error) {
+      setError(error.response.data.msg);
       // TODO: do something with the error
     }
   };
@@ -93,18 +96,14 @@ const Transfer = () => {
     }
     try {
       const res = await axios.post(
-        `${import.meta.env.VITE_SERVER_URL}/balances/validateBalanceTo`,
+        `${import.meta.env.VITE_SERVER_URL}/validateBalanceTo`,
         {
           walletTo: transferTo,
         }
       );
-
-      console.log(res);
-      setMessage("Address is valid!");
+      setMessage(res.data.msg);
     } catch (error) {
-      // TODO: do something with the error
-      // print in the error component?
-      console.log(error);
+      setError(error.response.data.msg);
     }
   };
 

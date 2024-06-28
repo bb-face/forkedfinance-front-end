@@ -15,9 +15,9 @@ function AvailableBalance({ balance, points }) {
         </div>
       </div>
       
-      <div className="flex justify-end ">
+      <div className="flex justify-end press-start-2p-regular text-xs ">
         <Link to="../transfer">
-          <Button>Instant Gas-Free Transfer</Button>
+          <Button>Gas-Free Transfer</Button>
         </Link>
       </div>
     </>

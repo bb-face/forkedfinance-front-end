@@ -7,8 +7,7 @@ function Message() {
 
   return (
     <div className="bg-black bg-opacity-80 border-l-4 text-white p-4" role="">
-      <p className="font-bold">Message</p>
-      <p>{message}</p>
+      <p className="font-bold">{message}</p>
     </div>
   );
 }

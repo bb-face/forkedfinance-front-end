@@ -7,10 +7,10 @@ function Error() {
 
   return (
     <div
-      className="bg-warning-light border-l-4 border-warning text-warning-dark p-4"
+      className="bg-yellow-300 	 border-l-4 border-white text-black p-4"
       role="alert"
     >
-      <p className="font-bold">Be Warned</p>
+      <p className="font-bold">Ostorozhno</p>
       <p>{error}</p>
     </div>
   );
