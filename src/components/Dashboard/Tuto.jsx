@@ -218,14 +218,16 @@ function Tuto({
         <div>{tutoTotalStakedAmounts}</div>
       </div>
 
-      <div className="flex justify-between items-center mb-2 press-start-2p-regular text-xs">
+      <div className="flex flex-col md:flex-row justify-between items-center mb-2 press-start-2p-regular text-xs">
     
           <NumberInput
             value={amount}
             onChange={(event) => setAmount(event.target.value)}
           />
-          <Button type="button" onClick={stakeTuto} >Stake</Button>
-          <Button type="button" onClick={unstakeTuto}>Unstake</Button>
+					<div className="flex mt-4">
+						<Button type="button" onClick={stakeTuto} >Stake</Button>
+						<Button type="button" onClick={unstakeTuto} className="ml-4">Unstake</Button>
+					</div>
         
       </div>
     </>

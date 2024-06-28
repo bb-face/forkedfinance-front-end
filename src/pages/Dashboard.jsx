@@ -153,13 +153,13 @@ function Dashboard() {
 
   return (
     <div className="container mx-auto p-4 ">
-      <div className="flex flex-wrap -mx-2">
-        <div className="w-1/2 px-2">
+      <div className="flex md:flex-wrap md:flex-row flex-col">
+        <div className="md:w-1/2 px-2 md:mb-0 mb-8">
           <div className=" p-6 shadow-2xl bg-primary">
             <AvailableBalance balance={balance} points={points} />
           </div>
         </div>
-        <div className="w-1/2 px-2">
+        <div className="md:w-1/2 px-2">
           <div className="p-6 shadow-2xl bg-primary">
             <Usdc
               usdcAccountBalance={usdcAccountBalance}

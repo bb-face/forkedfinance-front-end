@@ -203,15 +203,17 @@ function Usdc({
         <div>{totalStableCoinStakedAmount}</div>
       </div>
 
-      <div className="flex justify-between items-center mb-2 press-start-2p-regular text-xs">
+      <div className="flex justify-between md:flex-row flex-col items-center mb-2 press-start-2p-regular text-xs">
         <form>
           <NumberInput
             value={amount}
             onChange={(event) => setAmount(event.target.value)}
           />
         </form>
+				<div className="flex mt-4">
           <Button type="button" onClick={depositUSDC}>Deposit</Button>
-          <Button type="button" onClick={withdrawUSDC}>Withhdraw</Button>
+          <Button type="button" onClick={withdrawUSDC} className="ml-4">Withhdraw</Button>
+				</div>
       </div>
     </>
   );
