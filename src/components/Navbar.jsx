@@ -11,6 +11,7 @@ import WalletAddress from "../atoms/WalletAddress";
 
 import logo from "../assets/Tuto.png";
 import NetworkInfo from "../atoms/NetworkInfo";
+import BurgerMenu from "../atoms/BurgerMenu";
 
 export const Navbar = () => {
   const { connectWallet } = useConnectWallet();
@@ -23,19 +24,23 @@ export const Navbar = () => {
         <Link to="/" className="w">
           <img src={logo} alt="ForkedFinance app" className="logo" />
         </Link>
-        <Link to="/dashboard" className="press-start-2p-regular text-xs">
+        <Link to="/dashboard" className="press-start-2p-regular text-xs hidden md:block">
           <Button>Dashboard</Button>
         </Link>
-        <Link to="/airdrop" className="press-start-2p-regular text-xs">
+        <Link to="/airdrop" className="press-start-2p-regular text-xs hidden md:block">
           <Button>Airdrop</Button>
         </Link>
-        <Link to="/transfer" className="press-start-2p-regular text-xs">
+        <Link to="/transfer" className="press-start-2p-regular text-xs hidden md:block">
           <Button>Transfer</Button>
         </Link>
-        <Link to="/merchants" className="press-start-2p-regular text-xs">
+        <Link to="/merchants" className="press-start-2p-regular text-xs hidden md:block">
           <Button>Merchants</Button>
         </Link>
               
+				<div className="md:hidden">
+					<BurgerMenu />
+				</div>
+
         <div className="press-start-2p-regular text-xs">
           {walletAddress ? (
             <>
